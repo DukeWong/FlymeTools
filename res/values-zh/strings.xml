@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">魅工具</string>
+    <string name="about_module">关于模块</string>
+    <string name="framework">系统框架</string>
+    <string name="framework_summary">系统框架相关设定</string>
+    <string name="common">常用</string>
+    <string name="sound">声音</string>
+    <string name="sound_summary">声音相关设定</string>
+    <string name="statusbar">状态栏</string>
+    <string name="statusbar_summary">状态栏修改</string>
+    <string name="applications">应用设置</string>
+    <string name="applications_summary">Flyme系统应用设置</string>
+    <string name="buttons">按键</string>
+    <string name="buttons_summary">按键重映射、按键动作等等</string>
+    <string name="reboot">重启系统</string>
+</resources>

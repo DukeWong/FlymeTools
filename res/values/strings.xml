@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">flyme-tools</string>
+    <string name="framework">framework</string>
+    <string name="framework_summary">Framework related settings</string>
+    <string name="common">common</string>
+    <string name="sound">Sound</string>
+    <string name="sound_summary">Sound related settings</string>
+    <string name="statusbar">Status Bar</string>
+    <string name="statusbar_summary">Status Bar modifications</string>
+    <string name="applications">Applications</string>
+    <string name="applications_summary">MIUI applications settings</string>
+    <string name="buttons">Buttons</string>
+    <string name="buttons_summary">Buttons mappings, actions etc.</string>
+    <string name="about_module">About module</string>
+    <string name="reboot">reboot</string>
+</resources>

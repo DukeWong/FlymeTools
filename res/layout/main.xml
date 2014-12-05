@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:zx="http://schemas.android.com/apk/res/com.zhixin.flymeTools"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <ImageView
+            android:layout_width="wrap_content" android:contentDescription="@string/app_name"
+            android:layout_height="wrap_content" android:src="@drawable/logo"
+            android:id="@+id/imageView"/>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:paddingBottom="48dp"
+                  android:background="@drawable/bg" android:orientation="vertical" android:paddingLeft="10dp"
+                  android:paddingRight="10dp">
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="50dp" android:layout_weight="1"
+                      android:orientation="horizontal">
+            <com.zhixin.flymeTools.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/app_cleaning" zx:title="@string/applications" android:layout_weight="1" zx:url="AppListActivity"
+                                                android:clickable="true"    android:layout_height="fill_parent"></com.zhixin.flymeTools.ImageMenuBtn>
+            <com.zhixin.flymeTools.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/app_cleaning"  zx:title="@string/framework" android:layout_weight="1" zx:url="AppListActivity"
+                                                android:layout_height="fill_parent"></com.zhixin.flymeTools.ImageMenuBtn>
+            <com.zhixin.flymeTools.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/app_cleaning"  zx:title="@string/buttons" android:layout_weight="1" zx:url="AppListActivity"
+                                                android:layout_height="fill_parent"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="50dp" android:layout_weight="1"
+                      android:orientation="horizontal">
+            <com.zhixin.flymeTools.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/app_cleaning"  zx:title="@string/statusbar" android:layout_weight="1" zx:url="AppListActivity"
+                                                android:layout_height="fill_parent"></com.zhixin.flymeTools.ImageMenuBtn>
+            <com.zhixin.flymeTools.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/app_cleaning"  zx:title="@string/sound" android:layout_weight="1" zx:url="AppListActivity"
+                                                android:layout_height="fill_parent"></com.zhixin.flymeTools.ImageMenuBtn>
+            <com.zhixin.flymeTools.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/app_cleaning"  zx:title="@string/about_module" android:layout_weight="1" zx:url="AppListActivity"
+                                                android:layout_height="fill_parent"></com.zhixin.flymeTools.ImageMenuBtn>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
