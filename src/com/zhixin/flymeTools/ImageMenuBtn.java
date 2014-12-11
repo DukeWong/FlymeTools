@@ -41,8 +41,9 @@ public class ImageMenuBtn extends LinearLayout {
         imageView.setBackground(typedArray.getDrawable(R.styleable.ImageMenuBtn_image));
         textView.setText(typedArray.getText(R.styleable.ImageMenuBtn_title));
         String activityUrl=typedArray.getString(R.styleable.ImageMenuBtn_url);
+        String packageName= context.getPackageName()+".";
         try {
-            Class<?> aClass= Class.forName("com.zhixin.flymeTools."+activityUrl);
+            Class<?> aClass= Class.forName(packageName+activityUrl);
             activity=aClass.asSubclass(Activity.class);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
