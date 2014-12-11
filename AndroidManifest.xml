@@ -13,7 +13,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.zhixin.flymeTools.AppListActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.zhixin.flymeTools.AppListActivity"
+                  android:screenOrientation="portrait"/>
     </application>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
