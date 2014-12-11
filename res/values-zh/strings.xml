@@ -14,4 +14,6 @@
     <string name="buttons">按键</string>
     <string name="buttons_summary">按键重映射、按键动作等等</string>
     <string name="reboot">重启系统</string>
+    <string name="showSystemApp">显示系统应用</string>
+    <string name="noShowSystemApp">去除系统应用</string>
 </resources>
