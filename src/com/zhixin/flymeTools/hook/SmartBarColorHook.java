@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import com.zhixin.flymeTools.Util.SmartBarUtils;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
+import de.robv.android.xposed.XposedBridge;
 
 /**
  * Created by ZXW on 2014/12/12.
@@ -32,16 +33,16 @@ public class SmartBarColorHook extends XC_MethodHook {
      * @return
      */
     protected static Drawable getChangeSmartbarDrawable(Activity activity) {
-        String packgeName = activity.getPackageName();
+        String packageName = activity.getPackageName();
         XSharedPreferences xSharedPreferences = new XSharedPreferences(THIS_PACKGENAME, THIS_PACKGENAME + "_preferences");
         String defalut_type = xSharedPreferences.getString(SMARTBAR_DEFAULT_TYPE, null);
-        xSharedPreferences = new XSharedPreferences(THIS_PACKGENAME, packgeName + "_setting");
+        xSharedPreferences = new XSharedPreferences(THIS_PACKGENAME, packageName + "_setting");
         boolean change = xSharedPreferences.getBoolean(SMARTBAR_Change, false);
         if (change) {
             String smartbar_type = xSharedPreferences.getString(SMARTBAR_TYPE, defalut_type);
             if (smartbar_type != null) {
                 //自动设置等
-                if (defalut_type.indexOf("#") == -1) {
+                if (smartbar_type.indexOf("#") == -1) {
                     //1为默认设置
                     String smartbar_color="#FFFFFFFF";
                     smartbar_type = smartbar_type.equals("1") ? defalut_type : smartbar_type;
@@ -55,7 +56,11 @@ public class SmartBarColorHook extends XC_MethodHook {
                         }
                     }
                 }
-
+                else
+                {
+                    int  color=Color.parseColor(smartbar_type);
+                    return  new ColorDrawable(color);
+                }
             }
         }
         return null;
@@ -116,7 +121,9 @@ public class SmartBarColorHook extends XC_MethodHook {
         Drawable bg= getActionBarBackground(activity);
         if(bg instanceof NinePatchDrawable){
             Bitmap bitmap= drawable2Bitmap(bg);
-            ColorDrawable colorDrawable=new ColorDrawable(bitmap.getPixel(bitmap.getWidth()/2,bitmap.getHeight()/2));
+            int color=bitmap.getPixel(bitmap.getWidth()/2,bitmap.getHeight()/2);
+            XposedBridge.log("ZX:" + activity.getPackageName() + ":Color->"+ color);
+            ColorDrawable colorDrawable=new ColorDrawable();
             return  colorDrawable;
         }
         return  bg;
