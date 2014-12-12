@@ -15,7 +15,7 @@
         <item>gray</item>
     </string-array >
     <string-array name="smartbar_default_type">
-        <item>-1</item>
+        <item>-100</item>
         <item>0</item>
         <item>#ffffffff</item>
         <item>#ff333333</item>

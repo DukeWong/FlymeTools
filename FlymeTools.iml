@@ -15,7 +15,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="cordova-2.9.0" level="project" />
   </component>
 </module>
 
