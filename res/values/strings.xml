@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">flyme-tools</string>
+    <string name="app_des">flyme 4.0 tools</string>
     <string name="app_name_setting">Applications Name setting</string>
     <string name="framework">framework</string>
     <string name="framework_summary">Framework related settings</string>
@@ -18,8 +19,8 @@
     <string name="showSystemApp">showSystemApp</string>
     <string name="noShowSystemApp">noShowSystemApp</string>
     <string name="open_settings">open settings</string>
-    <string name="preference_app_title">app name</string>
-    <string name="preference_app_summary">you can edit app name</string>
+    <string name="edit_app_title">app name</string>
+    <string name="edit_app_summary">you can edit app name</string>
     <string name="replace_app_name">replace app name</string>
     <string name="replace_app_name_summary">replace app name to you need name</string>
     <string name="app_icon_setting">applications icon setting</string>

@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
 public class SmartBarUtils {
@@ -53,7 +55,18 @@ public class SmartBarUtils {
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     *
+     * @param activity
+     * @param bg
+     */
+    public static void changeSmartBarColor(Activity activity, Drawable bg) {
+        ActionBar actionBar = activity.getActionBar();
+        if (actionBar != null) {
+             actionBar.setSplitBackgroundDrawable(bg);
+        }
+    }
     /**
      * 调用 ActionBar.setActionBarViewCollapsable(boolean) 方法。
      * 

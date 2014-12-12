@@ -9,8 +9,8 @@
                 android:title="@string/open_settings"/>
         <EditTextPreference android:key="@string/preference_app_name" android:id="@+id/app_name_edit"
                             android:defaultValue="@null"
-                            android:title="@string/preference_app_title"
-                            android:summary="@string/preference_app_summary"/>
+                            android:title="@string/edit_app_title"
+                            android:summary="@string/edit_app_summary"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/app_smartbar"
                         android:summary="@string/app_smartbar_setting">
