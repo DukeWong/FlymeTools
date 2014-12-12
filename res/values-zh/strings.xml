@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">魅工具箱</string>
-
     <string name="about_module">关于模块</string>
     <string name="framework">系统框架</string>
     <string name="framework_summary">系统框架相关设定</string>
@@ -22,13 +21,13 @@
     <string name="preference_app_summary">编辑当前应用的名称</string>
     <string name="app_name_setting">应用名称设置</string>
     <string name="replace_app_name">替换应用名称</string>
-    <string name="replace_app_name_summary">替换应用图标为你期望的应用名称</string>
+    <string name="replace_app_name_summary">替换应用图标为期望的应用名称</string>
     <string name="app_icon_setting">应用图标设置</string>
-    <string name="replace_icon_summary">替换应用图标为你期望的应用图标</string>
+    <string name="replace_icon_summary">替换应用图标为期望的应用图标</string>
     <string name="replace_icon">替换应用图标</string>
     <string name="app_smartbar">smartbar</string>
     <string name="app_smartbar_setting">smartbar设置</string>
-    <string name="replace_smartbar_summary">开启smartbar设置</string>
+    <string name="replace_smartbar_summary">替换smartbar样式为设置的样式</string>
     <string name="replace_smartbar">开启smartbar设置</string>
     <string name="select_smartbar_type">选择smartbar类型</string>
 </resources>

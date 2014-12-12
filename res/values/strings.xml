@@ -35,4 +35,5 @@
    <string name="preference_replace_icon">preference_replace_icon</string>
     <string name="preference_replace_smartbar">preference_replace_smartbar</string>
     <string name="preference_smartbar_type">preference_smartbar_type</string>
+    <string name="preference_smartbar_color">preference_smartbar_color</string>
 </resources>
