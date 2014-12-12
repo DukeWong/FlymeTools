@@ -1,5 +1,7 @@
 package com.zhixin.flymeTools;
 import android.os.Bundle;
+import com.zhixin.flymeTools.base.BaseActivity;
+
 public class MainActivity extends BaseActivity {
     /**
      * Called when the activity is first created.

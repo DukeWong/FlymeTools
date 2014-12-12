@@ -13,9 +13,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.zhixin.flymeTools.AppListActivity"
+        <activity android:name=".app.AppListActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name="com.zhixin.flymeTools.app.AppSetting"
+        <activity android:name=".app.AppSetting"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".framework.SettingActivity"
                   android:screenOrientation="portrait"/>
     </application>
     <uses-permission android:name="android.permission.CAMERA"/>

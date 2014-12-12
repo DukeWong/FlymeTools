@@ -1,7 +1,6 @@
 package com.zhixin.flymeTools.app;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.*;
 import com.zhixin.flymeTools.R;
@@ -30,8 +29,8 @@ public  class SettingFragement extends PreferenceFragment {
         if (packgeName!=null){
             this.getPreferenceManager().setSharedPreferencesName(packgeName + "_setting");
         }
-        SharedPreferences sharedPreferences=this.getPreferenceManager().getSharedPreferences();
         addPreferencesFromResource(R.xml.app_settting);
+        SharedPreferences sharedPreferences=this.getPreferenceManager().getSharedPreferences();
         String preference_app_name = getResources().getString(R.string.preference_app_name);
         String preference_smartbar_type = getResources().getString(R.string.preference_smartbar_type);
         String preference_replace_app_name=getResources().getString(R.string.preference_replace_app_name);
@@ -53,7 +52,9 @@ public  class SettingFragement extends PreferenceFragment {
         }
         //修改Smartbar类型
         String smart_type = sharedPreferences.getString(preference_smartbar_type, null);
-        colorPickerPreference.setEnabled(smart_type.equals("3"));
+        if (smart_type!=null){
+            colorPickerPreference.setEnabled("3".equals(smart_type));
+        }
         int index = listPreference.findIndexOfValue(String.valueOf(smart_type));
         if (index != -1) {
             CharSequence[] entries = listPreference.getEntries();

@@ -1,4 +1,4 @@
-package com.zhixin.flymeTools.app;
+package com.zhixin.flymeTools.base;
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -6,7 +6,7 @@ import android.preference.PreferenceFragment;
 /**
  * Created by ZXW on 2014/12/12.
  */
-public class SettingActivity extends Activity {
+public class FragmentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

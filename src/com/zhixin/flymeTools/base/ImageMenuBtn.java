@@ -1,4 +1,4 @@
-package com.zhixin.flymeTools;
+package com.zhixin.flymeTools.base;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.zhixin.flymeTools.R;
 
 /**
  * Created by ZXW on 2014/12/5.

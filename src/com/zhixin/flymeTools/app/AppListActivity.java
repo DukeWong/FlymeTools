@@ -1,4 +1,4 @@
-package com.zhixin.flymeTools;
+package com.zhixin.flymeTools.app;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.zhixin.flymeTools.app.AppItem;
-import com.zhixin.flymeTools.app.AppItemAdapter;
-import com.zhixin.flymeTools.app.AppListUtil;
-import com.zhixin.flymeTools.app.AppSetting;
+import com.zhixin.flymeTools.R;
 
 /**
  * Created by ZXW on 2014/12/5.
