@@ -19,6 +19,8 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".framework.SettingActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".key.SettingActivity"
+                  android:screenOrientation="portrait"/>
     </application>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>

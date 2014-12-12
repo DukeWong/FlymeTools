@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
      <string-array name="smartbar_type">
-         <item>0</item>
          <item>1</item>
-         <item>2</item>
-         <item>3</item>
+         <item>0</item>
+         <item>-1</item>
+         <item>#ffffffff</item>
+         <item>#ff333333</item>
      </string-array>
     <string-array name="smartbar_type_summary">
+        <item>default</item>
+        <item>auto</item>
+        <item>custom</item>
+        <item>white</item>
+        <item>gray</item>
+    </string-array >
+    <string-array name="smartbar_default_type">
+        <item>-1</item>
+        <item>0</item>
+        <item>#ffffffff</item>
+        <item>#ff333333</item>
+    </string-array>
+    <string-array name="smartbar_type_default_summary">
+        <item>no change</item>
         <item>auto</item>
         <item>white</item>
         <item>gray</item>
-        <item>custom</item>
     </string-array >
 </resources>

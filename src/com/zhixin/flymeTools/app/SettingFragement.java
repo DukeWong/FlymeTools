@@ -13,7 +13,14 @@ import com.zhixin.flymeTools.controls.ColorPickerPreference;
  */
 public  class SettingFragement extends PreferenceFragment {
     private String packgeName;
+    private String defaultType=null;
+    public String getDefaultType() {
+        return defaultType;
+    }
 
+    public void setDefaultType(String defaultType) {
+        this.defaultType = defaultType;
+    }
     public String getPackgeName() {
         return packgeName;
     }
@@ -51,9 +58,9 @@ public  class SettingFragement extends PreferenceFragment {
             listPreference.setEnabled(false);
         }
         //修改Smartbar类型
-        String smart_type = sharedPreferences.getString(preference_smartbar_type, null);
+        String smart_type = sharedPreferences.getString(preference_smartbar_type, defaultType);
         if (smart_type!=null){
-            colorPickerPreference.setEnabled("3".equals(smart_type));
+            colorPickerPreference.setEnabled("-1".equals(smart_type));
         }
         int index = listPreference.findIndexOfValue(String.valueOf(smart_type));
         if (index != -1) {
@@ -98,7 +105,7 @@ public  class SettingFragement extends PreferenceFragment {
                 int index = listPreference.findIndexOfValue(newValue.toString());
                 CharSequence[] entries = listPreference.getEntries();
                 listPreference.setTitle(entries[index]);
-                colorPickerPreference.setEnabled(newValue.toString().equals("3"));
+                colorPickerPreference.setEnabled(newValue.toString().equals("-1"));
                 return true;
             }
         });

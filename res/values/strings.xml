@@ -19,7 +19,7 @@
     <string name="noShowSystemApp">noShowSystemApp</string>
     <string name="open_settings">open settings</string>
     <string name="preference_app_title">app name</string>
-    <string name="preference_app_summary"> you can edit app name</string>
+    <string name="preference_app_summary">you can edit app name</string>
     <string name="replace_app_name">replace app name</string>
     <string name="replace_app_name_summary">replace app name to you need name</string>
     <string name="app_icon_setting">applications icon setting</string>
@@ -32,8 +32,13 @@
     <string name="select_smartbar_type">select smartbar type</string>
     <string name="preference_replace_app_name">preference_replace_app_name</string>
     <string name="preference_app_name">preference_app_name</string>
-   <string name="preference_replace_icon">preference_replace_icon</string>
+    <string name="preference_replace_icon">preference_replace_icon</string>
     <string name="preference_replace_smartbar">preference_replace_smartbar</string>
     <string name="preference_smartbar_type">preference_smartbar_type</string>
     <string name="preference_smartbar_color">preference_smartbar_color</string>
+    <string name="preference_smartbar_default_type">preference_smartbar_default_type</string>
+    <string name="select_smartbar_default_type">select smartbar default type</string>
+    <string name="app_smartbar_default">default smartbar</string>
+    <string name="home_setting">home key setting</string>
+    <string name="home_setting_setting">home key setting</string>
 </resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:title="Settings" android:layout_height="fill_parent" android:layout_width="fill_parent">
+
+    <PreferenceCategory android:title="@string/home_setting"
+                        android:summary="@string/home_setting_setting">
+        <ListPreference android:entries="@array/smartbar_type_summary"
+                        android:entryValues="@array/smartbar_type"
+                        android:key="@string/preference_smartbar_type"
+                        android:title="@string/select_smartbar_type"
+                        android:dialogTitle="@string/select_smartbar_type"
+                >
+        </ListPreference>
+    </PreferenceCategory>
+</PreferenceScreen>

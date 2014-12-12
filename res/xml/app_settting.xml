@@ -28,7 +28,7 @@
         <com.zhixin.flymeTools.controls.ColorPickerPreference
                 android:persistent="true"
                 android:title="@string/app_smartbar"
-                android:key="@string/preference_smartbar_color" >
+                android:key="@string/preference_smartbar_color">
         </com.zhixin.flymeTools.controls.ColorPickerPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/app_icon_setting"
