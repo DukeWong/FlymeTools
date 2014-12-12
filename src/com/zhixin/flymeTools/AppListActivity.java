@@ -1,6 +1,7 @@
 package com.zhixin.flymeTools;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.AdapterView;
@@ -8,6 +9,8 @@ import android.widget.ListView;
 import com.zhixin.flymeTools.app.AppItem;
 import com.zhixin.flymeTools.app.AppItemAdapter;
 import com.zhixin.flymeTools.app.AppListUtil;
+import com.zhixin.flymeTools.app.AppSetting;
+
 /**
  * Created by ZXW on 2014/12/5.
  */
@@ -45,5 +48,13 @@ public class AppListActivity extends ListActivity {
         return super.onCreatePanelMenu(featureId, menu);
     }
     public void onListItemClick(View view, int position, long id) {
+        mModifyingItem=mAdapter.getAppItem(position);
+        String packgeName=mModifyingItem.getPackgeName();
+        String appName=mModifyingItem.getAppName();
+        Intent intent=new Intent();
+        intent.setClass(AppListActivity.this, AppSetting.class);
+        intent.putExtra("packgeName",packgeName);
+        intent.putExtra("appName",appName);
+        this.startActivity(intent);
     }
 }

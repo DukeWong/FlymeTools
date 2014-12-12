@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">flyme-tools</string>
+    <string name="app_name_setting">Applications Name setting</string>
     <string name="framework">framework</string>
     <string name="framework_summary">Framework related settings</string>
     <string name="common">common</string>
@@ -9,11 +10,29 @@
     <string name="statusbar">Status Bar</string>
     <string name="statusbar_summary">Status Bar modifications</string>
     <string name="applications">Applications</string>
-    <string name="applications_summary">MIUI applications settings</string>
+    <string name="applications_summary">Applications settings</string>
     <string name="buttons">Buttons</string>
     <string name="buttons_summary">Buttons mappings, actions etc.</string>
     <string name="about_module">About module</string>
     <string name="reboot">reboot</string>
     <string name="showSystemApp">showSystemApp</string>
     <string name="noShowSystemApp">noShowSystemApp</string>
+    <string name="open_settings">open settings</string>
+    <string name="preference_app_title">app name</string>
+    <string name="preference_app_summary"> you can edit app name</string>
+    <string name="replace_app_name">replace app name</string>
+    <string name="replace_app_name_summary">replace app name to you need name</string>
+    <string name="app_icon_setting">applications icon setting</string>
+    <string name="replace_icon_summary">replace app icon to you need icon</string>
+    <string name="replace_icon">replace icon</string>
+    <string name="app_smartbar">smartbar</string>
+    <string name="app_smartbar_setting">smartbar setting</string>
+    <string name="replace_smartbar_summary">replace_smartbar_summary</string>
+    <string name="replace_smartbar">replace_smartbar</string>
+    <string name="select_smartbar_type">select smartbar type</string>
+    <string name="preference_replace_app_name">preference_replace_app_name</string>
+    <string name="preference_app_name">preference_app_name</string>
+   <string name="preference_replace_icon">preference_replace_icon</string>
+    <string name="preference_replace_smartbar">preference_replace_smartbar</string>
+    <string name="preference_smartbar_type">preference_smartbar_type</string>
 </resources>

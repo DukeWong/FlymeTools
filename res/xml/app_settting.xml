@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:title="Settings" android:layout_height="fill_parent" android:layout_width="fill_parent">
+    <PreferenceCategory android:title="@string/app_name_setting"
+                        android:summary="@string/app_name_setting">
+        <CheckBoxPreference
+                android:key="@string/preference_replace_app_name"
+                android:summary="@string/replace_app_name_summary"
+                android:title="@string/open_settings"/>
+        <EditTextPreference android:key="@string/preference_app_name" android:id="@+id/app_name_edit"
+                            android:defaultValue="@null"
+                            android:title="@string/preference_app_title"
+                            android:summary="@string/preference_app_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/app_icon_setting"
+                        android:summary="@string/app_icon_setting">
+        <CheckBoxPreference
+                android:key="@string/preference_replace_icon"
+                android:summary="@string/replace_icon_summary"
+                android:title="@string/open_settings"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/app_smartbar"
+                        android:summary="@string/app_smartbar_setting">
+        <CheckBoxPreference
+                android:key="@string/preference_replace_smartbar"
+                android:summary="@string/replace_smartbar_summary"
+                android:title="@string/open_settings"/>
+        <ListPreference android:entries="@array/smartbar_type_summary"
+                        android:entryValues="@array/smartbar_type"
+                        android:key="@string/preference_smartbar_type"
+                        android:title="@string/select_smartbar_type"
+                        android:dialogTitle="@string/select_smartbar_type"
+                >
+        </ListPreference>
+    </PreferenceCategory>
+</PreferenceScreen>

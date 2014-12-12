@@ -1,7 +1,6 @@
 package com.zhixin.flymeTools.app;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class AppItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.layout_item_app, null);
+            convertView = mInflater.inflate(R.layout.app_item, null);
         }
         bind(position, convertView);
         return convertView;
