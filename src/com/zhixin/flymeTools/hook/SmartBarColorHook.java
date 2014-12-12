@@ -26,7 +26,6 @@ public class SmartBarColorHook extends XC_MethodHook {
     public static String SMARTBAR_TYPE = "preference_smartbar_type";
     public static String SMARTBAR_Color = "preference_smartbar_color";
     public static String SMARTBAR_Change = "preference_replace_smartbar";
-
     /**
      *
      * @param activity
@@ -35,11 +34,15 @@ public class SmartBarColorHook extends XC_MethodHook {
     protected static Drawable getChangeSmartbarDrawable(Activity activity) {
         String packageName = activity.getPackageName();
         XSharedPreferences xSharedPreferences = new XSharedPreferences(THIS_PACKGENAME, THIS_PACKGENAME + "_preferences");
+        xSharedPreferences.makeWorldReadable();
         String defalut_type = xSharedPreferences.getString(SMARTBAR_DEFAULT_TYPE, null);
         xSharedPreferences = new XSharedPreferences(THIS_PACKGENAME, packageName + "_setting");
+        xSharedPreferences.makeWorldReadable();
         boolean change = xSharedPreferences.getBoolean(SMARTBAR_Change, false);
+        XposedBridge.log("ZX:" + activity.getPackageName() + ":change->"+ change);
         if (change) {
             String smartbar_type = xSharedPreferences.getString(SMARTBAR_TYPE, defalut_type);
+            XposedBridge.log("ZX:" + activity.getPackageName() + ":changeType->"+ smartbar_type);
             if (smartbar_type != null) {
                 //自动设置等
                 if (smartbar_type.indexOf("#") == -1) {
