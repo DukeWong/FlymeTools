@@ -12,7 +12,6 @@ public  class AppItem {
     private String mAppName;
     private Drawable mIcon;
     private View mView;
-    private TextView mOpTV;
     private boolean isSysApp=false;
     public boolean isSysApp() {
         return isSysApp;
@@ -29,25 +28,18 @@ public  class AppItem {
     public String getPackgeName() {
         return mPackgeName;
     }
-
     public String getAppName() {
         return mAppName;
     }
-
     public Drawable getIcon() {
         return mIcon;
     }
     public View getView() {
         return mView;
     }
-
     public void setView(View mView) {
         this.mView = mView;
     }
-    public void setOpTV(TextView mOpTV) {
-        this.mOpTV = mOpTV;
-    }
-
     @Override
     public String toString() {
         return mAppName;
