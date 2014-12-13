@@ -12,7 +12,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.TypedValue;
+import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.Util.SmartBarUtils;
+import com.zhixin.flymeTools.app.AppListUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
@@ -21,7 +23,6 @@ import de.robv.android.xposed.XposedBridge;
  * Created by ZXW on 2014/12/12.
  */
 public class SmartBarColorHook extends XC_MethodHook {
-    public static String THIS_PACKGENAME = "com.zhixin.flymeTools";
     public static String SMARTBAR_DEFAULT_TYPE = "preference_smartbar_default_type";
     public static String SMARTBAR_TYPE = "preference_smartbar_type";
     public static String SMARTBAR_Color = "preference_smartbar_color";
@@ -33,12 +34,13 @@ public class SmartBarColorHook extends XC_MethodHook {
      */
     protected static Drawable getChangeSmartbarDrawable(Activity activity) {
         String packageName = activity.getPackageName();
-        XSharedPreferences xSharedPreferences = new XSharedPreferences(THIS_PACKGENAME, THIS_PACKGENAME + "_preferences");
+        XSharedPreferences xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
         xSharedPreferences.makeWorldReadable();
         String defalut_type = xSharedPreferences.getString(SMARTBAR_DEFAULT_TYPE, null);
-        xSharedPreferences = new XSharedPreferences(THIS_PACKGENAME, packageName + "_setting");
+        xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, packageName + "_setting");
         xSharedPreferences.makeWorldReadable();
-        boolean change = xSharedPreferences.getBoolean(SMARTBAR_Change, false);
+        boolean isSysApp= AppListUtil.isSystemApp(activity);
+        boolean change = xSharedPreferences.getBoolean(SMARTBAR_Change, !isSysApp);
         XposedBridge.log("ZX:" + activity.getPackageName() + ":change->"+ change);
         if (change) {
             String smartbar_type = xSharedPreferences.getString(SMARTBAR_TYPE, defalut_type);

@@ -2,6 +2,7 @@ package com.zhixin.flymeTools.hook;
 
 import android.app.Activity;
 import de.robv.android.xposed.IXposedHookZygoteInit;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
 
 /**

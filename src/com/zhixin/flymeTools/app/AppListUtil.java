@@ -1,5 +1,6 @@
 package com.zhixin.flymeTools.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -14,6 +15,16 @@ import java.util.List;
 public  class AppListUtil {
     public static boolean isSystemApp(PackageInfo pInfo) {
         return ((pInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+    }
+    public static boolean isSystemApp(Activity activity) {
+        try {
+            PackageInfo pInfo= null;
+            pInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(),0);
+            return ((pInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return  false;
     }
     public static AppItemAdapter getAppItemAdapter(Context context,boolean includeSys){
         final PackageManager packageManager = context.getPackageManager();
