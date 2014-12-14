@@ -44,7 +44,7 @@ public class SmartBarColorHook extends XC_MethodHook {
         XposedBridge.log("ZX:" + activity.getPackageName() + ":change->"+ change);
         if (change) {
             String smartbar_type = xSharedPreferences.getString(SMARTBAR_TYPE, defalut_type);
-            XposedBridge.log("ZX:" + activity.getPackageName() + ":changeType->"+ smartbar_type);
+
             if (smartbar_type != null) {
                 //自动设置等
                 if (smartbar_type.indexOf("#") == -1) {
@@ -52,17 +52,20 @@ public class SmartBarColorHook extends XC_MethodHook {
                     String smartbar_color="#FFFFFFFF";
                     smartbar_type = smartbar_type.equals("1") ? defalut_type : smartbar_type;
                     if (smartbar_type.equals("0")) {
+                        XposedBridge.log("ZX:" + activity.getPackageName() + ":颜色->监测颜色");
                           return  getSmartBarDrawable(activity);
                     } else {
                         if (smartbar_type.equals("-1")) {
                             smartbar_color=xSharedPreferences.getString(SMARTBAR_Color,smartbar_color);
                             int  color=Color.parseColor(smartbar_color);
+                            XposedBridge.log("ZX:" + activity.getPackageName() + ":自定义颜色->"+smartbar_color);
                             return  new ColorDrawable(color);
                         }
                     }
                 }
                 else
                 {
+                    XposedBridge.log("ZX:" + activity.getPackageName() + ":默认颜色->"+smartbar_type);
                     int  color=Color.parseColor(smartbar_type);
                     return  new ColorDrawable(color);
                 }

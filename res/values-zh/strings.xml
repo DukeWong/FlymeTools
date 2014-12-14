@@ -9,6 +9,7 @@
     <string name="sound">声音</string>
     <string name="sound_summary">声音相关设定</string>
     <string name="statusbar">状态栏</string>
+    <string name="custom_color">自定义颜色</string>
     <string name="statusbar_summary">状态栏修改</string>
     <string name="applications">应用设置</string>
     <string name="applications_summary">Flyme系统应用设置</string>

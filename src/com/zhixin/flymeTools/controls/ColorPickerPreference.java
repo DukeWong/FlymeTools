@@ -10,12 +10,21 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.preference.DialogPreference;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ColorUtil;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ColorPickerPreference extends DialogPreference { // ColorPickerPreference
     // 继承自
@@ -23,6 +32,7 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
     private int mInitialColor;
     private int mCurrentColor;
     private ColorPickerView mCPView;
+    private EditText editText;
     private static class ColorPickerView extends View { // ColorPickerView 扩展自
         // View 这部分是参考 ApiDemo中的
         // ColorPickerDialog
@@ -59,6 +69,11 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         public int getColor() {
             return mCenterPaint.getColor();
         }
+        public void setColor(int color){
+            mCenterPaint.setColor(color);
+            mRedrawHSV = false;
+            invalidate();
+        }
         @Override
         protected void onDraw(Canvas canvas) {
             float r = CENTER_X - mPaint.getStrokeWidth() * 0.5f;
@@ -90,7 +105,7 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         }
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            setMeasuredDimension(CENTER_X * 2, (CENTER_Y + 50) * 2);
+            setMeasuredDimension(CENTER_X * 2, (CENTER_Y + 60) * 2);
         }
         private static final int CENTER_X = 160;
         private static final int CENTER_Y = 160;
@@ -138,9 +153,11 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
                             mHighlightCenter = inCenter;
                             invalidate();
                         }
-                    } else if ((x >= -d & x <= d) && (y <= d+30 && y >= d)) {
+                    } else if (y >= d) {
                         int a, r, g, b, c0, c1;
                         float p;
+                        x=x<-d?-d:x;
+                        x=x>d?d:x;
                         if (x < 0) {
                             c0 = mHSVColors[0];
                             c1 = mHSVColors[1];
@@ -156,23 +173,27 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
                         b = ave(Color.blue(c0), Color.blue(c1), p);
                         // 把细调颜色设置到显示面板中
                         mCenterPaint.setColor(Color.argb(a, r, g, b));
+                        mListener.colorChanged(mCenterPaint.getColor(),false);
                         mRedrawHSV = false;
                         invalidate();
                     } else {
-                        float angle = (float) java.lang.Math.atan2(y, x);
-                        // need to turn angle [-PI ... PI] into unit [0....1]
-                        float unit = angle / (2 * PI);
-                        if (unit < 0) {
-                            unit += 1;
+                        if (y<d){
+                            float angle = (float) java.lang.Math.atan2(y, x);
+                            // need to turn angle [-PI ... PI] into unit [0....1]
+                            float unit = angle / (2 * PI);
+                            if (unit < 0) {
+                                unit += 1;
+                            }
+                            mCenterPaint.setColor(interpColor(mColors, unit));
+                            mListener.colorChanged(mCenterPaint.getColor(),false);
+                            invalidate();
                         }
-                        mCenterPaint.setColor(interpColor(mColors, unit));
-                        invalidate();
                     }
                     break;
                 case MotionEvent.ACTION_UP:
                     if (mTrackingCenter) {
                         if (inCenter) {
-                            mListener.colorChanged(mCenterPaint.getColor());
+                            mListener.colorChanged(mCenterPaint.getColor(),true);
                         }
                         mTrackingCenter = false;
                         invalidate();
@@ -183,7 +204,7 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         }
     }
     public interface OnColorChangedListener {
-        void colorChanged(int color);
+        void colorChanged(int color,boolean close);
     }
     public ColorPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -209,10 +230,14 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
     protected void onPrepareDialogBuilder(Builder builder) {
         super.onPrepareDialogBuilder(builder);
         OnColorChangedListener l = new OnColorChangedListener() {
-            public void colorChanged(int color) {
+            public void colorChanged(int color,boolean close) {
                 mCurrentColor = color;
-                onDialogClosed(true);
-                getDialog().dismiss();
+                editText.setEnabled(true);
+                editText.setText(ColorUtil.toHexEncoding(mCurrentColor));
+                if (close){
+                    onDialogClosed(true);
+                    getDialog().dismiss();
+                }
             }
         };
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
@@ -229,6 +254,41 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         params1.gravity = Gravity.CENTER;
         mCPView.setLayoutParams(params1);
         layout.addView(this.mCPView);
+        editText=new EditText(getContext());
+        editText.setLayoutParams(params1);
+        editText.setEnabled(false);
+        editText.setText(ColorUtil.toHexEncoding(mInitialColor));
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String str = s.toString();
+                if (str.indexOf('#') == -1) {str = "#" + str;}
+                Pattern pattern = Pattern.compile("#[0-9a-fA-F]{8}");
+                Matcher matcher = pattern.matcher(str);
+                if (matcher.matches()) {
+                    str = str.toUpperCase();
+                    mCurrentColor = Color.parseColor(str);
+                    mCPView.setColor(mCurrentColor);
+                }
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                editText.setText(ColorUtil.toHexEncoding(mCPView.getColor()));
+            }
+        });
+        layout.addView(this.editText);
         layout.setId(android.R.id.widget_frame);
         builder.setView(layout);
     }
