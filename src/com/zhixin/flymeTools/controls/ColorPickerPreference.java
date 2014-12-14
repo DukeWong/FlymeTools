@@ -15,6 +15,8 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import com.zhixin.flymeTools.Util.ColorUtil;
+
 public class ColorPickerPreference extends DialogPreference { // ColorPickerPreference
     // 继承自
     // DialogPreference
@@ -195,10 +197,12 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         if (positiveResult) {
             // 保存设置好的颜色
             mCurrentColor = mCPView.getColor();
-            SharedPreferences.Editor editor = getEditor();
-            editor.putInt(getKey(), mCurrentColor);
-            editor.commit();
-            callChangeListener(new Integer(mCurrentColor));
+            String color= ColorUtil.toHexEncoding(mCurrentColor);
+            if (callChangeListener(color)){
+                SharedPreferences.Editor editor = getEditor();
+                editor.putString(getKey(), color);
+                editor.commit();
+            }
         }
     }
     @Override
@@ -212,7 +216,8 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
             }
         };
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
-        mInitialColor = prefs.getInt(getKey(), Color.LTGRAY);
+        String color=prefs.getString(getKey(), null);
+        mInitialColor = color==null?Color.GRAY:Color.parseColor(color);
         // 主要是设置 调色板的布局
         LinearLayout layout = new LinearLayout(getContext());
         layout.setPadding(10, 10, 10, 10);

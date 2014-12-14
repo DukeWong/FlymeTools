@@ -45,11 +45,14 @@ public  class SettingFragement extends PreferenceFragment {
         String preference_smartbar_color=getResources().getString(R.string.preference_smartbar_color);
         final EditTextPreference editTextPreference = (EditTextPreference) findPreference(preference_app_name);
         final ListPreference listPreference = (ListPreference) findPreference(preference_smartbar_type);
-        final CheckBoxPreference replace_app_checkBox=(CheckBoxPreference) findPreference(preference_replace_app_name);
-        final CheckBoxPreference replace_smartbar_checkBox=(CheckBoxPreference) findPreference(preference_replace_smartbar);
+        final SwitchPreference replace_app_checkBox=(SwitchPreference) findPreference(preference_replace_app_name);
+        final SwitchPreference replace_smartbar_checkBox=(SwitchPreference) findPreference(preference_replace_smartbar);
         final ColorPickerPreference colorPickerPreference=(ColorPickerPreference) findPreference(preference_smartbar_color);
         if (colorPickerPreference!=null){
-            colorPickerPreference.setTitle(ColorUtil.toHexEncoding(sharedPreferences.getInt(preference_smartbar_color, 0)));
+            String color=sharedPreferences.getString(preference_smartbar_color, null);
+            if (color!=null){
+                colorPickerPreference.setTitle(color);
+            }
         }
         if(!sharedPreferences.getBoolean(preference_replace_app_name,false)){
             editTextPreference.setEnabled(false);
@@ -112,8 +115,7 @@ public  class SettingFragement extends PreferenceFragment {
         colorPickerPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                int color= ConvertUtil.string2Int(newValue.toString(),0);
-                colorPickerPreference.setTitle(ColorUtil.toHexEncoding(color));
+                colorPickerPreference.setTitle(newValue.toString());
                 return true;
             }
         });

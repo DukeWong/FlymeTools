@@ -42,4 +42,8 @@
     <string name="app_smartbar_default">default smartbar</string>
     <string name="home_setting">home key setting</string>
     <string name="home_setting_setting">home key setting</string>
+    <string name="app_launcher_setting">launcher setting</string>
+    <string name="app_launcher_locked">launcher locked</string>
+    <string name="preference_app_launcher_locked">preference_app_launcher_locked</string>
+    <string name="app_launcher_locked_summary">Long press the desktop to enter edit mode</string>
 </resources>

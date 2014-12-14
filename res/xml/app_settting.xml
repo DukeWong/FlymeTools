@@ -3,7 +3,7 @@
                   android:title="Settings" android:layout_height="fill_parent" android:layout_width="fill_parent">
     <PreferenceCategory android:title="@string/app_name_setting"
                         android:summary="@string/app_name_setting">
-        <CheckBoxPreference
+        <SwitchPreference
                 android:key="@string/preference_replace_app_name"
                 android:summary="@string/replace_app_name_summary"
                 android:title="@string/open_settings"/>
@@ -14,7 +14,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/app_smartbar"
                         android:summary="@string/app_smartbar_setting">
-        <CheckBoxPreference
+        <SwitchPreference
                 android:key="@string/preference_replace_smartbar"
                 android:summary="@string/replace_smartbar_summary"
                 android:title="@string/open_settings"/>

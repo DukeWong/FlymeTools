@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/app_smartbar_default"
-                        android:summary="@string/app_smartbar_setting">
-        <ListPreference android:entries="@array/smartbar_type_default_summary"
-                        android:entryValues="@array/smartbar_default_type"
-                        android:key="@string/preference_smartbar_default_type"
-                        android:title="@string/select_smartbar_default_type"
-                        android:dialogTitle="@string/select_smartbar_default_type"
-                >
-        </ListPreference>
-    </PreferenceCategory>
+<PreferenceCategory android:title="@string/app_smartbar_default"
+                    android:summary="@string/app_smartbar_setting">
+    <ListPreference android:entries="@array/smartbar_type_default_summary"
+                    android:entryValues="@array/smartbar_default_type"
+                    android:key="@string/preference_smartbar_default_type"
+                    android:title="@string/select_smartbar_default_type"
+                    android:dialogTitle="@string/select_smartbar_default_type"
+            >
+    </ListPreference>
+</PreferenceCategory>
+<PreferenceCategory android:title="@string/app_launcher_setting"
+                    android:summary="@string/app_launcher_setting">
+    <SwitchPreference android:title="@string/app_launcher_locked"
+                      android:summary="@string/app_launcher_locked_summary"
+                      android:key="string/preference_app_launcher_locked">
+    </SwitchPreference>
+</PreferenceCategory>
 </PreferenceScreen>
