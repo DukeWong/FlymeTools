@@ -1,6 +1,7 @@
 package com.zhixin.flymeTools.hook;
 import android.content.pm.PackageItemInfo;
 import com.zhixin.flymeTools.Util.FileUtil;
+import com.zhixin.flymeTools.Util.LogUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
@@ -16,7 +17,7 @@ public class PackageNameHook extends XC_MethodHook {
         boolean change= sharedPreferences.getBoolean("preference_replace_app_name", false);
         if (change){
             String app_name= sharedPreferences.getString("preference_app_name", null);
-            XposedBridge.log("ZX:PackageNameHook->" + packageItemInfo.packageName+":"+app_name);
+            LogUtil.log("PackageNameHook->" + packageItemInfo.packageName + ":" + app_name);
             if (app_name!=null){
                 param.setResult(app_name);
             }

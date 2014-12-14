@@ -1,7 +1,6 @@
 package com.zhixin.flymeTools.hook;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.content.pm.ComponentInfo;
 import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
@@ -22,7 +21,6 @@ public class HookEntrance implements IXposedHookZygoteInit,IXposedHookLoadPackag
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         IClassPatch classPatch=null;
         if (loadPackageParam.packageName.equals("com.android.launcher3")){
-            XposedBridge.log("ZX:LoadPackage->" + loadPackageParam.packageName);
             classPatch=new LauncherHook();
         }
         if (classPatch!=null){

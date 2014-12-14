@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.TypedValue;
 import com.zhixin.flymeTools.Util.FileUtil;
+import com.zhixin.flymeTools.Util.LogUtil;
 import com.zhixin.flymeTools.Util.SmartBarUtils;
 import com.zhixin.flymeTools.app.AppListUtil;
 import de.robv.android.xposed.XC_MethodHook;
@@ -36,36 +37,36 @@ public class SmartBarColorHook extends XC_MethodHook {
         String packageName = activity.getPackageName();
         XSharedPreferences xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
         xSharedPreferences.makeWorldReadable();
-        String defalut_type = xSharedPreferences.getString(SMARTBAR_DEFAULT_TYPE, null);
+        String defaultType = xSharedPreferences.getString(SMARTBAR_DEFAULT_TYPE, null);
         xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, packageName + FileUtil.SETTING);
         xSharedPreferences.makeWorldReadable();
         boolean isSysApp= AppListUtil.isSystemApp(activity);
         boolean change = xSharedPreferences.getBoolean(SMARTBAR_Change, !isSysApp);
-        XposedBridge.log("ZX:" + activity.getPackageName() + ":change->"+ change);
+        LogUtil.log(activity.getPackageName() + ":改变颜色->" + (change?"是":"否"));
         if (change) {
-            String smartbar_type = xSharedPreferences.getString(SMARTBAR_TYPE, defalut_type);
+            String smartbar_type = xSharedPreferences.getString(SMARTBAR_TYPE, defaultType);
 
             if (smartbar_type != null) {
                 //自动设置等
                 if (smartbar_type.indexOf("#") == -1) {
                     //1为默认设置
                     String smartbar_color="#FFFFFFFF";
-                    smartbar_type = smartbar_type.equals("1") ? defalut_type : smartbar_type;
+                    smartbar_type = smartbar_type.equals("1") ? defaultType : smartbar_type;
                     if (smartbar_type.equals("0")) {
-                        XposedBridge.log("ZX:" + activity.getPackageName() + ":颜色->监测颜色");
+                        LogUtil.log( activity.getPackageName() + ":颜色->监测颜色");
                           return  getSmartBarDrawable(activity);
                     } else {
                         if (smartbar_type.equals("-1")) {
                             smartbar_color=xSharedPreferences.getString(SMARTBAR_Color,smartbar_color);
                             int  color=Color.parseColor(smartbar_color);
-                            XposedBridge.log("ZX:" + activity.getPackageName() + ":自定义颜色->"+smartbar_color);
+                            LogUtil.log(activity.getPackageName() + ":自定义颜色->"+smartbar_color);
                             return  new ColorDrawable(color);
                         }
                     }
                 }
                 else
                 {
-                    XposedBridge.log("ZX:" + activity.getPackageName() + ":默认颜色->"+smartbar_type);
+                    LogUtil.log(activity.getPackageName() + ":默认颜色->"+smartbar_type);
                     int  color=Color.parseColor(smartbar_type);
                     return  new ColorDrawable(color);
                 }
