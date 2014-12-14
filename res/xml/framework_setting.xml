@@ -14,7 +14,7 @@
                     android:summary="@string/app_launcher_setting">
     <SwitchPreference android:title="@string/app_launcher_locked"
                       android:summary="@string/app_launcher_locked_summary"
-                      android:key="string/preference_app_launcher_locked">
+                      android:key="@string/preference_app_launcher_locked">
     </SwitchPreference>
 </PreferenceCategory>
 </PreferenceScreen>

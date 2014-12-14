@@ -10,6 +10,7 @@ import java.io.File;
  */
 public class FileUtil {
     public  static String THIS_PACKAGE_NAME= MainActivity.THIS_PACKAGE_NAME;
+    public  static  String SETTING="_setting";
     public static File getgetSharedPreferencesRoot(){
         return getgetSharedPreferencesRoot(THIS_PACKAGE_NAME);
     }

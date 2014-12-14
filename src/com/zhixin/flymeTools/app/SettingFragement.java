@@ -6,6 +6,7 @@ import android.preference.*;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ColorUtil;
 import com.zhixin.flymeTools.Util.ConvertUtil;
+import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.controls.ColorPickerPreference;
 
 /**
@@ -34,7 +35,7 @@ public  class SettingFragement extends PreferenceFragment {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         if (packgeName!=null){
-            this.getPreferenceManager().setSharedPreferencesName(packgeName + "_setting");
+            this.getPreferenceManager().setSharedPreferencesName(packgeName+ FileUtil.SETTING);
         }
         addPreferencesFromResource(R.xml.app_settting);
         SharedPreferences sharedPreferences=this.getPreferenceManager().getSharedPreferences();

@@ -37,7 +37,7 @@ public class SmartBarColorHook extends XC_MethodHook {
         XSharedPreferences xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
         xSharedPreferences.makeWorldReadable();
         String defalut_type = xSharedPreferences.getString(SMARTBAR_DEFAULT_TYPE, null);
-        xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, packageName + "_setting");
+        xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, packageName + FileUtil.SETTING);
         xSharedPreferences.makeWorldReadable();
         boolean isSysApp= AppListUtil.isSystemApp(activity);
         boolean change = xSharedPreferences.getBoolean(SMARTBAR_Change, !isSysApp);
