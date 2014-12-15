@@ -13,7 +13,6 @@ import com.zhixin.flymeTools.R;
  */
 public class AppListActivity extends ListActivity {
     private AppItemAdapter mAdapter;
-    private ActionMode mActionMode;
     private AppItem mModifyingItem;
     private boolean isDeleteSystemApp = true;
     @Override
