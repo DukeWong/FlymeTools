@@ -49,8 +49,18 @@
                           android:key="@string/preference_has_ActionBar">
         </SwitchPreference>
         <SwitchPreference android:title="@string/has_NavigationBar"
-                          android:summary="@string/has_NavigationBar"
+                          android:summary="@string/has_NavigationBar_summary"
                           android:key="@string/preference_has_NavigationBar">
         </SwitchPreference>
+        <SwitchPreference
+                android:defaultValue="true"
+                android:key="@string/preference_automatic_color_open"
+                android:summary="@string/automatic_color_summary"
+                android:title="@string/automatic_color"/>
+        <com.zhixin.flymeTools.controls.ColorPickerPreference
+                android:persistent="true"
+                android:title="@string/custom_color"
+                android:key="@string/preference_translucent_color">
+        </com.zhixin.flymeTools.controls.ColorPickerPreference>
     </PreferenceCategory>
 </PreferenceScreen>

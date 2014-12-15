@@ -1,5 +1,6 @@
 package com.zhixin.flymeTools.hook;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -59,6 +60,8 @@ public class StatusBarHook extends XC_MethodHook {
             View rootLayer = thisActivity.getWindow().getDecorView().findViewById(android.R.id.content);
             int bottom = 0;
             int top = ActivityUtil.getStatusBarHeight(thisActivity);
+            ActionBar actionBar=thisActivity.getActionBar();
+            hasActionBar=hasActionBar||(actionBar!=null &&actionBar.isShowing());
             if (hasActionBar) {
                 top += ActivityUtil.getActionBarHeight(thisActivity);
             }
