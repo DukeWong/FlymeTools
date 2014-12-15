@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 public class ActivityUtil {
     public static int  STATUS_BAR_HEIGHT=0;
     public  static  int ACTION_BAR_HEIGHT=0;
-    public  static  int NAVIGATION_BAR_HEIGHT=80;
+    public  static  int NAVIGATION_BAR_HEIGHT=96;
     public static boolean setStatusBarLit(Activity context) {
         Window window = context.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

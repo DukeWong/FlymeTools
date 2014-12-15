@@ -17,7 +17,7 @@ import de.robv.android.xposed.XposedHelpers;
  * Created by ZXW on 2014/12/15.
  */
 public class StatusBarHook extends XC_MethodHook {
-    public static String IS_FULLSCRE_ENAPP = "_ZXisFullScreenApp";
+    public static String IS_FULLSCREEN_APP = "_ZXisFullScreenApp";
     public static String PREFERENCE_TRANSLUCENT = "preference_translucent_compulsory";
     public static String HAS_ACTIONBAR = "preference_has_ActionBar";
     public static String HAS_NAVIGATIONBAR= "preference_has_NavigationBar";
@@ -66,10 +66,8 @@ public class StatusBarHook extends XC_MethodHook {
                 bottom+=ActivityUtil.gethasNavigationBar(thisActivity);
             }
             LogUtil.log("状态栏->" + thisActivity.getPackageName() + ":top->" + top + ",bottom->" + bottom);
-            rootLayer.setPadding(0x0, top, 0x0, 0);
-            rootLayer.setFitsSystemWindows(true);
+            rootLayer.setPadding(0x0, top, 0x0,bottom);
             rootLayer.setBackground(getStatusBarDrawable(thisActivity));
-            rootLayer.invalidate();
         }
     }
 
@@ -84,17 +82,17 @@ public class StatusBarHook extends XC_MethodHook {
             boolean hasActionBar=xSharedPreferences.getBoolean(HAS_ACTIONBAR, false);
             boolean hasNavigationBar=xSharedPreferences.getBoolean(HAS_NAVIGATIONBAR, false);
             if (change) {
-                Object isFullScreenApp = XposedHelpers.getAdditionalInstanceField(thisActivity, IS_FULLSCRE_ENAPP);
+                Object isFullScreenApp = XposedHelpers.getAdditionalInstanceField(thisActivity, IS_FULLSCREEN_APP);
                 if (isFullScreenApp != null) {
                     if (isFullScreenApp == "-1") {
                         this.handStatusBarLit(thisActivity,hasActionBar,hasNavigationBar);
                     }
                 } else {
                     if (!existFlag(thisActivity, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)) {
-                        XposedHelpers.setAdditionalInstanceField(thisActivity, IS_FULLSCRE_ENAPP, "-1");
+                        XposedHelpers.setAdditionalInstanceField(thisActivity, IS_FULLSCREEN_APP, "-1");
                         this.handStatusBarLit(thisActivity,hasActionBar,hasNavigationBar);
                     } else {
-                        XposedHelpers.setAdditionalInstanceField(thisActivity, IS_FULLSCRE_ENAPP, "1");
+                        XposedHelpers.setAdditionalInstanceField(thisActivity, IS_FULLSCREEN_APP, "1");
                     }
                 }
             }
