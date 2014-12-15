@@ -1,5 +1,7 @@
 package com.zhixin.flymeTools;
+import android.app.Activity;
 import android.os.Bundle;
+import com.zhixin.flymeTools.Util.ActivityUtil;
 import com.zhixin.flymeTools.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
@@ -11,6 +13,6 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        this.setSmartBarEnable();
+        ActivityUtil.setSmartBarEnable(this);
     }
 }

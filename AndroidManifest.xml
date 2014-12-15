@@ -21,6 +21,8 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".key.SettingActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".statusbar.SettingActivity"
+                  android:screenOrientation="portrait"/>
         <meta-data android:value="true" android:name="xposedmodule"/>
         <meta-data android:value="42+" android:name="xposedminversion"/>
         <meta-data android:value="@string/app_des" android:name="xposeddescription"/>

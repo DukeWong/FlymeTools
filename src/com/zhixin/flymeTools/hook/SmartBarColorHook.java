@@ -1,5 +1,4 @@
 package com.zhixin.flymeTools.hook;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -19,7 +18,6 @@ import com.zhixin.flymeTools.app.AppListUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
-
 /**
  * Created by ZXW on 2014/12/12.
  */

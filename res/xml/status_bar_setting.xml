@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/translucent_decor"
+                        android:summary="@string/translucent_decor">
+        <SwitchPreference android:title="@string/translucent_compulsory"
+                          android:summary="@string/translucent_compulsory_summary"
+                          android:key="@string/preference_translucent_compulsory">
+        </SwitchPreference>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -39,4 +39,7 @@
     <string name="app_launcher_setting">启动器设置</string>
     <string name="app_launcher_locked">锁住桌面</string>
     <string name="app_launcher_locked_summary">长按桌面不进入编辑模式</string>
+    <string name="translucent_decor">沉浸状态栏</string>
+    <string name="translucent_compulsory">强制沉浸状态栏</string>
+    <string name="translucent_compulsory_summary">开启第三方应用程序沉浸状态栏</string>
 </resources>

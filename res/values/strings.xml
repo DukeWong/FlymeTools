@@ -47,4 +47,8 @@
     <string name="app_launcher_locked">launcher locked</string>
     <string name="preference_app_launcher_locked">preference_app_launcher_locked</string>
     <string name="app_launcher_locked_summary">Long press the desktop to enter edit mode</string>
+    <string name="translucent_decor">translucent decor</string>
+    <string name="translucent_compulsory">translucent compulsory</string>
+    <string name="translucent_compulsory_summary">translucent compulsory summary</string>
+    <string name="preference_translucent_compulsory">preference_translucent_compulsory</string>
 </resources>

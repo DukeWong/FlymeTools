@@ -23,7 +23,7 @@
         </LinearLayout>
         <LinearLayout android:layout_width="fill_parent" android:layout_height="50dp" android:layout_weight="1"
                       android:orientation="horizontal">
-            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_statusbar"  zx:title="@string/statusbar" android:layout_weight="1" zx:url="app.AppListActivity"
+            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_statusbar"  zx:title="@string/statusbar" android:layout_weight="1" zx:url="statusbar.SettingActivity"
                                                 android:layout_height="fill_parent"></com.zhixin.flymeTools.base.ImageMenuBtn>
             <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_sound"  zx:title="@string/sound" android:layout_weight="1" zx:url="app.AppListActivity"
                                                 android:layout_height="fill_parent"></com.zhixin.flymeTools.base.ImageMenuBtn>
