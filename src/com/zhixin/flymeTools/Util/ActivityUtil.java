@@ -6,15 +6,14 @@ import android.os.Build;
 import android.util.TypedValue;
 import android.view.Window;
 import android.view.WindowManager;
-
 import java.lang.reflect.Field;
-
 /**
  * Created by ZXW on 2014/12/15.
  */
 public class ActivityUtil {
     public static int  STATUS_BAR_HEIGHT=0;
-    public  static  int ACTIONBAR_HEIGHT=0;
+    public  static  int ACTION_BAR_HEIGHT=0;
+    public  static  int NAVIGATION_BAR_HEIGHT=80;
     public static boolean setStatusBarLit(Activity context) {
         Window window = context.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -25,7 +24,9 @@ public class ActivityUtil {
         }
         return  false;
     }
-
+    public  static  int  gethasNavigationBar(Activity activity) {
+        return  NAVIGATION_BAR_HEIGHT;
+    }
     /**
      * 获取状态栏高度+ActionBar高度
      * @param activity
@@ -61,13 +62,13 @@ public class ActivityUtil {
      * @return
      */
     public static int getActionBarHeight(Activity activity) {
-        if (ACTIONBAR_HEIGHT==0){
+        if (ACTION_BAR_HEIGHT==0){
             TypedValue tv = new TypedValue();
             if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {// 如果资源是存在的、有效的
-                ACTIONBAR_HEIGHT = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
+                ACTION_BAR_HEIGHT = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
             }
         }
-        return ACTIONBAR_HEIGHT;
+        return ACTION_BAR_HEIGHT;
     }
 
     /**

@@ -51,4 +51,10 @@
     <string name="translucent_compulsory">translucent compulsory</string>
     <string name="translucent_compulsory_summary">translucent compulsory summary</string>
     <string name="preference_translucent_compulsory">preference_translucent_compulsory</string>
+    <string name="preference_has_ActionBar">preference_has_ActionBar</string>
+    <string name="has_ActionBar">has ActionBar</string>
+    <string name="has_ActionBar_summary">Has ActionBar Summary</string>
+    <string name="preference_has_NavigationBar">preference_has_NavigationBar</string>
+    <string name="has_NavigationBar">has NavigationBar</string>
+    <string name="has_NavigationBar_summary">Has NavigationBar Summary</string>
 </resources>

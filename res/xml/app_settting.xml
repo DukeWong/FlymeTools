@@ -38,4 +38,19 @@
                 android:summary="@string/replace_icon_summary"
                 android:title="@string/open_settings"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/translucent_decor"
+                        android:summary="@string/translucent_decor">
+        <SwitchPreference android:title="@string/translucent_compulsory"
+                          android:summary="@string/translucent_compulsory_summary"
+                          android:key="@string/preference_translucent_compulsory">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/has_ActionBar"
+                          android:summary="@string/has_ActionBar_summary"
+                          android:key="@string/preference_has_ActionBar">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/has_NavigationBar"
+                          android:summary="@string/has_NavigationBar"
+                          android:key="@string/preference_has_NavigationBar">
+        </SwitchPreference>
+    </PreferenceCategory>
 </PreferenceScreen>

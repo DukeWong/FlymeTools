@@ -15,7 +15,7 @@ public class HookEntrance implements IXposedHookZygoteInit,IXposedHookLoadPackag
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         XposedHelpers.findAndHookMethod(Activity.class, "onStart", new SmartBarColorHook());
-        //XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new StatusBarHook());
+        XposedHelpers.findAndHookMethod(Activity.class, "onStart", new StatusBarHook());
         XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
         XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
     }

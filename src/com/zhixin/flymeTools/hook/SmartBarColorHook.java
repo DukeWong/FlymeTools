@@ -43,7 +43,6 @@ public class SmartBarColorHook extends XC_MethodHook {
         LogUtil.log(activity.getPackageName() + ":改变颜色->" + (change?"是":"否"));
         if (change) {
             String smartbar_type = xSharedPreferences.getString(SMARTBAR_TYPE, defaultType);
-
             if (smartbar_type != null) {
                 //自动设置等
                 if (smartbar_type.indexOf("#") == -1) {

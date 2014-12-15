@@ -42,4 +42,8 @@
     <string name="translucent_decor">沉浸状态栏</string>
     <string name="translucent_compulsory">强制沉浸状态栏</string>
     <string name="translucent_compulsory_summary">开启第三方应用程序沉浸状态栏</string>
+    <string name="has_ActionBar">应用程序含有ActionBar</string>
+    <string name="has_ActionBar_summary">对于有些应用无法检测到ActionBar,请开启</string>
+    <string name="has_NavigationBar">应用程序含有Smartbar</string>
+    <string name="has_NavigationBar_summary">对于有些应用无法检测到Smartbar,请开启</string>
 </resources>

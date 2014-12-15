@@ -15,6 +15,15 @@ import android.view.WindowManager;
 
 public class SmartBarUtils {
 
+    public  static boolean hasSmartBar() {
+        try {
+            // 可用反射调用Build.hasSmartBar()
+            Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
+            return ((Boolean) method.invoke(null)).booleanValue();
+        } catch (Exception e) {
+        }
+        return false;
+    }
     /**
      * 调用 ActionBar.setTabsShowAtBottom(boolean) 方法。
      * 
