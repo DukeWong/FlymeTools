@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 public class ActivityUtil {
     public static int  STATUS_BAR_HEIGHT=0;
     public  static  int ACTION_BAR_HEIGHT=0;
-    public  static  int NAVIGATION_BAR_HEIGHT=80;
+    public  static  int NAVIGATION_BAR_HEIGHT=96;
     public static boolean setStatusBarLit(Activity context) {
         Window window = context.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -23,6 +23,10 @@ public class ActivityUtil {
             return  true;
         }
         return  false;
+    }
+    public static boolean existFlag(Activity activity, int flags) {
+        WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
+        return  attrs.flags == ((attrs.flags & ~flags) | (flags & flags));
     }
     public  static  int  gethasNavigationBar(Activity activity) {
         return  NAVIGATION_BAR_HEIGHT;

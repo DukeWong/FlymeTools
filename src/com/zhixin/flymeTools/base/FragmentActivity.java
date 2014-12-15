@@ -53,7 +53,7 @@ public class FragmentActivity extends Activity {
             getFragmentManager().beginTransaction().replace(android.R.id.content, preferenceFragment).commit();
             if (isKikit){
                 //this.findViewById(android.R.id.content).setFitsSystemWindows(true);
-                this.findViewById(android.R.id.content).setPadding(0, ActivityUtil.getStatusBarAndActionBarHeight(this), 0,80);
+                this.findViewById(android.R.id.content).setPadding(0, ActivityUtil.getStatusBarAndActionBarHeight(this), 0,ActivityUtil.gethasNavigationBar(this));
             }
         }
     }
