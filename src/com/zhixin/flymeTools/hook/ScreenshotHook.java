@@ -30,9 +30,7 @@ public class ScreenshotHook extends XC_MethodHook {
         return bitmap;
     }
     public  static  String getActivityKeyColorName(Activity thisActivity){
-        String activityName = thisActivity.getClass().getName();
-        String KEY_COLOR = activityName + ".@_color$";
-        return  KEY_COLOR;
+        return thisActivity.getClass().getName();
     }
     @Override
     protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
