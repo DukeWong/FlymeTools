@@ -7,12 +7,12 @@ import android.graphics.Color;
  */
 public class ColorUtil {
     public static String toHexEncoding(int color) {
-        String R, G, B,A;
+        String R, G, B, A;
         StringBuffer sb = new StringBuffer();
         R = Integer.toHexString(Color.red(color));
         G = Integer.toHexString(Color.green(color));
         B = Integer.toHexString(Color.blue(color));
-        A=Integer.toHexString(Color.alpha(color));
+        A = Integer.toHexString(Color.alpha(color));
         R = R.length() == 1 ? "0" + R : R;
         G = G.length() == 1 ? "0" + G : G;
         B = B.length() == 1 ? "0" + B : B;
@@ -23,5 +23,11 @@ public class ColorUtil {
         sb.append(G.toUpperCase());
         sb.append(B.toUpperCase());
         return sb.toString();
+    }
+    public static boolean TestColorOfWhite(int color, int faultTolerant) {
+        boolean isWhite = Color.blue(color) >= 255 - faultTolerant;
+        isWhite = isWhite && (Color.red(color) >= 255 - faultTolerant);
+        isWhite = isWhite && (Color.green(color) >= 255 - faultTolerant);
+        return isWhite;
     }
 }

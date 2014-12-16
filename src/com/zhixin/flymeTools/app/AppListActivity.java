@@ -3,12 +3,12 @@ package com.zhixin.flymeTools.app;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ActivityUtil;
+import com.zhixin.flymeTools.Util.AppUtil;
 
 /**
  * Created by ZXW on 2014/12/5.
@@ -38,7 +38,7 @@ public class AppListActivity extends ListActivity {
         }
     }
     public void loadData() {
-        mAdapter = AppListUtil.getAppItemAdapter(this, !isDeleteSystemApp);
+        mAdapter = AppUtil.getAppItemAdapter(this, !isDeleteSystemApp);
         setListAdapter(mAdapter);
     }
 

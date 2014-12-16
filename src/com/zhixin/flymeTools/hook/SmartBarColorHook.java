@@ -11,10 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.TypedValue;
-import com.zhixin.flymeTools.Util.FileUtil;
-import com.zhixin.flymeTools.Util.LogUtil;
-import com.zhixin.flymeTools.Util.SmartBarUtils;
-import com.zhixin.flymeTools.app.AppListUtil;
+import com.zhixin.flymeTools.Util.*;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
@@ -22,10 +19,7 @@ import de.robv.android.xposed.XposedBridge;
  * Created by ZXW on 2014/12/12.
  */
 public class SmartBarColorHook extends XC_MethodHook {
-    public static String SMARTBAR_DEFAULT_TYPE = "preference_smartbar_default_type";
-    public static String SMARTBAR_TYPE = "preference_smartbar_type";
-    public static String SMARTBAR_Color = "preference_smartbar_color";
-    public static String SMARTBAR_Change = "preference_replace_smartbar";
+
     /**
      *
      * @param activity
@@ -35,14 +29,14 @@ public class SmartBarColorHook extends XC_MethodHook {
         String packageName = activity.getPackageName();
         XSharedPreferences xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
         xSharedPreferences.makeWorldReadable();
-        String defaultType = xSharedPreferences.getString(SMARTBAR_DEFAULT_TYPE, null);
+        String defaultType = xSharedPreferences.getString(ConstUtil.SMARTBAR_DEFAULT_TYPE, null);
         xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, packageName + FileUtil.SETTING);
         xSharedPreferences.makeWorldReadable();
-        boolean isSysApp= AppListUtil.isSystemApp(activity);
-        boolean change = xSharedPreferences.getBoolean(SMARTBAR_Change, !isSysApp);
+        boolean isSysApp= AppUtil.isSystemApp(activity);
+        boolean change = xSharedPreferences.getBoolean(ConstUtil.SMARTBAR_Change, !isSysApp);
         LogUtil.log(activity.getPackageName() + ":改变颜色->" + (change?"是":"否"));
         if (change) {
-            String smartbar_type = xSharedPreferences.getString(SMARTBAR_TYPE, defaultType);
+            String smartbar_type = xSharedPreferences.getString(ConstUtil.SMARTBAR_TYPE, defaultType);
             if (smartbar_type != null) {
                 //自动设置等
                 if (smartbar_type.indexOf("#") == -1) {
@@ -54,7 +48,7 @@ public class SmartBarColorHook extends XC_MethodHook {
                           return  getSmartBarDrawable(activity);
                     } else {
                         if (smartbar_type.equals("-1")) {
-                            smartbar_color=xSharedPreferences.getString(SMARTBAR_Color,smartbar_color);
+                            smartbar_color=xSharedPreferences.getString(ConstUtil.SMARTBAR_Color,smartbar_color);
                             int  color=Color.parseColor(smartbar_color);
                             LogUtil.log(activity.getPackageName() + ":自定义颜色->"+smartbar_color);
                             return  new ColorDrawable(color);

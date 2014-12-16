@@ -1,10 +1,12 @@
-package com.zhixin.flymeTools.app;
+package com.zhixin.flymeTools.Util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import com.zhixin.flymeTools.app.AppItem;
+import com.zhixin.flymeTools.app.AppItemAdapter;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,14 +14,13 @@ import java.util.List;
 /**
  * Created by zhixin on 2014/12/11.
  */
-public  class AppListUtil {
+public  class AppUtil {
     public static boolean isSystemApp(PackageInfo pInfo) {
         return ((pInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
     }
     public static boolean isSystemApp(Activity activity) {
         try {
-            PackageInfo pInfo= null;
-            pInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(),0);
+            PackageInfo pInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(),0);
             return ((pInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

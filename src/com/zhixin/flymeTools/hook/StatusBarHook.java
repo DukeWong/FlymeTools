@@ -8,9 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.WindowManager;
-import com.zhixin.flymeTools.Util.ActivityUtil;
-import com.zhixin.flymeTools.Util.FileUtil;
-import com.zhixin.flymeTools.Util.LogUtil;
+import com.zhixin.flymeTools.Util.*;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
@@ -19,22 +17,16 @@ import de.robv.android.xposed.XposedHelpers;
  * Created by ZXW on 2014/12/15.
  */
 public class StatusBarHook extends XC_MethodHook {
-    public static String IS_FULLSCRE_ENAPP = "_ZXisFullScreenApp";
-    public static String STATUS_BAR_DRAWABLE = "_ZXStatusBarDrawable";
-    public static String PREFERENCE_TRANSLUCENT = "preference_translucent_compulsory";
-    public static String TRANSLUCENT_COLOR = "preference_translucent_color";
-    public static String HAS_ACTIONBAR = "preference_has_ActionBar";
-    public static String HAS_NAVIGATIONBAR = "preference_has_NavigationBar";
-    public static String AUTOMATIC_COLOR_OPEN = "preference_automatic_color_open";
+
 
     protected static Drawable getStatusBarDrawable(Activity activity, XSharedPreferences xSharedPreferences) {
-        Object drawable = XposedHelpers.getAdditionalInstanceField(activity, STATUS_BAR_DRAWABLE);
+        Object drawable = XposedHelpers.getAdditionalInstanceField(activity, ConstUtil.STATUS_BAR_DRAWABLE);
         Drawable statusBarDrawable = null;
         if (drawable != null && drawable instanceof Drawable) {
             statusBarDrawable = (Drawable) drawable;
         } else {
             String KEY_COLOR = ScreenshotHook.getActivityKeyColorName(activity);
-            boolean useAutomaticColor = xSharedPreferences.getBoolean(AUTOMATIC_COLOR_OPEN, true);
+            boolean useAutomaticColor = xSharedPreferences.getBoolean(ConstUtil.AUTOMATIC_COLOR_OPEN, true);
             if (useAutomaticColor) {
                 //读取颜色
                 SharedPreferences sharedPreferences = activity.getSharedPreferences(activity.getPackageName() + FileUtil.SETTING, Context.MODE_PRIVATE);
@@ -43,8 +35,8 @@ public class StatusBarHook extends XC_MethodHook {
                     statusBarDrawable = new ColorDrawable(color);
                 }
             } else {
-                if (xSharedPreferences.contains(TRANSLUCENT_COLOR)) {
-                    String color = xSharedPreferences.getString(TRANSLUCENT_COLOR, null);
+                if (xSharedPreferences.contains(ConstUtil.TRANSLUCENT_COLOR)) {
+                    String color = xSharedPreferences.getString(ConstUtil.TRANSLUCENT_COLOR, null);
                     statusBarDrawable = new ColorDrawable(Color.parseColor(color));
                 }
             }
@@ -52,7 +44,7 @@ public class StatusBarHook extends XC_MethodHook {
                 statusBarDrawable = SmartBarColorHook.getSmartBarDrawable(activity);
             }
         }
-        XposedHelpers.setAdditionalInstanceField(activity, STATUS_BAR_DRAWABLE, statusBarDrawable);
+        XposedHelpers.setAdditionalInstanceField(activity, ConstUtil.STATUS_BAR_DRAWABLE, statusBarDrawable);
         return statusBarDrawable;
     }
 
@@ -78,39 +70,55 @@ public class StatusBarHook extends XC_MethodHook {
             Drawable drawable = getStatusBarDrawable(thisActivity, xSharedPreferences);
             if (drawable != null) {
                 rootLayer.setBackground(drawable);
-            }
-        }
-    }
-
-    protected static void change(Activity thisActivity) {
-        XSharedPreferences xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
-        boolean change = xSharedPreferences.getBoolean(PREFERENCE_TRANSLUCENT, false);
-        if (change) {
-            xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, thisActivity.getPackageName() + FileUtil.SETTING);
-            change = xSharedPreferences.getBoolean(PREFERENCE_TRANSLUCENT, false);
-            boolean hasActionBar = xSharedPreferences.getBoolean(HAS_ACTIONBAR, false);
-            boolean hasNavigationBar = xSharedPreferences.getBoolean(HAS_NAVIGATIONBAR, false);
-            if (change) {
-                Object isFullScreenApp = XposedHelpers.getAdditionalInstanceField(thisActivity, IS_FULLSCRE_ENAPP);
-                if (isFullScreenApp != null) {
-                    if (isFullScreenApp == "-1") {
-                        handStatusBarLit(thisActivity, xSharedPreferences, hasActionBar, hasNavigationBar);
-                    }
-                } else {
-                    if (!ActivityUtil.existFlag(thisActivity, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)) {
-                        XposedHelpers.setAdditionalInstanceField(thisActivity, IS_FULLSCRE_ENAPP, "-1");
-                        handStatusBarLit(thisActivity, xSharedPreferences, hasActionBar, hasNavigationBar);
-                    } else {
-                        XposedHelpers.setAdditionalInstanceField(thisActivity, IS_FULLSCRE_ENAPP, "1");
+                if (drawable instanceof  ColorDrawable){
+                    /**
+                     * 设置黑色状态栏字体
+                     */
+                    int color=((ColorDrawable)drawable).getColor();
+                    boolean changeColor=ColorUtil.TestColorOfWhite(color,55);
+                    ActivityUtil.setDarkBar(thisActivity, ColorUtil.TestColorOfWhite(color,55));
+                    if (changeColor){
+                        LogUtil.log("状态栏->" + thisActivity.getPackageName() + "设置黑色状态栏字体");
                     }
                 }
             }
         }
     }
 
+    /**
+     *
+     * @param thisActivity
+     */
+    public static void changeStatusBar(Activity thisActivity) {
+        XSharedPreferences xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
+        boolean change = xSharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, false);
+        if (change) {
+            xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, thisActivity.getPackageName() + FileUtil.SETTING);
+            change = xSharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, false);
+            boolean hasActionBar = xSharedPreferences.getBoolean(ConstUtil.HAS_ACTIONBAR, false);
+            boolean hasNavigationBar = xSharedPreferences.getBoolean(ConstUtil.HAS_NAVIGATIONBAR, false);
+            if (change) {
+                Object isFullScreenApp = XposedHelpers.getAdditionalInstanceField(thisActivity, ConstUtil.IS_FULLSCRE_ENAPP);
+                if (isFullScreenApp != null) {
+                    if (isFullScreenApp == "-1") {
+                        handStatusBarLit(thisActivity, xSharedPreferences, hasActionBar, hasNavigationBar);
+                    }
+                } else {
+                    if (!ActivityUtil.existFlag(thisActivity, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)) {
+                        XposedHelpers.setAdditionalInstanceField(thisActivity, ConstUtil.IS_FULLSCRE_ENAPP, "-1");
+                        handStatusBarLit(thisActivity, xSharedPreferences, hasActionBar, hasNavigationBar);
+                    } else {
+                        XposedHelpers.setAdditionalInstanceField(thisActivity, ConstUtil.IS_FULLSCRE_ENAPP, "1");
+                    }
+                }
+            }
+        }
+    }
     @Override
     protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
         Activity thisActivity = (Activity) param.thisObject;
-        change(thisActivity);
+        if (!AppUtil.isSystemApp(thisActivity)){
+            changeStatusBar(thisActivity);
+        }
     }
 }
