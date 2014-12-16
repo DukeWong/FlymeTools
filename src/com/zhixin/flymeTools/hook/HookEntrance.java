@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.pm.ComponentInfo;
 import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
+import android.view.WindowManager;
 import de.robv.android.xposed.*;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
 /**
  * Created by ZXW on 2014/12/12.
  */

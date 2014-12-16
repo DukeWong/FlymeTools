@@ -34,8 +34,8 @@ public class ActivityUtil {
      *
      * @param activity
      */
-    public static int changeContextViewPadding(Activity activity, boolean hasStatusBar) {
-        int top = 0, bottom = 0;
+    public static int changeContextViewPadding(Activity activity, boolean hasStatusBar,boolean hasActionBar) {
+        int top = 0,actionHeight=0, bottom = 0;
         if (hasStatusBar) {
             top += ActivityUtil.getStatusBarHeight(activity);
         }
@@ -44,18 +44,15 @@ public class ActivityUtil {
             Object mActionView = ReflectionUtil.getObjectField(actionBar, "mActionView");
             Object mSplitView = ReflectionUtil.getObjectField(actionBar, "mSplitView");
             if (mActionView != null) {
-                top += ((View) mActionView).getHeight();
+                actionHeight= ((View) mActionView).getHeight();
+                top+=actionHeight;
             }
             if (mSplitView != null) {
                 bottom += ((View) mSplitView).getHeight();
-                /*
-                if (activity.getClass().getName().indexOf("MobileTicket") != -1) {
-                    LogUtil.log("12306程序测试------");
-                    LogUtil.log("类名:" + mSplitView.getClass().getName());
-                    LogUtil.log("高度" + ((View) mSplitView).getHeight());
-                    LogUtil.log("12306程序测试------");
-                }*/
             }
+        }
+        if (hasActionBar && actionHeight==0){
+            top+=ActivityUtil.getActionBarHeight(activity);
         }
         boolean isKikit = ActivityUtil.setStatusBarLit(activity);
         if (isKikit) {
@@ -63,7 +60,6 @@ public class ActivityUtil {
         }
         return top;
     }
-
     public static boolean existFlag(Activity activity, int flags) {
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         return attrs.flags == ((attrs.flags & ~flags) | (flags & flags));

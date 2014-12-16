@@ -56,7 +56,7 @@ public class FragmentActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus){
-            ActivityUtil.changeContextViewPadding(this,true);
+            ActivityUtil.changeContextViewPadding(this,true,false);
         }
     }
     protected PreferenceFragment OnCreateFragment(Bundle savedInstanceState) {

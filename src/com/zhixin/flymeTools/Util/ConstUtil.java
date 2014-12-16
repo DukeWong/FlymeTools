@@ -23,11 +23,11 @@ public class ConstUtil {
     /**
      * 是否含有ActionBar
      */
-    //public static String HAS_ACTIONBAR = "preference_has_ActionBar";
+    public static String HAS_ACTIONBAR = "preference_has_ActionBar";
     /**
-     * 是否含有NavigationBar
+     * 强制开启黑色图标状态栏
      */
-    //public static String HAS_NAVIGATIONBAR = "preference_has_NavigationBar";
+    public static String FORCE_BLACK_COLOR = "preference_force_black_color";
     /**
      * 开启自动沉浸状态栏
      */

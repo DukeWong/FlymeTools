@@ -52,4 +52,6 @@
     <string name="reverse_setting_action_bar_summary">将颜色反向设置到ActionBar</string>
     <string name="retain_status_bar">保留状态栏位置</string>
     <string name="retain_status_bar_summary">让内容视图偏移状态栏下方</string>
+    <string name="force_black_color">强制状态栏黑色图标</string>
+    <string name="force_black_color_summary">强制状态栏黑色图标</string>
 </resources>

@@ -53,10 +53,15 @@ public class StatusBarHook extends XC_MethodHook {
     public static void handStatusBarLit(Activity thisActivity, XSharedPreferences xSharedPreferences) {
         if (ActivityUtil.setStatusBarLit(thisActivity)) {
             boolean retain_status = xSharedPreferences.getBoolean(ConstUtil.RETAIN_STATUS, true);
-            int  top=ActivityUtil.changeContextViewPadding(thisActivity,retain_status);
-            if (top>0){
-                View rootLayer = thisActivity.getWindow().getDecorView().findViewById(android.R.id.content);
-                LogUtil.log(thisActivity.getClass().getName()+" top:"+top);
+            boolean hasActionBar = xSharedPreferences.getBoolean(ConstUtil.HAS_ACTIONBAR, false);
+            int top = ActivityUtil.changeContextViewPadding(thisActivity, retain_status, hasActionBar);
+            boolean force_black = xSharedPreferences.getBoolean(ConstUtil.FORCE_BLACK_COLOR, false);
+            if (force_black){
+                ActivityUtil.setDarkBar(thisActivity, force_black);
+            }
+            if (top > 0) {
+                View rootLayer = thisActivity.getWindow().getDecorView();
+                LogUtil.log(thisActivity.getClass().getName() + " top:" + top);
                 Drawable drawable = getStatusBarDrawable(thisActivity, xSharedPreferences);
                 if (drawable != null) {
                     rootLayer.setBackground(drawable);
@@ -68,20 +73,18 @@ public class StatusBarHook extends XC_MethodHook {
                         if (reverse_setting && thisActivity.getActionBar() != null) {
                             thisActivity.getActionBar().setBackgroundDrawable(drawable);
                         }
-                        /**
-                         * 设置黑色状态栏字体
-                         */
                         int color = ((ColorDrawable) drawable).getColor();
                         boolean changeColor = ColorUtil.TestColorOfWhite(color, 55);
                         if (changeColor) {
                             ActivityUtil.setDarkBar(thisActivity, changeColor);
-                            LogUtil.log("状态栏->" + thisActivity.getPackageName() + "设置黑色状态栏字体");
+                            LogUtil.log("状态栏->" + thisActivity.getPackageName() + "强制设置黑色状态栏字体");
                         }
                     }
                 }
             }
         }
     }
+
     /**
      * @param thisActivity
      */
@@ -98,20 +101,19 @@ public class StatusBarHook extends XC_MethodHook {
                         handStatusBarLit(thisActivity, xSharedPreferences);
                     }
                 } else {
-                    if (!ActivityUtil.existFlag(thisActivity, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)) {
-                        XposedHelpers.setAdditionalInstanceField(thisActivity, ConstUtil.IS_FULLSCRE_ENAPP, "-1");
-                        handStatusBarLit(thisActivity, xSharedPreferences);
-                    } else {
-                        XposedHelpers.setAdditionalInstanceField(thisActivity, ConstUtil.IS_FULLSCRE_ENAPP, "1");
-                    }
+                    XposedHelpers.setAdditionalInstanceField(thisActivity, ConstUtil.IS_FULLSCRE_ENAPP, "-1");
+                    handStatusBarLit(thisActivity, xSharedPreferences);
                 }
             }
         }
     }
+
     @Override
     protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
         Activity thisActivity = (Activity) param.thisObject;
-        if (!AppUtil.isSystemApp(thisActivity)) {
+        boolean flag = ActivityUtil.existFlag(thisActivity, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        flag = flag || ActivityUtil.existFlag(thisActivity, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (!flag && !AppUtil.isSystemApp(thisActivity)) {
             changeStatusBar(thisActivity);
         }
     }

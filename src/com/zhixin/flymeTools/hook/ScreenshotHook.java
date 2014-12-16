@@ -66,7 +66,9 @@ public class ScreenshotHook extends XC_MethodHook {
                         }
                     }
                     //调整高度
-                    ActivityUtil.changeContextViewPadding(thisActivity, xSharedPreferences.getBoolean(ConstUtil.RETAIN_STATUS, true));
+                    boolean hasActionBar = xSharedPreferences.getBoolean(ConstUtil.HAS_ACTIONBAR, false);
+                    boolean retain_status = xSharedPreferences.getBoolean(ConstUtil.RETAIN_STATUS, true);
+                    ActivityUtil.changeContextViewPadding(thisActivity, retain_status,hasActionBar);
                 }
             }
         }
