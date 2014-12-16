@@ -46,4 +46,6 @@
     <string name="has_ActionBar_summary">对于有些应用无法检测到ActionBar,请开启</string>
     <string name="has_NavigationBar">应用程序含有Smartbar</string>
     <string name="has_NavigationBar_summary">对于有些应用无法检测到Smartbar,请开启</string>
+    <string name="automatic_color">自动识别颜色</string>
+    <string name="automatic_color_summary">自动识别颜色并用于状态栏背景</string>
 </resources>

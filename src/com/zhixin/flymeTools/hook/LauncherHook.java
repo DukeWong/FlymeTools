@@ -1,7 +1,6 @@
 package com.zhixin.flymeTools.hook;
 import android.view.View;
 import com.zhixin.flymeTools.Util.FileUtil;
-import com.zhixin.flymeTools.Util.LogUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
@@ -20,7 +19,6 @@ public class LauncherHook implements  IClassPatch {
         protected void beforeHookedMethod(MethodHookParam param) throws java.lang.Throwable {
             XSharedPreferences sharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
             Boolean locked= sharedPreferences.getBoolean("preference_app_launcher_locked", false);
-            LogUtil.log("桌面状态->" + (locked ? "锁住" : "未锁住"));
             if (locked){param.setResult(false);}
         }
     }

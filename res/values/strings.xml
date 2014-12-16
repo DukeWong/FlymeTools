@@ -57,4 +57,8 @@
     <string name="preference_has_NavigationBar">preference_has_NavigationBar</string>
     <string name="has_NavigationBar">has NavigationBar</string>
     <string name="has_NavigationBar_summary">Has NavigationBar Summary</string>
+    <string name="preference_automatic_color_open">preference_automatic_color_open</string>
+    <string name="automatic_color">Automatic recognition of color</string>
+     <string name="preference_translucent_color">preference_translucent_color</string>
+    <string name="automatic_color_summary">automatic color summary</string>
 </resources>

@@ -24,6 +24,10 @@ public class ActivityUtil {
         }
         return  false;
     }
+    public static boolean existFlag(Activity activity, int flags) {
+        WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
+        return  attrs.flags == ((attrs.flags & ~flags) | (flags & flags));
+    }
     public  static  int  gethasNavigationBar(Activity activity) {
         return  NAVIGATION_BAR_HEIGHT;
     }
