@@ -61,4 +61,10 @@
     <string name="automatic_color">Automatic recognition of color</string>
      <string name="preference_translucent_color">preference_translucent_color</string>
     <string name="automatic_color_summary">automatic color summary</string>
+    <string name="preference_reverse_setting_action_bar">preference_reverse_setting_action_bar</string>
+    <string name="reverse_setting_action_bar">reverse setting into actionbar</string>
+    <string name="reverse_setting_action_bar_summary">reverse_setting_action_bar_summary</string>
+    <string name="preference_retain_status_bar">preference_retain_status_bar</string>
+    <string name="retain_status_bar">retain status bar</string>
+    <string name="retain_status_bar_summary">retain status bar summary</string>
 </resources>

@@ -44,6 +44,16 @@
                           android:summary="@string/translucent_compulsory_summary"
                           android:key="@string/preference_translucent_compulsory">
         </SwitchPreference>
+        <SwitchPreference android:title="@string/reverse_setting_action_bar"
+                          android:summary="@string/reverse_setting_action_bar_summary"
+                          android:key="@string/preference_reverse_setting_action_bar">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/retain_status_bar"
+                          android:summary="@string/retain_status_bar_summary"
+                          android:defaultValue="true"
+                          android:key="@string/preference_retain_status_bar">
+        </SwitchPreference>
+
         <SwitchPreference android:title="@string/has_ActionBar"
                           android:summary="@string/has_ActionBar_summary"
                           android:key="@string/preference_has_ActionBar">

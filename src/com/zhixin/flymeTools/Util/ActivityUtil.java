@@ -4,69 +4,113 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Build;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
 import java.lang.reflect.Field;
+
 /**
  * Created by ZXW on 2014/12/15.
  */
 public class ActivityUtil {
-    public static int  STATUS_BAR_HEIGHT=0;
-    public  static  int ACTION_BAR_HEIGHT=0;
-    public  static  int NAVIGATION_BAR_HEIGHT=96;
+    public static int STATUS_BAR_HEIGHT = 0;
+    public static int ACTION_BAR_HEIGHT = 0;
+    public static int NAVIGATION_BAR_HEIGHT = 96;
+
     public static boolean setStatusBarLit(Activity context) {
         Window window = context.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            return  true;
+            return true;
         }
-        return  false;
+        return false;
     }
+
+    /**
+     * 设置内容视图高度问题
+     *
+     * @param activity
+     */
+    public static int changeContextViewPadding(Activity activity, boolean hasStatusBar) {
+        int top = 0, bottom = 0;
+        if (hasStatusBar) {
+            top += ActivityUtil.getStatusBarHeight(activity);
+        }
+        ActionBar actionBar = activity.getActionBar();
+        if (actionBar != null) {
+            Object mActionView = ReflectionUtil.getObjectField(actionBar, "mActionView");
+            Object mSplitView = ReflectionUtil.getObjectField(actionBar, "mSplitView");
+            if (mActionView != null) {
+                top += ((View) mActionView).getHeight();
+            }
+            if (mSplitView != null) {
+                bottom += ((View) mSplitView).getHeight();
+                /*
+                if (activity.getClass().getName().indexOf("MobileTicket") != -1) {
+                    LogUtil.log("12306程序测试------");
+                    LogUtil.log("类名:" + mSplitView.getClass().getName());
+                    LogUtil.log("高度" + ((View) mSplitView).getHeight());
+                    LogUtil.log("12306程序测试------");
+                }*/
+            }
+        }
+        boolean isKikit = ActivityUtil.setStatusBarLit(activity);
+        if (isKikit) {
+            activity.getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, top, 0, bottom);
+        }
+        return top;
+    }
+
     public static boolean existFlag(Activity activity, int flags) {
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
-        return  attrs.flags == ((attrs.flags & ~flags) | (flags & flags));
+        return attrs.flags == ((attrs.flags & ~flags) | (flags & flags));
     }
-    public  static  int  gethasNavigationBar(Activity activity) {
-        return  NAVIGATION_BAR_HEIGHT;
+    public static int getNavigationBarHeight(Activity activity) {
+        return NAVIGATION_BAR_HEIGHT;
     }
+
     /**
      * 获取状态栏高度+ActionBar高度
+     *
      * @param activity
      * @return
      */
     public static int getStatusBarAndActionBarHeight(Activity activity) {
-        return  getStatusBarHeight(activity)+getActionBarHeight(activity);
+        return getStatusBarHeight(activity) + getActionBarHeight(activity);
     }
 
     /**
      * 获取手机状态栏高度
+     *
      * @param activity
      * @return
      */
     public static int getStatusBarHeight(Activity activity) {
-        if (STATUS_BAR_HEIGHT==0){
+        if (STATUS_BAR_HEIGHT == 0) {
             try {
                 Class<?> c = Class.forName("com.android.internal.R$dimen");
-                Object obj  = c.newInstance();
+                Object obj = c.newInstance();
                 Field field = c.getField("status_bar_height");
-                int x  = Integer.parseInt(field.get(obj).toString());
+                int x = Integer.parseInt(field.get(obj).toString());
                 STATUS_BAR_HEIGHT = activity.getResources().getDimensionPixelSize(x);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
         }
-        return  STATUS_BAR_HEIGHT;
+        return STATUS_BAR_HEIGHT;
     }
 
     /**
      * 获取ActionBar的高度
+     *
      * @param activity
      * @return
      */
     public static int getActionBarHeight(Activity activity) {
-        if (ACTION_BAR_HEIGHT==0){
+        if (ACTION_BAR_HEIGHT == 0) {
             TypedValue tv = new TypedValue();
             if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {// 如果资源是存在的、有效的
                 ACTION_BAR_HEIGHT = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
@@ -77,6 +121,7 @@ public class ActivityUtil {
 
     /**
      * 设置出现SmartBar
+     *
      * @param activity
      */
     public static void setSmartBarEnable(Activity activity) {
@@ -87,6 +132,7 @@ public class ActivityUtil {
 
     /**
      * 设置状态栏为黑色图标
+     *
      * @param activity
      * @param on
      */

@@ -23,11 +23,11 @@ public class ConstUtil {
     /**
      * 是否含有ActionBar
      */
-    public static String HAS_ACTIONBAR = "preference_has_ActionBar";
+    //public static String HAS_ACTIONBAR = "preference_has_ActionBar";
     /**
      * 是否含有NavigationBar
      */
-    public static String HAS_NAVIGATIONBAR = "preference_has_NavigationBar";
+    //public static String HAS_NAVIGATIONBAR = "preference_has_NavigationBar";
     /**
      * 开启自动沉浸状态栏
      */
@@ -43,9 +43,18 @@ public class ConstUtil {
     /**
      * 应用程序SmartBar颜色
      */
-    public static String SMARTBAR_Color = "preference_smartbar_color";
+    public static String SMARTBAR_COLOR = "preference_smartbar_color";
     /**
      * 是否开启SmartBar颜色修改
      */
-    public static String SMARTBAR_Change = "preference_replace_smartbar";
+    public static String SMARTBAR_CHANGE = "preference_replace_smartbar";
+    /**
+     * 反向颜色到ActionBar
+     */
+    public static String REVERSE_SETTING="preference_reverse_setting_action_bar";
+    /**
+     * 保留状态栏位置
+     */
+    public static String RETAIN_STATUS="preference_retain_status_bar";
+
 }

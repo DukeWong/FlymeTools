@@ -1,20 +1,18 @@
 package com.zhixin.flymeTools.Util;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.res.Resources.NotFoundException;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.TypedValue;
-import android.view.Window;
-import android.view.WindowManager;
 
 public class SmartBarUtils {
 
+    /**
+     * 判断是否含有SmartBar
+     * @return
+     */
     public  static boolean hasSmartBar() {
         try {
             // 可用反射调用Build.hasSmartBar()

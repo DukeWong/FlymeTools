@@ -48,4 +48,8 @@
     <string name="has_NavigationBar_summary">对于有些应用无法检测到Smartbar,请开启</string>
     <string name="automatic_color">自动识别颜色</string>
     <string name="automatic_color_summary">自动识别颜色并用于状态栏背景</string>
+    <string name="reverse_setting_action_bar">反向设置到ActionBar</string>
+    <string name="reverse_setting_action_bar_summary">将颜色反向设置到ActionBar</string>
+    <string name="retain_status_bar">保留状态栏位置</string>
+    <string name="retain_status_bar_summary">让内容视图偏移状态栏下方</string>
 </resources>

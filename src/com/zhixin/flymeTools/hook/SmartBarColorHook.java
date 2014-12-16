@@ -1,4 +1,5 @@
 package com.zhixin.flymeTools.hook;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,13 +16,13 @@ import com.zhixin.flymeTools.Util.*;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
+
 /**
  * Created by ZXW on 2014/12/12.
  */
 public class SmartBarColorHook extends XC_MethodHook {
 
     /**
-     *
      * @param activity
      * @return
      */
@@ -32,34 +33,32 @@ public class SmartBarColorHook extends XC_MethodHook {
         String defaultType = xSharedPreferences.getString(ConstUtil.SMARTBAR_DEFAULT_TYPE, null);
         xSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, packageName + FileUtil.SETTING);
         xSharedPreferences.makeWorldReadable();
-        boolean isSysApp= AppUtil.isSystemApp(activity);
-        boolean change = xSharedPreferences.getBoolean(ConstUtil.SMARTBAR_Change, !isSysApp);
-        LogUtil.log(activity.getPackageName() + ":改变颜色->" + (change?"是":"否"));
+        boolean isSysApp = AppUtil.isSystemApp(activity);
+        boolean change = xSharedPreferences.getBoolean(ConstUtil.SMARTBAR_CHANGE, !isSysApp && defaultType!="-100");
+        //LogUtil.log(activity.getPackageName() + ":改变颜色->" + (change?"是":"否"));
         if (change) {
             String smartbar_type = xSharedPreferences.getString(ConstUtil.SMARTBAR_TYPE, defaultType);
             if (smartbar_type != null) {
                 //自动设置等
                 if (smartbar_type.indexOf("#") == -1) {
                     //1为默认设置
-                    String smartbar_color="#FFFFFFFF";
+                    String smartbar_color = "#FFFFFFFF";
                     smartbar_type = smartbar_type.equals("1") ? defaultType : smartbar_type;
                     if (smartbar_type.equals("0")) {
-                        LogUtil.log( activity.getPackageName() + ":颜色->监测颜色");
-                          return  getSmartBarDrawable(activity);
+                        //LogUtil.log( activity.getPackageName() + ":颜色->监测颜色");
+                        return getSmartBarDrawable(activity);
                     } else {
                         if (smartbar_type.equals("-1")) {
-                            smartbar_color=xSharedPreferences.getString(ConstUtil.SMARTBAR_Color,smartbar_color);
-                            int  color=Color.parseColor(smartbar_color);
-                            LogUtil.log(activity.getPackageName() + ":自定义颜色->"+smartbar_color);
-                            return  new ColorDrawable(color);
+                            smartbar_color = xSharedPreferences.getString(ConstUtil.SMARTBAR_COLOR, smartbar_color);
+                            int color = Color.parseColor(smartbar_color);
+                            //LogUtil.log(activity.getPackageName() + ":自定义颜色->"+smartbar_color);
+                            return new ColorDrawable(color);
                         }
                     }
-                }
-                else
-                {
-                    LogUtil.log(activity.getPackageName() + ":默认颜色->"+smartbar_type);
-                    int  color=Color.parseColor(smartbar_type);
-                    return  new ColorDrawable(color);
+                } else {
+                    //LogUtil.log(activity.getPackageName() + ":默认颜色->" + smartbar_type);
+                    int color = Color.parseColor(smartbar_type);
+                    return new ColorDrawable(color);
                 }
             }
         }
@@ -68,34 +67,30 @@ public class SmartBarColorHook extends XC_MethodHook {
 
     /**
      * 获取ActionBar的背景
+     *
      * @param context
      * @return
      */
-    public static Drawable getActionBarBackground(Context context)
-    {
-        int[] android_styleable_ActionBar = { android.R.attr.background };
+    public static Drawable getActionBarBackground(Context context) {
+        int[] android_styleable_ActionBar = {android.R.attr.background};
         TypedValue outValue = new TypedValue();
         context.getTheme().resolveAttribute(android.R.attr.actionBarStyle, outValue, true);
         TypedArray abStyle = context.getTheme().obtainStyledAttributes(outValue.resourceId, android_styleable_ActionBar);
-        try
-        {
+        try {
             return abStyle.getDrawable(0);
-        }
-        finally
-        {
+        } finally {
             abStyle.recycle();
         }
     }
 
     /**
-     *
      * @param drawable
      * @return
      */
-    public static Bitmap drawable2Bitmap(Drawable drawable){
-        if(drawable instanceof BitmapDrawable){
-            return ((BitmapDrawable)drawable).getBitmap() ;
-        }else if(drawable instanceof NinePatchDrawable){
+    public static Bitmap drawable2Bitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof NinePatchDrawable) {
             Bitmap bitmap = Bitmap
                     .createBitmap(
                             drawable.getIntrinsicWidth(),
@@ -107,30 +102,28 @@ public class SmartBarColorHook extends XC_MethodHook {
                     drawable.getIntrinsicHeight());
             drawable.draw(canvas);
             return bitmap;
-        }else{
-            return null ;
+        } else {
+            return null;
         }
     }
 
     /**
-     *
      * @param activity
      * @return
      */
     public static Drawable getSmartBarDrawable(Activity activity) {
-        Drawable bg= getActionBarBackground(activity);
-        if(bg instanceof NinePatchDrawable){
-            Bitmap bitmap= drawable2Bitmap(bg);
-            int color=bitmap.getPixel(bitmap.getWidth()/2,bitmap.getHeight()/2);
-            XposedBridge.log("ZX:" + activity.getPackageName() + ":Color->"+ color);
-            ColorDrawable colorDrawable=new ColorDrawable();
-            return  colorDrawable;
+        Drawable bg = getActionBarBackground(activity);
+        if (bg instanceof NinePatchDrawable) {
+            Bitmap bitmap = drawable2Bitmap(bg);
+            int color = bitmap.getPixel(bitmap.getWidth() / 2, bitmap.getHeight() / 2);
+            //XposedBridge.log("ZX:" + activity.getPackageName() + ":Color->" + color);
+            ColorDrawable colorDrawable = new ColorDrawable(color);
+            return colorDrawable;
         }
-        return  bg;
+        return bg;
     }
 
     /**
-     *
      * @param param
      * @throws Throwable
      */
@@ -138,7 +131,7 @@ public class SmartBarColorHook extends XC_MethodHook {
     protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
         Activity thisActivity = (Activity) param.thisObject;
         Drawable drawable = getChangeSmartbarDrawable(thisActivity);
-        if (drawable!=null) {
+        if (drawable != null) {
             SmartBarUtils.changeSmartBarColor(thisActivity, drawable);
         }
     }

@@ -1,15 +1,14 @@
 package com.zhixin.flymeTools.base;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceFragment;
-import android.util.TypedValue;
-import com.zhixin.flymeTools.R;
+import android.view.View;
 import com.zhixin.flymeTools.Util.ActivityUtil;
 import com.zhixin.flymeTools.Util.FileUtil;
-import com.zhixin.flymeTools.Util.SmartBarUtils;
+import com.zhixin.flymeTools.Util.ReflectionUtil;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -42,19 +41,22 @@ public class FragmentActivity extends Activity {
             e.printStackTrace();
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         savePreToSDcard(this);
-        boolean isKikit= ActivityUtil.setStatusBarLit(this);
+        ActivityUtil.setStatusBarLit(this);
         ActivityUtil.setDarkBar(this, true);
         PreferenceFragment preferenceFragment = OnCreateFragment(savedInstanceState);
         if (preferenceFragment != null) {
             getFragmentManager().beginTransaction().replace(android.R.id.content, preferenceFragment).commit();
-            if (isKikit){
-                //this.findViewById(android.R.id.content).setFitsSystemWindows(true);
-                this.findViewById(android.R.id.content).setPadding(0, ActivityUtil.getStatusBarAndActionBarHeight(this), 0,ActivityUtil.gethasNavigationBar(this));
-            }
+        }
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus){
+            ActivityUtil.changeContextViewPadding(this,true);
         }
     }
     protected PreferenceFragment OnCreateFragment(Bundle savedInstanceState) {
