@@ -48,12 +48,14 @@
                           android:summary="@string/reverse_setting_action_bar_summary"
                           android:key="@string/preference_reverse_setting_action_bar">
         </SwitchPreference>
-        <SwitchPreference android:title="@string/retain_status_bar"
-                          android:summary="@string/retain_status_bar_summary"
-                          android:defaultValue="true"
-                          android:key="@string/preference_retain_status_bar">
+        <SwitchPreference android:title="@string/brightly_lit_status_bar"
+                          android:summary="@string/brightly_lit_status_bar_summary"
+                          android:key="@string/preference_brightly_lit_status_bar">
         </SwitchPreference>
-
+        <SwitchPreference android:title="@string/brightly_lit_smart_bar"
+                          android:summary="@string/brightly_lit_smartbar_summary"
+                          android:key="@string/preference_brightly_lit_smart_bar">
+        </SwitchPreference>
         <SwitchPreference android:title="@string/has_ActionBar"
                           android:summary="@string/has_ActionBar_summary"
                           android:key="@string/preference_has_ActionBar">

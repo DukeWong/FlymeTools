@@ -2,12 +2,30 @@ package com.zhixin.flymeTools.Util;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
+import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import com.zhixin.flymeTools.hook.StatusBarHook;
+import de.robv.android.xposed.XposedHelpers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 /**
@@ -23,10 +41,61 @@ public class ActivityUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            //window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             return true;
         }
         return false;
+    }
+    /**
+     * 获取ActionBar的背景
+     *
+     * @param context
+     * @return
+     */
+    public static Drawable getActionBarBackground(Context context) {
+        int[] android_styleable_ActionBar = {android.R.attr.background};
+        TypedValue outValue = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.actionBarStyle, outValue, true);
+        TypedArray abStyle = context.getTheme().obtainStyledAttributes(outValue.resourceId, android_styleable_ActionBar);
+        try {
+            return abStyle.getDrawable(0);
+        } finally {
+            abStyle.recycle();
+        }
+    }
+
+    /**
+     * @param drawable
+     * @return
+     */
+    public static Bitmap drawable2Bitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof NinePatchDrawable) {
+            Bitmap bitmap = Bitmap
+                    .createBitmap(
+                            drawable.getIntrinsicWidth(),
+                            drawable.getIntrinsicHeight(),
+                            drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                                    : Bitmap.Config.RGB_565);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight());
+            drawable.draw(canvas);
+            return bitmap;
+        } else {
+            return null;
+        }
+    }
+    public static Drawable getSmartBarDrawable(Activity activity) {
+        Drawable bg = getActionBarBackground(activity);
+        if (bg instanceof NinePatchDrawable) {
+            Bitmap bitmap = drawable2Bitmap(bg);
+            int color = bitmap.getPixel(bitmap.getWidth() / 2, bitmap.getHeight() / 2);
+            ColorDrawable colorDrawable = new ColorDrawable(color);
+            return colorDrawable;
+        }
+        return bg;
     }
 
     /**
@@ -34,7 +103,7 @@ public class ActivityUtil {
      *
      * @param activity
      */
-    public static int changeContextViewPadding(Activity activity, boolean hasStatusBar,boolean hasActionBar) {
+    public static int changeContextViewPadding(Activity activity, boolean hasStatusBar,boolean hasSmartBar,boolean hasActionBar) {
         int top = 0,actionHeight=0, bottom = 0;
         if (hasStatusBar) {
             top += ActivityUtil.getStatusBarHeight(activity);
@@ -56,7 +125,12 @@ public class ActivityUtil {
         }
         boolean isKikit = ActivityUtil.setStatusBarLit(activity);
         if (isKikit) {
-            activity.getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, top, 0, bottom);
+            View decorView=activity.getWindow().getDecorView();
+            View contentView=decorView.findViewById(android.R.id.content);
+            top=contentView.getTop()==0?top:contentView.getPaddingTop();
+            contentView.setPadding(0, top, 0, hasSmartBar?bottom:0);
+            LogUtil.log(activity.getClass().getName() + " 顶部:" + top);
+            LogUtil.log(activity.getClass().getName() + " 底部:" + (hasSmartBar?bottom:0));
         }
         return top;
     }
@@ -98,7 +172,33 @@ public class ActivityUtil {
         }
         return STATUS_BAR_HEIGHT;
     }
-
+    public static void savePic(Bitmap b, File file) {
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            if (null != fos) {
+                b.compress(Bitmap.CompressFormat.PNG, 90, fos);
+                fos.flush();
+                fos.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public  static  Integer getStatusBarColor(Activity activity){
+        View decorView = activity.getWindow().getDecorView();
+        Bitmap bitmap = ColorUtil.loadBitmapFromView(decorView);
+        if (bitmap != null) {
+            //保存截图
+            //File file=new File(Environment.getExternalStorageDirectory(),"Pictures/"+activity.getClass().getName()+".png");
+            //savePic(bitmap,file);
+            int color = bitmap.getPixel(bitmap.getWidth() / 2, ActivityUtil.getStatusBarHeight(activity) +2);
+            return color;
+        }
+        return null;
+    }
     /**
      * 获取ActionBar的高度
      *

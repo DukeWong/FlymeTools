@@ -70,4 +70,10 @@
     <string name="preference_force_black_color">preference_force_black_color</string>
     <string name="force_black_color">force_black_color</string>
     <string name="force_black_color_summary">force_black_color_summary</string>
+    <string name="preference_brightly_lit_smart_bar">preference_brightly_lit_smart_bar</string>
+    <string name="preference_brightly_lit_status_bar">preference_brightly_lit_status_bar</string>
+    <string name="brightly_lit_status_bar_summary">brightly_lit_status_bar_summary</string>
+    <string name="brightly_lit_status_bar">brightly_lit_status_bar</string>
+    <string name="brightly_lit_smart_bar">brightly_lit_smart_bar</string>
+    <string name="brightly_lit_smartbar_summary">brightly_lit_smartbar_summary</string>
 </resources>

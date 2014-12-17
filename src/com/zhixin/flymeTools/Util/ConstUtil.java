@@ -53,8 +53,12 @@ public class ConstUtil {
      */
     public static String REVERSE_SETTING="preference_reverse_setting_action_bar";
     /**
-     * 保留状态栏位置
+     * 通明状态栏
      */
-    public static String RETAIN_STATUS="preference_retain_status_bar";
+    public static String BRIGHTLY_TATUS_BAR="preference_brightly_lit_status_bar";
+    /**
+     * 通明导航栏
+     */
+    public static String BRIGHTLY_SMART_BAR="preference_brightly_lit_smart_bar";
 
 }

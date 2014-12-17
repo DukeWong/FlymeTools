@@ -45,23 +45,26 @@ public class StatusBarHook extends XC_MethodHook {
         XposedHelpers.setAdditionalInstanceField(activity, ConstUtil.STATUS_BAR_DRAWABLE, statusBarDrawable);
         return statusBarDrawable;
     }
-
+   public  static  int changeContextViewPadding(Activity thisActivity, XSharedPreferences xSharedPreferences){
+       boolean hasStatusBar = xSharedPreferences.getBoolean(ConstUtil.BRIGHTLY_TATUS_BAR, false);
+       boolean hasSmartBar = xSharedPreferences.getBoolean(ConstUtil.BRIGHTLY_SMART_BAR, true);
+       boolean hasActionBar = xSharedPreferences.getBoolean(ConstUtil.HAS_ACTIONBAR, false);
+       int top = ActivityUtil.changeContextViewPadding(thisActivity, hasStatusBar, hasSmartBar,hasActionBar);
+       return  top;
+   }
     /**
      * @param thisActivity
      * @param xSharedPreferences
      */
     public static void handStatusBarLit(Activity thisActivity, XSharedPreferences xSharedPreferences) {
         if (ActivityUtil.setStatusBarLit(thisActivity)) {
-            boolean retain_status = xSharedPreferences.getBoolean(ConstUtil.RETAIN_STATUS, true);
-            boolean hasActionBar = xSharedPreferences.getBoolean(ConstUtil.HAS_ACTIONBAR, false);
-            int top = ActivityUtil.changeContextViewPadding(thisActivity, retain_status, hasActionBar);
+            int top=changeContextViewPadding(thisActivity,xSharedPreferences);
             boolean force_black = xSharedPreferences.getBoolean(ConstUtil.FORCE_BLACK_COLOR, false);
             if (force_black){
                 ActivityUtil.setDarkBar(thisActivity, force_black);
             }
             if (top > 0) {
                 View rootLayer = thisActivity.getWindow().getDecorView();
-                LogUtil.log(thisActivity.getClass().getName() + " top:" + top);
                 Drawable drawable = getStatusBarDrawable(thisActivity, xSharedPreferences);
                 if (drawable != null) {
                     rootLayer.setBackground(drawable);

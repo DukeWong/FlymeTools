@@ -5,7 +5,10 @@ import android.app.Activity;
 import android.content.ContextWrapper;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import com.zhixin.flymeTools.Util.ActivityUtil;
 import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.Util.ReflectionUtil;
@@ -56,7 +59,27 @@ public class FragmentActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus){
-            ActivityUtil.changeContextViewPadding(this,true,false);
+            int top = 0,actionHeight=0, bottom = 0;
+            top+= ActivityUtil.getStatusBarHeight(this);
+            ActionBar actionBar = this.getActionBar();
+            if (actionBar != null) {
+                Object mActionView = ReflectionUtil.getObjectField(actionBar, "mActionView");
+                Object mSplitView = ReflectionUtil.getObjectField(actionBar, "mSplitView");
+                if (mActionView != null) {
+                    actionHeight= ((View) mActionView).getHeight();
+                    top+=actionHeight;
+                }
+                if (mSplitView != null) {
+                    bottom += ((View) mSplitView).getHeight();
+                }
+                boolean isKikit = ActivityUtil.setStatusBarLit(this);
+                if (isKikit) {
+                    View decorView=this.getWindow().getDecorView();
+                    View contentView=decorView.findViewById(android.R.id.content);
+                    contentView.setTop(top);
+                    contentView.setPadding(0,top,0,bottom);
+                }
+            }
         }
     }
     protected PreferenceFragment OnCreateFragment(Bundle savedInstanceState) {
