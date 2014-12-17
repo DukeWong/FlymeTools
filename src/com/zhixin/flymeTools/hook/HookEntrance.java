@@ -15,14 +15,26 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         XposedHelpers.findAndHookMethod(Activity.class, "onStart", new SmartBarColorHook());
-        //XposedHelpers.findAndHookMethod(Activity.class, "performResume", new StatusBarHook());
-        //XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged",boolean.class, new ScreenshotHook());
-        XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new ActivityMethodHook());
+        XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new WindowFocusMethodHook());
+        XposedHelpers.findAndHookMethod(Activity.class, "onWindowAttributesChanged", WindowManager.LayoutParams.class, new WindowAttributesMethodHook());
         XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
         XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
     }
-
-    public class ActivityMethodHook extends XC_MethodHook {
+    public class WindowAttributesMethodHook extends XC_MethodHook {
+        @Override
+        protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+            ObjectHook hook = ObjectHook.getObjectHook(param.thisObject);
+            if (hook == null) {
+                hook = new ActivityHook((Activity) param.thisObject);
+            }
+            if (hook instanceof ActivityHook) {
+                ActivityHook activityHook = (ActivityHook) hook;
+                activityHook.log("窗口模式被改变");
+                activityHook.updateStatusBarLit(false);
+            }
+        }
+    }
+    public class WindowFocusMethodHook extends XC_MethodHook {
         @Override
         protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
             boolean hasFocus = (Boolean) param.args[0];
@@ -31,10 +43,12 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
                 hook = new ActivityHook((Activity) param.thisObject);
             }
             if (hook instanceof ActivityHook) {
+
                 ActivityHook activityHook = (ActivityHook) hook;
+                activityHook.log(hasFocus?"激活":"退出");
                 if (hasFocus){
                     activityHook.updateSmartbarColor();
-                    activityHook.updateStatusBarLit();
+                    activityHook.updateStatusBarLit(true);
                 }else
                 {
                     activityHook.updateStatusBarColor();

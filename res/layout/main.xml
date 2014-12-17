@@ -14,21 +14,35 @@
                   android:paddingRight="10dp">
         <LinearLayout android:layout_width="fill_parent" android:layout_height="50dp" android:layout_weight="1"
                       android:orientation="horizontal">
-            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_applications" zx:title="@string/applications" android:layout_weight="1" zx:url="app.AppListActivity"
-                                                android:clickable="true"    android:layout_height="fill_parent"></com.zhixin.flymeTools.base.ImageMenuBtn>
-            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_framework"  zx:title="@string/framework" android:layout_weight="1" zx:url="framework.SettingActivity"
-                                                android:layout_height="fill_parent"></com.zhixin.flymeTools.base.ImageMenuBtn>
-            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_keys"  zx:title="@string/buttons" android:layout_weight="1" zx:url="key.SettingActivity"
-                                                android:layout_height="fill_parent"/>
+            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent"
+                                                     zx:image="@drawable/icon_applications"
+                                                     zx:title="@string/applications" android:layout_weight="1"
+                                                     zx:url="app.AppListActivity"
+                                                     android:clickable="true"
+                                                     android:layout_height="wrap_content"></com.zhixin.flymeTools.base.ImageMenuBtn>
+            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent"
+                                                     zx:image="@drawable/icon_framework" zx:title="@string/framework"
+                                                     android:layout_weight="1" zx:url="framework.SettingActivity"
+                                                     android:layout_height="wrap_content"></com.zhixin.flymeTools.base.ImageMenuBtn>
+            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_keys"
+                                                     zx:title="@string/buttons" android:layout_weight="1"
+                                                     zx:url="key.SettingActivity"
+                                                     android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout android:layout_width="fill_parent" android:layout_height="50dp" android:layout_weight="1"
                       android:orientation="horizontal">
-            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_statusbar"  zx:title="@string/statusbar" android:layout_weight="1" zx:url="statusbar.SettingActivity"
-                                                android:layout_height="fill_parent"></com.zhixin.flymeTools.base.ImageMenuBtn>
-            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_sound"  zx:title="@string/sound" android:layout_weight="1" zx:url="app.AppListActivity"
-                                                android:layout_height="fill_parent"></com.zhixin.flymeTools.base.ImageMenuBtn>
-            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_about"  zx:title="@string/about_module" android:layout_weight="1" zx:url="app.AppListActivity"
-                                                android:layout_height="fill_parent"></com.zhixin.flymeTools.base.ImageMenuBtn>
+            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent"
+                                                     zx:image="@drawable/icon_statusbar" zx:title="@string/statusbar"
+                                                     android:layout_weight="1" zx:url="statusbar.SettingActivity"
+                                                     android:layout_height="wrap_content"></com.zhixin.flymeTools.base.ImageMenuBtn>
+            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_sound"
+                                                     zx:title="@string/sound" android:layout_weight="1"
+                                                     zx:url="app.AppListActivity"
+                                                     android:layout_height="wrap_content"></com.zhixin.flymeTools.base.ImageMenuBtn>
+            <com.zhixin.flymeTools.base.ImageMenuBtn android:layout_width="fill_parent" zx:image="@drawable/icon_about"
+                                                     zx:title="@string/about_module" android:layout_weight="1"
+                                                     zx:url="app.AppListActivity"
+                                                     android:layout_height="wrap_content"></com.zhixin.flymeTools.base.ImageMenuBtn>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

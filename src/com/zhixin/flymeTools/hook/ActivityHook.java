@@ -25,6 +25,7 @@ public class ActivityHook extends ObjectHook<Activity> {
     private Drawable actionBarDrawable = null;
     private StatusBarDrawable automaticColor = null;
     private Integer backgroundColor = null;
+    private boolean isFirstLoad=false;
     /**
      * 已经修改够颜色标识
      */
@@ -59,35 +60,37 @@ public class ActivityHook extends ObjectHook<Activity> {
      * 根据配置更新Smartbar颜色
      */
     public void updateSmartbarColor() {
-        this.reloadSharedPreferences();
-        String defaultType = sharedPreferences.getString(ConstUtil.SMARTBAR_DEFAULT_TYPE, null);
-        boolean change = appSharedPreferences.getBoolean(ConstUtil.SMARTBAR_CHANGE, !isSysApp && defaultType != "-100");
-        Drawable smartBarDrawable = null;
-        if (change) {
-            String smartBarType = appSharedPreferences.getString(ConstUtil.SMARTBAR_TYPE, defaultType);
-            if (smartBarType != null) {
-                //自动设置等
-                if (smartBarType.indexOf("#") == -1) {
-                    //1为默认设置
-                    String smartBarColor = "#FFFFFFFF";
-                    smartBarType = smartBarType.equals("1") ? defaultType : smartBarType;
-                    if (smartBarType.equals("0")) {
-                        smartBarDrawable = getActionBarDrawable();
-                    } else {
-                        if (smartBarType.equals("-1")) {
-                            smartBarColor = appSharedPreferences.getString(ConstUtil.SMARTBAR_COLOR, smartBarColor);
-                            int color = Color.parseColor(smartBarColor);
-                            smartBarDrawable = new ColorDrawable(color);
+        synchronized (this){
+            this.reloadSharedPreferences();
+            String defaultType = sharedPreferences.getString(ConstUtil.SMARTBAR_DEFAULT_TYPE, null);
+            boolean change = appSharedPreferences.getBoolean(ConstUtil.SMARTBAR_CHANGE, !isSysApp && defaultType != "-100");
+            Drawable smartBarDrawable = null;
+            if (change) {
+                String smartBarType = appSharedPreferences.getString(ConstUtil.SMARTBAR_TYPE, defaultType);
+                if (smartBarType != null) {
+                    //自动设置等
+                    if (smartBarType.indexOf("#") == -1) {
+                        //1为默认设置
+                        String smartBarColor = "#FFFFFFFF";
+                        smartBarType = smartBarType.equals("1") ? defaultType : smartBarType;
+                        if (smartBarType.equals("0")) {
+                            smartBarDrawable = getActionBarDrawable();
+                        } else {
+                            if (smartBarType.equals("-1")) {
+                                smartBarColor = appSharedPreferences.getString(ConstUtil.SMARTBAR_COLOR, smartBarColor);
+                                int color = Color.parseColor(smartBarColor);
+                                smartBarDrawable = new ColorDrawable(color);
+                            }
                         }
+                    } else {
+                        int color = Color.parseColor(smartBarType);
+                        smartBarDrawable = new ColorDrawable(color);
                     }
-                } else {
-                    int color = Color.parseColor(smartBarType);
-                    smartBarDrawable = new ColorDrawable(color);
                 }
             }
-        }
-        if (smartBarDrawable != null) {
-            SmartBarUtils.changeSmartBarColor(thisObject, smartBarDrawable);
+            if (smartBarDrawable != null) {
+                SmartBarUtils.changeSmartBarColor(thisObject, smartBarDrawable);
+            }
         }
     }
 
@@ -264,17 +267,22 @@ public class ActivityHook extends ObjectHook<Activity> {
     /**
      * 根据配置更新顶栏颜色
      */
-    public void updateStatusBarLit() {
-        if (!isSysApp) {
-            this.reloadSharedPreferences();
-            boolean flag = ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            flag = flag || ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            if (!flag) {
-                boolean change = sharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, false);
-                if (change) {
-                    change = appSharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, false);
-                    if (change) {
-                        this.changeStatusBarLit();
+    public void updateStatusBarLit(boolean firstLoad) {
+        synchronized (this){
+            if (firstLoad || isFirstLoad){
+                isFirstLoad=true;
+                if (!isSysApp) {
+                    this.reloadSharedPreferences();
+                    boolean flag = ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    flag = flag || ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    if (!flag) {
+                        boolean change = sharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, false);
+                        if (change) {
+                            change = appSharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, false);
+                            if (change) {
+                                this.changeStatusBarLit();
+                            }
+                        }
                     }
                 }
             }

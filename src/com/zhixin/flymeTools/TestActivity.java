@@ -1,10 +1,8 @@
 package com.zhixin.flymeTools;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import com.zhixin.flymeTools.Util.ActivityUtil;
-import com.zhixin.flymeTools.Util.ReflectionUtil;
 
 /**
  * Created by ZXW on 2014/12/17.
