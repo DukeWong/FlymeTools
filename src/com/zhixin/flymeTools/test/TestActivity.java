@@ -1,7 +1,8 @@
-package com.zhixin.flymeTools;
+package com.zhixin.flymeTools.test;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ActivityUtil;
 
 /**

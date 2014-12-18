@@ -23,7 +23,7 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".statusbar.SettingActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:theme="@android:style/Theme.Light" android:name=".TestActivity"  android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:theme="@android:style/Theme.Light" android:name=".test.TestActivity"  android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateHidden|adjustResize"/>
         <meta-data android:value="true" android:name="xposedmodule"/>
         <meta-data android:value="42+" android:name="xposedminversion"/>
         <meta-data android:value="@string/app_des" android:name="xposeddescription"/>
