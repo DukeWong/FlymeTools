@@ -178,11 +178,10 @@ public class ActivityHook extends ObjectHook<Activity> {
             if (reverseSetting && thisObject.getActionBar() != null) {
                 thisObject.getActionBar().setBackgroundDrawable(new ColorDrawable(color));
             }
+            ActivityUtil.setDarkBar(thisObject, changeColor);
             if (changeColor) {
-                ActivityUtil.setDarkBar(thisObject, changeColor);
                 this.log("状态栏强制设置黑色状态栏字体");
             }
-
         }
     }
 

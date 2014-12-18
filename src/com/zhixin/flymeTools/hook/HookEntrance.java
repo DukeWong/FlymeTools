@@ -50,12 +50,9 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
             if (hasFocus) {
                 activityHook.updateSmartbarColor();
                 activityHook.updateStatusBarLit();
-            } else {
-                activityHook.updateStatusBarColor();
             }
         }
     }
-
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         IClassPatch classPatch = null;
