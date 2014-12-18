@@ -21,8 +21,9 @@ public class ActivityHook extends ObjectHook<Activity> {
     /**
      * 已经修改够颜色标识
      */
-    private Boolean isChangeColor = false;
+    private boolean isChangeColor = false;
     private boolean isUpdateColor = false;
+    private boolean mustChange = false;
 
     public ActivityHook(Activity thisObject) {
         super(thisObject);
@@ -185,15 +186,21 @@ public class ActivityHook extends ObjectHook<Activity> {
 
         }
     }
-
-
     /**
      * 更新顶栏颜色
      */
     public void updateStatusBarColor() {
-        if (isChangeColor && !isUpdateColor) {
-            config.setAutomaticColor(null);
-            this.setStatusBarDrawable(config.getStatusBarDrawable());
+        if (mustChange) {
+            mustChange = false;
+            this.log("必须重新更新颜色");
+            this.updateStatusBarLit();
+        } else {
+            if (isChangeColor && !isUpdateColor) {
+                isUpdateColor = true;
+                this.log("单独重新更新颜色");
+                config.setAutomaticColor(null);
+                this.setStatusBarDrawable(config.getStatusBarDrawable(true));
+            }
         }
     }
 
@@ -201,19 +208,20 @@ public class ActivityHook extends ObjectHook<Activity> {
      * 根据配置更新顶栏颜色
      */
     public void updateStatusBarLit() {
-        synchronized (this) {
-            this.reloadConfig();
-            boolean flag = ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            flag = flag || ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            if (!flag) {
-                boolean change = config.isChangeStatusBar();
-                if (change) {
-                    ColorDrawable statusBarDrawable = config.getStatusBarDrawable();
-                    if (statusBarDrawable != null) {
-                        changeContextViewPadding();
-                        ActivityUtil.setStatusBarLit(thisObject);
-                        this.setStatusBarDrawable(statusBarDrawable);
-                    }
+        this.reloadConfig();
+        boolean flag = ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        flag = flag || ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (!flag) {
+            boolean change = config.isChangeStatusBar();
+            if (change) {
+                ColorDrawable statusBarDrawable = config.getStatusBarDrawable(true);
+                if (statusBarDrawable != null) {
+                    changeContextViewPadding();
+                    ActivityUtil.setStatusBarLit(thisObject);
+                    this.setStatusBarDrawable(statusBarDrawable);
+                    isChangeColor = true;
+                } else {
+                    mustChange = true;
                 }
             }
         }

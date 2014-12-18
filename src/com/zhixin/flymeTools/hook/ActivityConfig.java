@@ -1,6 +1,7 @@
 package com.zhixin.flymeTools.hook;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -123,24 +124,44 @@ public class ActivityConfig {
         return this.getConfigBoolean(ConstUtil.FORCE_LIT_MODE, false);
     }
 
-    protected ColorDrawable getStatusBarDrawable() {
+    protected StatusBarDrawable getAutomaticColor(boolean noCache, int barHeight) {
+        if (noCache){automaticColor=null;}
+        if (automaticColor == null) {
+            Integer color = null;
+            SharedPreferences sharedPreferences = thisActivity.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, 0);
+            if (sharedPreferences.contains(activityName) && !noCache) {
+                color = sharedPreferences.getInt(activityName, 0);
+            } else {
+                color = ActivityUtil.getStatusBarColor(thisActivity);
+                if (color != null) {
+                    this.log("自动识别颜色为" + color);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt(activityName, color);
+                    editor.commit();
+                }
+            }
+            if (color != null) {
+                automaticColor = new StatusBarDrawable(color.intValue(), backgroundDrawable, barHeight);
+            } else {
+                Drawable drawable = getActionBarDrawable();
+                if (drawable instanceof ColorDrawable) {
+                    automaticColor = new StatusBarDrawable(((ColorDrawable) drawable).getColor(), backgroundDrawable, barHeight);
+                }
+            }
+        }
+        return automaticColor;
+    }
+
+    /**
+     * 使用自动获取颜色
+     * @return
+     */
+    protected ColorDrawable getStatusBarDrawable(boolean useCache) {
         boolean useAutomaticColor = this.getConfigBoolean(ConstUtil.AUTOMATIC_COLOR_OPEN, true);
         StatusBarDrawable statusBarDrawable = null;
         int barHeight = ActivityUtil.getStatusBarHeight(thisActivity);
         if (useAutomaticColor) {
-            if (automaticColor == null) {
-                Integer color = ActivityUtil.getStatusBarColor(thisActivity);
-                if (color != null) {
-                    this.log("自动识别颜色为" + color);
-                    automaticColor = new StatusBarDrawable(color.intValue(), backgroundDrawable, barHeight);
-                } else {
-                    Drawable drawable = getActionBarDrawable();
-                    if (drawable instanceof ColorDrawable) {
-                        automaticColor = new StatusBarDrawable(((ColorDrawable) drawable).getColor(), backgroundDrawable, barHeight);
-                    }
-                }
-            }
-            statusBarDrawable = automaticColor;
+            statusBarDrawable = getAutomaticColor(useCache,barHeight);
         } else {
             if (appSharedPreferences.contains(ConstUtil.TRANSLUCENT_COLOR)) {
                 String color = this.getConfigString(ConstUtil.TRANSLUCENT_COLOR, null);
@@ -179,10 +200,10 @@ public class ActivityConfig {
      */
     public Drawable getSmartBarDrawable() {
         String defaultType = globalSharedPreferences.getString(ConstUtil.SMARTBAR_DEFAULT_TYPE, null);
-        boolean change =  this.getConfigBoolean(ConstUtil.SMARTBAR_CHANGE, defaultType != "-100");
+        boolean change = this.getConfigBoolean(ConstUtil.SMARTBAR_CHANGE, defaultType != "-100");
         Drawable smartBarDrawable = null;
         if (change) {
-            String smartBarType =  this.getConfigString(ConstUtil.SMARTBAR_TYPE, defaultType);
+            String smartBarType = this.getConfigString(ConstUtil.SMARTBAR_TYPE, defaultType);
             if (smartBarType != null) {
                 //自动设置等
                 if (smartBarType.indexOf("#") == -1) {
