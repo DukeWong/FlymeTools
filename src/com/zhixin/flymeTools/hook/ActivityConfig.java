@@ -193,7 +193,7 @@ public class ActivityConfig {
                         if (automaticColor == null) {
                             smartBarDrawable = this.getActionBarDrawable();
                         } else {
-                            smartBarDrawable = automaticColor;
+                            smartBarDrawable = new ColorDrawable(automaticColor.getColor());
                         }
 
                     } else {
