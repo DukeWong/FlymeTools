@@ -30,18 +30,14 @@ public class AppListActivity extends ListActivity {
                 onListItemClick(view, position, id);
             }
         });
-        boolean isKikit = ActivityUtil.setStatusBarLit(this);
+        ActivityUtil.setStatusBarLit(this);
         ActivityUtil.setDarkBar(this, true);
-        if (isKikit) {
-            list.setFitsSystemWindows(true);
-            //this.findViewById(android.R.id.content).setPadding(0, ActivityUtil.getStatusBarAndActionBarHeight(this), 0, 0);
-        }
+        list.setFitsSystemWindows(true);
     }
     public void loadData() {
         mAdapter = AppUtil.getAppItemAdapter(this, !isDeleteSystemApp);
         setListAdapter(mAdapter);
     }
-
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         isDeleteSystemApp = !isDeleteSystemApp;
@@ -49,20 +45,18 @@ public class AppListActivity extends ListActivity {
         this.loadData();
         return true;
     }
-
     @Override
     public boolean onCreatePanelMenu(int featureId, Menu menu) {
         menu.add(1, 1, 1, isDeleteSystemApp ? R.string.showSystemApp : R.string.noShowSystemApp);
         return super.onCreatePanelMenu(featureId, menu);
     }
-
     public void onListItemClick(View view, int position, long id) {
         mModifyingItem = mAdapter.getAppItem(position);
         String packgeName = mModifyingItem.getPackgeName();
         String appName = mModifyingItem.getAppName();
         Intent intent = new Intent();
-        intent.setClass(AppListActivity.this, AppSetting.class);
-        intent.putExtra("packgeName", packgeName);
+        intent.setClass(AppListActivity.this, AppSettingActivity.class);
+        intent.putExtra("packageName", packgeName);
         intent.putExtra("appName", appName);
         this.startActivity(intent);
     }

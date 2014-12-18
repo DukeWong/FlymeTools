@@ -60,5 +60,9 @@ public class ConstUtil {
      * 通明导航栏
      */
     public static String BRIGHTLY_SMART_BAR="preference_brightly_lit_smart_bar";
+    /**
+     * 状态栏强制模式
+     */
+    public static String FORCE_LIT_MODE="preference_force_brightly_lit_mode";
 
 }

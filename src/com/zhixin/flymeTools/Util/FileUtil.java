@@ -11,10 +11,10 @@ import java.io.File;
 public class FileUtil {
     public  static String THIS_PACKAGE_NAME= MainActivity.THIS_PACKAGE_NAME;
     public  static  String SETTING="_setting";
-    public static File getgetSharedPreferencesRoot(){
-        return getgetSharedPreferencesRoot(THIS_PACKAGE_NAME);
+    public static File getSharedPreferencesRoot(){
+        return getSharedPreferencesRoot(THIS_PACKAGE_NAME);
     }
-    public static File getgetSharedPreferencesRoot(String packageName){
+    public static File getSharedPreferencesRoot(String packageName){
         File file = new File(Environment.getExternalStorageDirectory(),"data/" + packageName+"/shared_prefs");
         return  file;
     }
@@ -22,7 +22,7 @@ public class FileUtil {
         return  getSharedPreferences(packageName, packageName + "_preferences");
     }
     public static XSharedPreferences getSharedPreferences(String packageName, String prefFileName){
-        File file = new File(getgetSharedPreferencesRoot(packageName),prefFileName+".xml");
+        File file = new File(getSharedPreferencesRoot(packageName),prefFileName+".xml");
         return  new XSharedPreferences(file);
     }
 }

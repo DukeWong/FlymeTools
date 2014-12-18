@@ -12,7 +12,6 @@ public class TestActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View tile=this.findViewById(android.R.id.title);
         setContentView(R.layout.test);
         ActivityUtil.setStatusBarLit(this);
         ActivityUtil.setDarkBar(this, true);

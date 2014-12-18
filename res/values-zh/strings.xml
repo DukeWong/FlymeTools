@@ -27,9 +27,9 @@
     <string name="app_icon_setting">应用图标设置</string>
     <string name="replace_icon_summary">替换应用图标为期望的应用图标</string>
     <string name="replace_icon">替换应用图标</string>
-    <string name="app_smartbar">smartbar</string>
-    <string name="app_smartbar_setting">smartbar设置</string>
-    <string name="replace_smartbar_summary">替换smartbar样式为设置的样式</string>
+    <string name="app_smartbar">魅族导航栏</string>
+    <string name="app_smartbar_setting">魅族导航栏设置</string>
+    <string name="replace_smartbar_summary">替换魅族导航栏样式为设置的样式</string>
     <string name="replace_smartbar">开启smartbar设置</string>
     <string name="select_smartbar_type">选择smartbar类型</string>
     <string name="select_smartbar_default_type">选择默认的设置</string>
@@ -40,7 +40,7 @@
     <string name="app_launcher_locked">锁住桌面</string>
     <string name="app_launcher_locked_summary">长按桌面不进入编辑模式</string>
     <string name="translucent_decor">沉浸状态栏</string>
-    <string name="translucent_compulsory">强制沉浸状态栏</string>
+    <string name="translucent_compulsory">开启自动沉浸状态栏</string>
     <string name="translucent_compulsory_summary">开启第三方应用程序沉浸状态栏</string>
     <string name="has_ActionBar">应用程序含有ActionBar</string>
     <string name="has_ActionBar_summary">对于有些应用无法检测到ActionBar,请开启</string>
@@ -58,4 +58,6 @@
     <string name="brightly_lit_status_bar">通明状态栏</string>
     <string name="brightly_lit_smart_bar">通明导航栏</string>
     <string name="brightly_lit_smartbar_summary">让导航栏保持通明</string>
+    <string name="force_brightly_lit_mode">强制模式</string>
+    <string name="force_brightly_lit_mode_summary">强制调整沉浸状态栏</string>
 </resources>

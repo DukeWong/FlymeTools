@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.pm.ComponentInfo;
 import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.view.WindowManager;
+import com.zhixin.flymeTools.Util.ActivityUtil;
+import com.zhixin.flymeTools.Util.AppUtil;
 import de.robv.android.xposed.*;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -14,45 +17,41 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        XposedHelpers.findAndHookMethod(Activity.class, "onStart", new SmartBarColorHook());
-        XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new WindowFocusMethodHook());
-        XposedHelpers.findAndHookMethod(Activity.class, "onWindowAttributesChanged", WindowManager.LayoutParams.class, new WindowAttributesMethodHook());
-        XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
-        XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
-    }
-    public class WindowAttributesMethodHook extends XC_MethodHook {
-        @Override
-        protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-            ObjectHook hook = ObjectHook.getObjectHook(param.thisObject);
-            if (hook == null) {
-                hook = new ActivityHook((Activity) param.thisObject);
-            }
-            if (hook instanceof ActivityHook) {
-                ActivityHook activityHook = (ActivityHook) hook;
-                activityHook.log("窗口模式被改变");
-                activityHook.updateStatusBarLit(false);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            XposedHelpers.findAndHookMethod(Activity.class, "onStart", new SmartBarColorHook());
+            XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new WindowFocusMethodHook());
+            XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
+            XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
         }
     }
-    public class WindowFocusMethodHook extends XC_MethodHook {
+
+    public abstract class ActivityMethodHook extends XC_MethodHook {
         @Override
         protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-            boolean hasFocus = (Boolean) param.args[0];
-            ObjectHook hook = ObjectHook.getObjectHook(param.thisObject);
-            if (hook == null) {
-                hook = new ActivityHook((Activity) param.thisObject);
-            }
-            if (hook instanceof ActivityHook) {
-
-                ActivityHook activityHook = (ActivityHook) hook;
-                activityHook.log(hasFocus?"激活":"退出");
-                if (hasFocus){
-                    activityHook.updateSmartbarColor();
-                    activityHook.updateStatusBarLit(true);
-                }else
-                {
-                    activityHook.updateStatusBarColor();
+            if (!AppUtil.isSystemApp((Activity) param.thisObject)) {
+                ObjectHook hook = ObjectHook.getObjectHook(param.thisObject);
+                if (hook == null) {
+                    hook = new ActivityHook((Activity) param.thisObject);
                 }
+                if (hook instanceof ActivityHook) {
+                    this.afterDoMethodHook(param, (Activity) param.thisObject, (ActivityHook) hook);
+                }
+            }
+        }
+
+        protected abstract void afterDoMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityHook activityHook);
+    }
+
+    public class WindowFocusMethodHook extends ActivityMethodHook {
+        @Override
+        protected void afterDoMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityHook activityHook) {
+            boolean hasFocus = (Boolean) param.args[0];
+            activityHook.log(hasFocus ? "激活" : "退出");
+            if (hasFocus) {
+                activityHook.updateSmartbarColor();
+                activityHook.updateStatusBarLit();
+            } else {
+                activityHook.updateStatusBarColor();
             }
         }
     }

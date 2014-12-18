@@ -15,7 +15,7 @@ public class PackageNameHook extends XC_MethodHook {
         PackageItemInfo packageItemInfo=(PackageItemInfo)param.thisObject;
         boolean sUserRequired= XposedHelpers.getStaticBooleanField(Environment.class,"sUserRequired");
         if (!sUserRequired){
-            XSharedPreferences sharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME,packageItemInfo.packageName+FileUtil.SETTING);
+            XSharedPreferences sharedPreferences = FileUtil.getSharedPreferences(packageItemInfo.packageName);
             boolean change= sharedPreferences.getBoolean("preference_replace_app_name", false);
             if (change){
                 String app_name= sharedPreferences.getString("preference_app_name", null);

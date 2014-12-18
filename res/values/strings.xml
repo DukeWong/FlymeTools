@@ -76,4 +76,7 @@
     <string name="brightly_lit_status_bar">brightly_lit_status_bar</string>
     <string name="brightly_lit_smart_bar">brightly_lit_smart_bar</string>
     <string name="brightly_lit_smartbar_summary">brightly_lit_smartbar_summary</string>
+    <string name="preference_force_brightly_lit_mode">preference_force_brightly_lit_mode</string>
+    <string name="force_brightly_lit_mode">force_brightly_lit_mode</string>
+    <string name="force_brightly_lit_mode_summary">force_brightly_lit_mode_summary</string>
 </resources>

@@ -1,4 +1,5 @@
 package com.zhixin.flymeTools.controls;
+
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,8 +20,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import com.zhixin.flymeTools.R;
+
 import com.zhixin.flymeTools.Util.ColorUtil;
 
 import java.util.regex.Matcher;
@@ -33,6 +33,44 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
     private int mCurrentColor;
     private ColorPickerView mCPView;
     private EditText editText;
+
+    public int getColor() {
+        return mCPView.getColor();
+    }
+
+    public void setColor(int color) {
+        mCPView.setColor(color);
+    }
+
+    public String getValue() {
+        if (mCPView != null) {
+            return ColorUtil.toHexEncoding(mCPView.getColor());
+        }
+        return ColorUtil.toHexEncoding(mInitialColor);
+    }
+
+    public void setValue(String colorStr) {
+        if (colorStr != null) {
+            if (mCPView != null) {
+                mCPView.setColor(Color.parseColor(colorStr));
+            } else {
+                mInitialColor = Color.parseColor(colorStr);
+            }
+        }
+    }
+
+    @Override
+    protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+        if (defaultValue != null) {
+            if (defaultValue instanceof Integer) {
+                mInitialColor = ((Integer) defaultValue).intValue();
+            }
+            if (defaultValue instanceof CharSequence) {
+                mInitialColor = Color.parseColor(defaultValue.toString());
+            }
+        }
+    }
+
     private static class ColorPickerView extends View { // ColorPickerView 扩展自
         // View 这部分是参考 ApiDemo中的
         // ColorPickerDialog
@@ -43,11 +81,12 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         private int[] mHSVColors;
         private boolean mRedrawHSV;
         private OnColorChangedListener mListener;
+
         ColorPickerView(Context c, OnColorChangedListener l, int color) {
             super(c);
             mListener = l;
-            mColors = new int[] { 0xFFFF0000, 0xFFFF00FF, 0xFF0000FF,
-                    0xFF00FFFF, 0xFF00FF00, 0xFFFFFF00, 0xFFFF0000 };
+            mColors = new int[]{0xFFFF0000, 0xFFFF00FF, 0xFF0000FF,
+                    0xFF00FFFF, 0xFF00FF00, 0xFFFFFF00, 0xFFFF0000};
             Shader s = new SweepGradient(0, 0, mColors, null);
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG); // 定义主调色面板
             mPaint.setShader(s);
@@ -58,22 +97,26 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
             // 显示颜色面板
             mCenterPaint.setColor(color);
             mCenterPaint.setStrokeWidth(5); // 中间定义面板的半径
-            mHSVColors = new int[] { 0xFF000000, color, 0xFFFFFFFF };
+            mHSVColors = new int[]{0xFF000000, color, 0xFFFFFFFF};
             // 定义细条的bar 颜色从 黑色过渡主面板选中的颜色再过渡到白色 主要解决 没有白色和黑色的问题
             mHSVPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mHSVPaint.setStrokeWidth(20); // 设置Bar的宽度
             mRedrawHSV = true;
         }
+
         private boolean mTrackingCenter;
         private boolean mHighlightCenter;
+
         public int getColor() {
             return mCenterPaint.getColor();
         }
-        public void setColor(int color){
+
+        public void setColor(int color) {
             mCenterPaint.setColor(color);
             mRedrawHSV = false;
             invalidate();
         }
+
         @Override
         protected void onDraw(Canvas canvas) {
             float r = CENTER_X - mPaint.getStrokeWidth() * 0.5f;
@@ -86,8 +129,8 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
             }
             canvas.drawOval(new RectF(-r, -r, r, r), mPaint); // 绘制 主调色版
             canvas.drawCircle(0, 0, CENTER_RADIUS, mCenterPaint); // 绘制 中间显示颜色面板
-            r=r*1.8f;
-            canvas.drawRect(new RectF(-r, r, r,r+30), mHSVPaint); // 绘制
+            r = r * 1.8f;
+            canvas.drawRect(new RectF(-r, r, r, r + 30), mHSVPaint); // 绘制
             // 细调的BAR
             if (mTrackingCenter) {
                 mCenterPaint.setStyle(Paint.Style.STROKE);
@@ -103,16 +146,20 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
             }
             mRedrawHSV = true;
         }
+
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             setMeasuredDimension(CENTER_X * 2, (CENTER_Y + 60) * 2);
         }
+
         private static final int CENTER_X = 160;
         private static final int CENTER_Y = 160;
         private static final int CENTER_RADIUS = 30;
+
         private int ave(int s, int d, float p) {
             return s + java.lang.Math.round(p * (d - s));
         }
+
         private int interpColor(int colors[], float unit) {
             if (unit <= 0) {
                 return colors[0];
@@ -132,13 +179,15 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
             int b = ave(Color.blue(c0), Color.blue(c1), p);
             return Color.argb(a, r, g, b);
         }
+
         private static final float PI = 3.1415926f;
+
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             float x = event.getX() - CENTER_X;
             float y = event.getY() - CENTER_Y;
             boolean inCenter = java.lang.Math.sqrt(x * x + y * y) <= CENTER_RADIUS;
-            float d = (CENTER_X - mPaint.getStrokeWidth() * 0.5f)*1.8f;
+            float d = (CENTER_X - mPaint.getStrokeWidth() * 0.5f) * 1.8f;
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     mTrackingCenter = inCenter;
@@ -156,8 +205,8 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
                     } else if (y >= d) {
                         int a, r, g, b, c0, c1;
                         float p;
-                        x=x<-d?-d:x;
-                        x=x>d?d:x;
+                        x = x < -d ? -d : x;
+                        x = x > d ? d : x;
                         if (x < 0) {
                             c0 = mHSVColors[0];
                             c1 = mHSVColors[1];
@@ -173,11 +222,11 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
                         b = ave(Color.blue(c0), Color.blue(c1), p);
                         // 把细调颜色设置到显示面板中
                         mCenterPaint.setColor(Color.argb(a, r, g, b));
-                        mListener.colorChanged(mCenterPaint.getColor(),false);
+                        mListener.colorChanged(mCenterPaint.getColor(), false);
                         mRedrawHSV = false;
                         invalidate();
                     } else {
-                        if (y<d){
+                        if (y < d) {
                             float angle = (float) java.lang.Math.atan2(y, x);
                             // need to turn angle [-PI ... PI] into unit [0....1]
                             float unit = angle / (2 * PI);
@@ -185,7 +234,7 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
                                 unit += 1;
                             }
                             mCenterPaint.setColor(interpColor(mColors, unit));
-                            mListener.colorChanged(mCenterPaint.getColor(),false);
+                            mListener.colorChanged(mCenterPaint.getColor(), false);
                             invalidate();
                         }
                     }
@@ -193,7 +242,7 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
                 case MotionEvent.ACTION_UP:
                     if (mTrackingCenter) {
                         if (inCenter) {
-                            mListener.colorChanged(mCenterPaint.getColor(),true);
+                            mListener.colorChanged(mCenterPaint.getColor(), true);
                         }
                         mTrackingCenter = false;
                         invalidate();
@@ -203,46 +252,51 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
             return true;
         }
     }
+
     public interface OnColorChangedListener {
-        void colorChanged(int color,boolean close);
+        void colorChanged(int color, boolean close);
     }
+
     public ColorPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     public ColorPickerPreference(Context context, AttributeSet attrs,
                                  int defStyle) {
         super(context, attrs, defStyle);
     }
+
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
             // 保存设置好的颜色
             mCurrentColor = mCPView.getColor();
-            String color= ColorUtil.toHexEncoding(mCurrentColor);
-            if (callChangeListener(color)){
+            String color = ColorUtil.toHexEncoding(mCurrentColor);
+            if (callChangeListener(color)) {
                 SharedPreferences.Editor editor = getEditor();
                 editor.putString(getKey(), color);
                 editor.commit();
             }
         }
     }
+
     @Override
     protected void onPrepareDialogBuilder(Builder builder) {
         super.onPrepareDialogBuilder(builder);
         OnColorChangedListener l = new OnColorChangedListener() {
-            public void colorChanged(int color,boolean close) {
+            public void colorChanged(int color, boolean close) {
                 mCurrentColor = color;
                 editText.setEnabled(true);
                 editText.setText(ColorUtil.toHexEncoding(mCurrentColor));
-                if (close){
+                if (close) {
                     onDialogClosed(true);
                     getDialog().dismiss();
                 }
             }
         };
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
-        String color=prefs.getString(getKey(), null);
-        mInitialColor = color==null?Color.GRAY:Color.parseColor(color);
+        String color = prefs.getString(getKey(), null);
+        mInitialColor = color == null ? mInitialColor : Color.parseColor(color);
         // 主要是设置 调色板的布局
         LinearLayout layout = new LinearLayout(getContext());
         layout.setPadding(10, 10, 10, 10);
@@ -254,7 +308,7 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         params1.gravity = Gravity.CENTER;
         mCPView.setLayoutParams(params1);
         layout.addView(this.mCPView);
-        editText=new EditText(getContext());
+        editText = new EditText(getContext());
         editText.setLayoutParams(params1);
         editText.setEnabled(false);
         editText.setText(ColorUtil.toHexEncoding(mInitialColor));
@@ -270,7 +324,9 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
             @Override
             public void afterTextChanged(Editable s) {
                 String str = s.toString();
-                if (str.indexOf('#') == -1) {str = "#" + str;}
+                if (str.indexOf('#') == -1) {
+                    str = "#" + str;
+                }
                 Pattern pattern = Pattern.compile("#[0-9a-fA-F]{8}");
                 Matcher matcher = pattern.matcher(str);
                 if (matcher.matches()) {

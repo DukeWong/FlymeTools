@@ -37,8 +37,8 @@ public class ActivityUtil {
     public static int NAVIGATION_BAR_HEIGHT = 96;
 
     public static boolean setStatusBarLit(Activity context) {
-        Window window = context.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = context.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
             //window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);

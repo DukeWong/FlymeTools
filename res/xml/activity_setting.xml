@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/app_smartbar"
+                        android:summary="@string/app_smartbar_setting">
+        <SwitchPreference
+                android:key="@string/preference_replace_smartbar"
+                android:summary="@string/replace_smartbar_summary"
+                android:title="@string/open_settings"/>
+        <ListPreference android:entries="@array/smartbar_type_summary"
+                        android:entryValues="@array/smartbar_type"
+                        android:key="@string/preference_smartbar_type"
+                        android:title="@string/select_smartbar_type"
+                        android:enabled="false"
+                        android:dialogTitle="@string/select_smartbar_type"
+                >
+        </ListPreference>
+        <com.zhixin.flymeTools.controls.ColorPickerPreference
+                android:persistent="true"
+                android:enabled="false"
+                android:title="@string/custom_color"
+                android:key="@string/preference_smartbar_color">
+        </com.zhixin.flymeTools.controls.ColorPickerPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/translucent_decor"
+                        android:summary="@string/translucent_decor">
+        <SwitchPreference android:title="@string/open_settings"
+                          android:summary="@string/translucent_compulsory_summary"
+                          android:key="@string/preference_translucent_compulsory">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/force_black_color"
+                          android:enabled="false"
+                          android:summary="@string/force_black_color_summary"
+                          android:key="@string/preference_force_black_color">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/reverse_setting_action_bar"
+                          android:enabled="false"
+                          android:summary="@string/reverse_setting_action_bar_summary"
+                          android:key="@string/preference_reverse_setting_action_bar">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/force_brightly_lit_mode"
+                          android:summary="@string/force_brightly_lit_mode_summary"
+                          android:key="@string/preference_force_brightly_lit_mode">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/brightly_lit_smart_bar"
+                          android:enabled="false"
+                          android:summary="@string/brightly_lit_smartbar_summary"
+                          android:key="@string/preference_brightly_lit_smart_bar">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/has_ActionBar"
+                          android:enabled="false"
+                          android:summary="@string/has_ActionBar_summary"
+                          android:key="@string/preference_has_ActionBar">
+        </SwitchPreference>
+        <SwitchPreference
+                android:defaultValue="true"
+                android:enabled="false"
+                android:key="@string/preference_automatic_color_open"
+                android:summary="@string/automatic_color_summary"
+                android:title="@string/automatic_color"/>
+        <com.zhixin.flymeTools.controls.ColorPickerPreference
+                android:persistent="true"
+                android:enabled="false"
+                android:title="@string/custom_color"
+                android:key="@string/preference_translucent_color">
+        </com.zhixin.flymeTools.controls.ColorPickerPreference>
+    </PreferenceCategory>
+</PreferenceScreen>
