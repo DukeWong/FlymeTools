@@ -88,11 +88,18 @@ public abstract class AppBaseFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         this.init();
         addPreferencesFromResource(R.xml.activity_setting);
+        this.reload(false);
+    }
+    public  void reload(boolean clear){
         SharedPreferences sharedPreferences = this.getPreferenceManager().getSharedPreferences();
+        if (clear){
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+        }
         this.bindSmartBar(sharedPreferences);
         this.bindStatusBar(sharedPreferences);
     }
-
     protected abstract void bindSmartBarDefault(SharedPreferences sharedPreferences);
 
     protected abstract void bindStatusBarDefault(SharedPreferences sharedPreferences);

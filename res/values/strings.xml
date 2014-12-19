@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">flyme-tools</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="confirm">confirm</string>
+    <string name="delAll">Delete All cinfig file</string>
+    <string name="successfully_del">Successfully deleted</string>
     <string name="app_des">flyme 4.0 tools</string>
     <string name="app_name_setting">Applications Name setting</string>
     <string name="framework">framework</string>

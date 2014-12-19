@@ -1,6 +1,7 @@
 package com.zhixin.flymeTools.app;
 
 import android.content.SharedPreferences;
+import com.zhixin.flymeTools.Util.ConstUtil;
 
 /**
  * Created by ZXW on 2014/12/18.
@@ -8,7 +9,7 @@ import android.content.SharedPreferences;
 public class ActivitySettingFragment extends AppBaseFragment {
     @Override
     protected void bindSmartBarDefault(SharedPreferences sharedPreferences) {
-        SharedPreferences appSharedPreferences = this.getActivity().getSharedPreferences(this.getPackageName() + "_preferences", 0);
+        SharedPreferences appSharedPreferences = this.getActivity().getSharedPreferences(this.getPackageName() + ConstUtil.DEF_PREFERENCES, 0);
         m_smartbar_type.setValue(sharedPreferences.getString(preference_smartbar_type, appSharedPreferences.getString(preference_smartbar_type, null)));
         m_replace_smartbar.setChecked(sharedPreferences.getBoolean(preference_replace_smartbar, appSharedPreferences.getBoolean(preference_replace_smartbar, false)));
         String color = sharedPreferences.getString(preference_smartbar_color, appSharedPreferences.getString(preference_smartbar_color,null));
@@ -26,7 +27,6 @@ public class ActivitySettingFragment extends AppBaseFragment {
             m_smartbar_type.setTitle(entries[index]);
         }
     }
-
     @Override
     protected void init() {
         super.init();
@@ -36,7 +36,7 @@ public class ActivitySettingFragment extends AppBaseFragment {
     }
     @Override
     protected void bindStatusBarDefault(SharedPreferences sharedPreferences) {
-        SharedPreferences appSharedPreferences = this.getActivity().getSharedPreferences(this.getPackageName() + "_preferences", 0);
+        SharedPreferences appSharedPreferences = this.getActivity().getSharedPreferences(this.getPackageName() + ConstUtil.DEF_PREFERENCES, 0);
         m_translucent_compulsory.setChecked(sharedPreferences.getBoolean(preference_translucent_compulsory, appSharedPreferences.getBoolean(preference_translucent_compulsory, false)));
         m_force_brightly_lit_mode.setChecked(sharedPreferences.getBoolean(preference_force_brightly_lit_mode, appSharedPreferences.getBoolean(preference_force_brightly_lit_mode, false)));
         m_reverse_setting_action_bar.setChecked(sharedPreferences.getBoolean(preference_reverse_setting_action_bar, appSharedPreferences.getBoolean(preference_reverse_setting_action_bar, false)));

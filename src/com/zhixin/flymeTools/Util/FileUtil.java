@@ -19,7 +19,7 @@ public class FileUtil {
         return  file;
     }
     public static XSharedPreferences getSharedPreferences(String packageName){
-        return  getSharedPreferences(packageName, packageName + "_preferences");
+        return  getSharedPreferences(packageName, packageName + ConstUtil.DEF_PREFERENCES);
     }
     public static XSharedPreferences getSharedPreferences(String packageName, String prefFileName){
         File file = new File(getSharedPreferencesRoot(packageName),prefFileName+".xml");

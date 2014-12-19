@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">魅工具箱</string>
+    <string name="Yes">是</string>
+    <string name="No">否</string>
+    <string name="confirm">确认</string>
+    <string name="delConfigFile">删除配置配置</string>
+    <string name="successfully_del">删除成功</string>
     <string name="app_des">flyme4.0 高级设置工具箱</string>
     <string name="about_module">关于模块</string>
     <string name="framework">系统框架</string>

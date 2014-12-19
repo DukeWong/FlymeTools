@@ -4,14 +4,8 @@ package com.zhixin.flymeTools.Util;
  * Created by ZXW on 2014/12/16.
  */
 public class ConstUtil {
-    /**
-     * 全屏属性名称
-     */
-    public static String IS_FULLSCRE_ENAPP = "_ZXisFullScreenApp";
-    /**
-     * 状态栏背景
-     */
-    public static String STATUS_BAR_DRAWABLE = "_ZXStatusBarDrawable";
+
+     public static  String DEF_PREFERENCES="_preferences";
     /**
      *开启状态栏
      */

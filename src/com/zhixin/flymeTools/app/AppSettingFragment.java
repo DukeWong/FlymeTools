@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.*;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ColorUtil;
+import com.zhixin.flymeTools.Util.ConstUtil;
 import com.zhixin.flymeTools.Util.ConvertUtil;
 import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.controls.ColorPickerPreference;
@@ -76,7 +77,7 @@ public class AppSettingFragment extends AppBaseFragment {
     protected void init() {
         super.init();
         if (packageName != null) {
-            this.getPreferenceManager().setSharedPreferencesName(packageName + "_preferences");
+            this.getPreferenceManager().setSharedPreferencesName(packageName + ConstUtil.DEF_PREFERENCES);
         }
     }
 

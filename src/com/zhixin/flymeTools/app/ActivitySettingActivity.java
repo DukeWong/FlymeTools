@@ -1,9 +1,15 @@
 package com.zhixin.flymeTools.app;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.base.BaseSettingActivity;
 
@@ -21,6 +27,7 @@ public class ActivitySettingActivity extends BaseSettingActivity {
     }
     private String packageName;
     private String activityName;
+    ActivitySettingFragment settingFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = this.getIntent();
@@ -36,9 +43,33 @@ public class ActivitySettingActivity extends BaseSettingActivity {
     }
     @Override
     protected PreferenceFragment onCreateFragment(Bundle savedInstanceState){
-        ActivitySettingFragment settingFragment = new ActivitySettingFragment();
+        settingFragment = new ActivitySettingFragment();
         settingFragment.setActivityName(activityName);
         settingFragment.setPackageName(packageName);
         return settingFragment;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem item = menu.add(0, 0, 0, "del");
+        item.setIcon(R.drawable.ic_table_delete);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        AlertDialog.Builder builder  = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm) ;
+        builder.setMessage(R.string.delConfigFile) ;
+        builder.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                File file= new File( FileUtil.getSharedPreferencesRoot(packageName),activityName+".xml");
+                if (file.exists()){ file.delete(); }
+                settingFragment.reload(true);
+            }
+        });
+        builder.setNegativeButton(R.string.No, null);
+        builder.show();
+        return false;
     }
 }
