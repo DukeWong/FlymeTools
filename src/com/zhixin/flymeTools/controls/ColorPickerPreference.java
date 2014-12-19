@@ -29,32 +29,27 @@ import java.util.regex.Pattern;
 public class ColorPickerPreference extends DialogPreference { // ColorPickerPreference
     // 继承自
     // DialogPreference
-    private int mInitialColor;
-    private int mCurrentColor;
+    private int mCurrentColor = Color.WHITE;
     private ColorPickerView mCPView;
     private EditText editText;
 
     public int getColor() {
-        return mCPView.getColor();
+        return mCurrentColor;
     }
 
     public void setColor(int color) {
-        mCPView.setColor(color);
+        mCurrentColor = color;
     }
 
     public String getValue() {
-        if (mCPView != null) {
-            return ColorUtil.toHexEncoding(mCPView.getColor());
-        }
-        return ColorUtil.toHexEncoding(mInitialColor);
+        return ColorUtil.toHexEncoding(mCurrentColor);
     }
 
     public void setValue(String colorStr) {
         if (colorStr != null) {
-            if (mCPView != null) {
-                mCPView.setColor(Color.parseColor(colorStr));
-            } else {
-                mInitialColor = Color.parseColor(colorStr);
+            try {
+                mCurrentColor = Color.parseColor(colorStr);
+            } catch (Exception e) {
             }
         }
     }
@@ -63,10 +58,10 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         if (defaultValue != null) {
             if (defaultValue instanceof Integer) {
-                mInitialColor = ((Integer) defaultValue).intValue();
+                mCurrentColor = ((Integer) defaultValue).intValue();
             }
             if (defaultValue instanceof CharSequence) {
-                mInitialColor = Color.parseColor(defaultValue.toString());
+                mCurrentColor = Color.parseColor(defaultValue.toString());
             }
         }
     }
@@ -296,12 +291,14 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         };
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         String color = prefs.getString(getKey(), null);
-        mInitialColor = color == null ? mInitialColor : Color.parseColor(color);
+        if (color != null) {
+            mCurrentColor = Color.parseColor(color);
+        }
         // 主要是设置 调色板的布局
         LinearLayout layout = new LinearLayout(getContext());
         layout.setPadding(10, 10, 10, 10);
         layout.setOrientation(LinearLayout.VERTICAL);
-        mCPView = new ColorPickerView(getContext(), l, mInitialColor);
+        mCPView = new ColorPickerView(getContext(), l, mCurrentColor);
         LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -311,7 +308,7 @@ public class ColorPickerPreference extends DialogPreference { // ColorPickerPref
         editText = new EditText(getContext());
         editText.setLayoutParams(params1);
         editText.setEnabled(false);
-        editText.setText(ColorUtil.toHexEncoding(mInitialColor));
+        editText.setText(ColorUtil.toHexEncoding(mCurrentColor));
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

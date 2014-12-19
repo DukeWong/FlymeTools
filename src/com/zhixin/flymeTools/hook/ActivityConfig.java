@@ -31,16 +31,19 @@ public class ActivityConfig {
     private Activity thisActivity;
     private String packageName;
     private String activityName;
-    private View rootView=null;
+    private View rootView = null;
+
     public void log(String text) {
         LogUtil.log(activityName + " 消息:" + text);
     }
-    public View getRootView(){
-        if (rootView==null){
-            rootView= thisActivity.getWindow().getDecorView().findViewById(android.R.id.content);
+
+    public View getRootView() {
+        if (rootView == null) {
+            rootView = thisActivity.getWindow().getDecorView();
         }
         return rootView;
     }
+
     public ActivityConfig(Activity activity) {
         thisActivity = activity;
         packageName = activity.getPackageName();
@@ -78,6 +81,13 @@ public class ActivityConfig {
     }
 
     /**
+     *是否显示通知栏消息
+     * @return
+     */
+    public  boolean isshowNotification(){
+        return globalSharedPreferences.getBoolean(ConstUtil.SHOW_NOTIFICATION, true);
+    }
+    /**
      * 是否强制状态栏字体
      *
      * @return
@@ -95,6 +105,10 @@ public class ActivityConfig {
         return this.getConfigBoolean(ConstUtil.REVERSE_SETTING, false);
     }
 
+
+    public boolean isAppChangeStatusBar() {
+        return  globalSharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, true);
+    }
     /**
      * 是否需要更新状态栏
      *
@@ -107,6 +121,7 @@ public class ActivityConfig {
         }
         return false;
     }
+
     /**
      * 强制模式下是否预留状态栏
      *
@@ -130,14 +145,16 @@ public class ActivityConfig {
     }
 
     protected StatusBarDrawable getAutomaticColor(boolean useCache, int barHeight) {
-        if (!useCache){automaticColor=null;}
+        if (!useCache) {
+            automaticColor = null;
+        }
         if (automaticColor == null) {
             Integer color = null;
             SharedPreferences sharedPreferences = thisActivity.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME, 0);
             if (sharedPreferences.contains(activityName) && useCache) {
                 color = sharedPreferences.getInt(activityName, 0);
             } else {
-                color = ActivityUtil.getStatusBarColor(thisActivity,false);
+                color = ActivityUtil.getStatusBarColor(thisActivity, false);
                 if (color != null) {
                     this.log("自动识别颜色为" + color);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -157,11 +174,14 @@ public class ActivityConfig {
         }
         return automaticColor;
     }
-    public  boolean isTouchGetColor(){
-        return  globalSharedPreferences.getBoolean(ConstUtil.TOUCH_GET_COLOR,true);
+
+    public boolean isTouchGetColor() {
+        return globalSharedPreferences.getBoolean(ConstUtil.TOUCH_GET_COLOR, true);
     }
+
     /**
      * 使用自动获取颜色
+     *
      * @return
      */
     protected ColorDrawable getStatusBarDrawable(boolean useCache) {
@@ -169,7 +189,7 @@ public class ActivityConfig {
         StatusBarDrawable statusBarDrawable = null;
         int barHeight = ActivityUtil.getStatusBarHeight(thisActivity);
         if (useAutomaticColor) {
-            statusBarDrawable = getAutomaticColor(useCache,barHeight);
+            statusBarDrawable = getAutomaticColor(useCache, barHeight);
         } else {
             if (appSharedPreferences.contains(ConstUtil.TRANSLUCENT_COLOR)) {
                 String color = this.getConfigString(ConstUtil.TRANSLUCENT_COLOR, null);

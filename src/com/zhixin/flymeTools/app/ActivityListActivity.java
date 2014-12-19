@@ -1,14 +1,23 @@
 package com.zhixin.flymeTools.app;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
+import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ActivityUtil;
+import com.zhixin.flymeTools.Util.FileUtil;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -56,5 +65,36 @@ public class ActivityListActivity extends ListActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (items!=null && items.size()>0){
+            MenuItem item = menu.add(0, 0, 0, "del");
+            item.setIcon(R.drawable.ic_table_delete);
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        AlertDialog.Builder builder  = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm) ;
+        builder.setMessage(R.string.delConfigFile) ;
+        builder.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String folder= FileUtil.getSharedPreferencesRoot(packageName).getPath();
+                for (int i=0;i<items.size();i++){
+                    File file=new File(folder,items.get(i)+".xml");
+                    if (file.exists()){
+                        file.delete();
+                    }
+                }
+                Toast.makeText(ActivityListActivity.this,R.string.successfully_del,Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton(R.string.No, null);
+        builder.show();
+        return false;
     }
 }

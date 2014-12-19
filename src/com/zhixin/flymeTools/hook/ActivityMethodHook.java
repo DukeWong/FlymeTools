@@ -1,6 +1,7 @@
 package com.zhixin.flymeTools.hook;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import com.zhixin.flymeTools.Util.AppUtil;
 import com.zhixin.flymeTools.Util.LogUtil;
 import de.robv.android.xposed.XC_MethodHook;
@@ -14,11 +15,11 @@ public class ActivityMethodHook {
         void doMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook);
     }
 
-    public static void doMethodHookCallBack(Activity activity, XC_MethodHook.MethodHookParam param, IDoMethodHook callBack) {
+    public static void doMethodHookCallBack(Activity activity, Resources resources, XC_MethodHook.MethodHookParam param, IDoMethodHook callBack) {
         if (!AppUtil.isSystemApp(activity)) {
             ObjectHook hook = ObjectHook.getObjectHook(activity);
             if (hook == null) {
-                hook = new ActivityColorHook(activity);
+                hook = new ActivityColorHook(activity, resources);
             }
             if (hook instanceof ActivityColorHook) {
                 callBack.doMethodHook(param, (Activity) param.thisObject, (ActivityColorHook) hook);
@@ -27,9 +28,15 @@ public class ActivityMethodHook {
     }
 
     public static class TouchEventMethod extends XC_MethodHook implements IDoMethodHook {
+        private Resources mResources;
+
+        public TouchEventMethod(Resources mResources) {
+            this.mResources = mResources;
+        }
+
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-            doMethodHookCallBack((Activity) param.thisObject, param, this);
+            doMethodHookCallBack((Activity) param.thisObject, mResources, param, this);
         }
 
         @Override
@@ -41,11 +48,15 @@ public class ActivityMethodHook {
     }
 
     public static class DecorViewFocusMethod extends WindowFocusMethod {
+        public DecorViewFocusMethod(Resources mResources) {
+            super(mResources);
+        }
+
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
             Object thisActivity = XposedHelpers.getObjectField(param.thisObject, "mCallback");
             if (thisActivity != null && thisActivity instanceof Activity) {
-                doMethodHookCallBack((Activity) thisActivity, param, this);
+                doMethodHookCallBack((Activity) thisActivity, this.getmResources(), param, this);
             } else {
                 LogUtil.log(thisActivity == null ? "thisActivity为空" : thisActivity.getClass().getName());
             }
@@ -53,9 +64,19 @@ public class ActivityMethodHook {
     }
 
     public static class WindowFocusMethod extends XC_MethodHook implements IDoMethodHook {
+        public Resources getmResources() {
+            return mResources;
+        }
+
+        private Resources mResources;
+
+        public WindowFocusMethod(Resources mResources) {
+            this.mResources = mResources;
+        }
+
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-            doMethodHookCallBack((Activity) param.thisObject, param, this);
+            doMethodHookCallBack((Activity) param.thisObject, mResources, param, this);
         }
 
         @Override
@@ -64,6 +85,7 @@ public class ActivityMethodHook {
             if (hasFocus) {
                 activityColorHook.updateSmartbarColor();
                 activityColorHook.updateStatusBarLit();
+                activityColorHook.showNotification();
             }
         }
     }
