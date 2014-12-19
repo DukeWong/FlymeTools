@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.base.BaseSettingActivity;

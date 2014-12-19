@@ -63,4 +63,6 @@ public class ConstUtil {
      */
     public static String TOUCH_GET_COLOR="preference_touch_get_color";
 
+    public static String SHOW_NOTIFICATION="preference_touch_get_color";
+
 }

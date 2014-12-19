@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.content.pm.ComponentInfo;
 import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
+import android.content.res.XModuleResources;
 import android.os.Build;
 import android.view.MotionEvent;
-import com.zhixin.flymeTools.Util.AppUtil;
-import com.zhixin.flymeTools.Util.LogUtil;
 import de.robv.android.xposed.*;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -15,11 +14,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * Created by ZXW on 2014/12/12.
  */
 public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPackage {
+    private  XModuleResources mResources;
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new ActivityMethodHook.WindowFocusMethod());
-            XposedHelpers.findAndHookMethod(Activity.class, "dispatchTouchEvent", MotionEvent.class, new ActivityMethodHook.TouchEventMethod());
+            mResources = XModuleResources.createInstance(startupParam.modulePath, null);
+            XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new ActivityMethodHook.WindowFocusMethod(mResources));
+            XposedHelpers.findAndHookMethod(Activity.class, "dispatchTouchEvent", MotionEvent.class, new ActivityMethodHook.TouchEventMethod(mResources));
             XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
             XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
         }
@@ -36,7 +37,7 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
             classPatch = new DecorViewHook();
         }*/
         if (classPatch != null) {
-            classPatch.initPatch(loadPackageParam);
+            classPatch.initPatch(loadPackageParam,mResources);
         }
     }
 }

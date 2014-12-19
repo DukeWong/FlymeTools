@@ -87,4 +87,9 @@
     <string name="touch_get_color">touch_get_color</string>
     <string name="touch_get_color_summary">touch_get_color_summary</string>
     <string name="preference_touch_get_color">preference_touch_get_color</string>
+    <string name="preference_show_notification">preference_show_notification</string>
+    <string name="show_notification">show_notification</string>
+    <string name="show_notification_summary">show_notification_summary</string>
+    <string name="notification_add_activity">notification_add_activity</string>
+    <string name="notification_add_app">notification_add_app</string>
 </resources>

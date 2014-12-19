@@ -1,12 +1,17 @@
 package com.zhixin.flymeTools.hook;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import android.app.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.*;
 
 /**
@@ -18,6 +23,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     private View mActionView;
     private View mSplitView;
     private ActivityConfig config;
+    private Resources mResources;
     /**
      * 已经修改够颜色标识
      */
@@ -25,8 +31,9 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     private boolean isUpdateColor = false;
     private boolean mustChange = false;
 
-    public ActivityColorHook(Activity thisObject) {
+    public ActivityColorHook(Activity thisObject, Resources resources) {
         super(thisObject);
+        mResources = resources;
         packageName = thisObject.getPackageName();
         activityName = thisObject.getClass().getName();
         config = new ActivityConfig(thisObject);
@@ -185,9 +192,11 @@ public class ActivityColorHook extends ObjectHook<Activity> {
             }
         }
     }
-    public  boolean isTouchGetColor(){
+
+    public boolean isTouchGetColor() {
         return config.isTouchGetColor();
     }
+
     /**
      * 更新顶栏颜色
      */
@@ -202,6 +211,14 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                 this.log("单独重新更新颜色");
                 config.setAutomaticColor(null);
                 this.setStatusBarDrawable(config.getStatusBarDrawable(false));
+            }
+        }
+    }
+
+    protected void showNotification() {
+        if (config.isAppChangeStatusBar()) {
+            if (config.isshowNotification() && mResources != null) {
+                showNotification(thisObject, mResources);
             }
         }
     }
@@ -227,5 +244,49 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                 }
             }
         }
+    }
+
+    /**
+     * 显示通知栏消息
+     *
+     * @param activity
+     * @param resources
+     */
+    public static void showNotification(Activity activity, Resources resources) {
+        String packageName = activity.getPackageName();
+        String activityName = activity.getClass().getName();
+        ComponentName cnActivity = new ComponentName(FileUtil.THIS_PACKAGE_NAME, FileUtil.THIS_PACKAGE_NAME + ".app.ActivitySettingActivity");
+        ComponentName cnApp = new ComponentName(FileUtil.THIS_PACKAGE_NAME, FileUtil.THIS_PACKAGE_NAME + ".app.AppSettingActivity");
+        Intent activityIntent = new Intent().setComponent(cnActivity);
+        Intent appIntent = new Intent().setComponent(cnApp);
+        ///页面设置
+        activityIntent.putExtra("packageName", packageName);
+        activityIntent.putExtra("activityName", activityName);
+        //应用设置
+
+        appIntent.putExtra("packageName", packageName);
+        appIntent.putExtra("appName",AppUtil.getApplicationName(activity));
+        //
+        PendingIntent activityPendingIntent = PendingIntent.getActivity(activity, 0,
+                activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent appPendingIntent = PendingIntent.getActivity(activity, 1,
+                appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationManager nm = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(activity);
+        builder.setContentText(activityName);
+        builder.setContentTitle(packageName);
+        /*
+        Bitmap bitmap=ColorUtil.ScreenShots(activity,false);
+        builder.setLargeIcon(bitmap);
+        */
+        builder.setSmallIcon(android.R.drawable.sym_def_app_icon);
+        builder.setAutoCancel(true);//点击消失
+        builder.addAction(android.R.drawable.ic_menu_add,
+                resources.getString(R.string.notification_add_activity), activityPendingIntent);
+        builder.addAction(android.R.drawable.ic_menu_add,
+                resources.getString(R.string.notification_add_app), appPendingIntent);
+        Notification notification = builder.build();
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        nm.notify(1240, notification);
     }
 }

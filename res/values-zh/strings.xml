@@ -67,4 +67,8 @@
     <string name="force_brightly_lit_mode_summary">强制调整沉浸状态栏</string>
     <string name="touch_get_color">触摸取色</string>
     <string name="touch_get_color_summary">触摸屏幕后取颜色用于状态栏调整</string>
+    <string name="show_notification">消息栏通知</string>
+    <string name="show_notification_summary">发送消息栏通知设置页面</string>
+    <string name="notification_add_activity">设置页面</string>
+    <string name="notification_add_app">设置应用</string>
 </resources>
