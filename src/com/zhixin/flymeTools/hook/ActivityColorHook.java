@@ -12,7 +12,7 @@ import com.zhixin.flymeTools.Util.*;
 /**
  * Created by ZXW on 2014/12/17.
  */
-public class ActivityHook extends ObjectHook<Activity> {
+public class ActivityColorHook extends ObjectHook<Activity> {
     private String packageName = null;
     private String activityName = null;
     private View mActionView;
@@ -25,7 +25,7 @@ public class ActivityHook extends ObjectHook<Activity> {
     private boolean isUpdateColor = false;
     private boolean mustChange = false;
 
-    public ActivityHook(Activity thisObject) {
+    public ActivityColorHook(Activity thisObject) {
         super(thisObject);
         packageName = thisObject.getPackageName();
         activityName = thisObject.getClass().getName();
@@ -168,7 +168,7 @@ public class ActivityHook extends ObjectHook<Activity> {
         boolean forceBlack = config.isForeBlackCorlor();
         ActivityUtil.setDarkBar(thisObject, forceBlack);
         if (statusBarDrawable != null) {
-            View rootLayer = thisObject.getWindow().getDecorView();
+            View rootLayer = config.getRootView();
             rootLayer.setBackground(statusBarDrawable);
             /**
              * 反向设置ActionBar颜色
@@ -186,6 +186,9 @@ public class ActivityHook extends ObjectHook<Activity> {
 
         }
     }
+    public  boolean isTouchGetColor(){
+        return config.isTouchGetColor();
+    }
     /**
      * 更新顶栏颜色
      */
@@ -199,7 +202,7 @@ public class ActivityHook extends ObjectHook<Activity> {
                 isUpdateColor = true;
                 this.log("单独重新更新颜色");
                 config.setAutomaticColor(null);
-                this.setStatusBarDrawable(config.getStatusBarDrawable(true));
+                this.setStatusBarDrawable(config.getStatusBarDrawable(false));
             }
         }
     }

@@ -3,8 +3,14 @@
     <PreferenceCategory android:title="@string/translucent_decor"
                         android:summary="@string/translucent_decor">
         <SwitchPreference android:title="@string/translucent_compulsory"
+                          android:defaultValue="true"
                           android:summary="@string/translucent_compulsory_summary"
                           android:key="@string/preference_translucent_compulsory">
+        </SwitchPreference>
+        <SwitchPreference android:title="@string/touch_get_color"
+                          android:defaultValue="true"
+                          android:summary="@string/touch_get_color_summary"
+                          android:key="@string/preference_touch_get_color">
         </SwitchPreference>
     </PreferenceCategory>
 </PreferenceScreen>

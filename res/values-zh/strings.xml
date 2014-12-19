@@ -60,4 +60,6 @@
     <string name="brightly_lit_smartbar_summary">让导航栏保持通明</string>
     <string name="force_brightly_lit_mode">强制模式</string>
     <string name="force_brightly_lit_mode_summary">强制调整沉浸状态栏</string>
+    <string name="touch_get_color">触摸取色</string>
+    <string name="touch_get_color_summary">触摸屏幕后取颜色用于状态栏调整</string>
 </resources>

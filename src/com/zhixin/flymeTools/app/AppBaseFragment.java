@@ -49,7 +49,7 @@ public abstract class AppBaseFragment extends PreferenceFragment {
     protected String preference_translucent_compulsory;
     protected String preference_force_brightly_lit_mode;
     protected String preference_reverse_setting_action_bar;
-    protected String preference_brightly_lit_smart_bar;
+    protected String preference_brightly_lit_status_bar;
     protected String preference_has_ActionBar;
     protected String preference_force_black_color;
     protected String preference_automatic_color_open;
@@ -58,7 +58,7 @@ public abstract class AppBaseFragment extends PreferenceFragment {
     protected SwitchPreference m_translucent_compulsory = null;
     protected SwitchPreference m_force_brightly_lit_mode = null;
     protected SwitchPreference m_reverse_setting_action_bar = null;
-    protected SwitchPreference m_brightly_lit_smart_bar = null;
+    protected SwitchPreference m_brightly_lit_status_bar = null;
     protected SwitchPreference m_has_ActionBar = null;
     protected SwitchPreference m_force_black_color = null;
     protected SwitchPreference m_automatic_color_open = null;
@@ -75,7 +75,7 @@ public abstract class AppBaseFragment extends PreferenceFragment {
         preference_translucent_compulsory = this.getResources().getString(R.string.preference_translucent_compulsory);
         preference_force_brightly_lit_mode = this.getResources().getString(R.string.preference_force_brightly_lit_mode);
         preference_reverse_setting_action_bar = this.getResources().getString(R.string.preference_reverse_setting_action_bar);
-        preference_brightly_lit_smart_bar = this.getResources().getString(R.string.preference_brightly_lit_smart_bar);
+        preference_brightly_lit_status_bar = this.getResources().getString(R.string.preference_brightly_lit_status_bar);
         preference_has_ActionBar = this.getResources().getString(R.string.preference_has_ActionBar);
         preference_force_black_color = this.getResources().getString(R.string.preference_force_black_color);
         preference_automatic_color_open = this.getResources().getString(R.string.preference_automatic_color_open);
@@ -158,7 +158,7 @@ public abstract class AppBaseFragment extends PreferenceFragment {
         onForce_brightly_lit_modeChange(m_force_brightly_lit_mode.isChecked());
     }
     protected void onForce_brightly_lit_modeChange(boolean isSelect) {
-        m_brightly_lit_smart_bar.setEnabled(isSelect);
+        m_brightly_lit_status_bar.setEnabled(isSelect);
         m_has_ActionBar.setEnabled(isSelect);
     }
     protected void onTranslucent_colorChange(boolean isSelect) {
@@ -174,7 +174,7 @@ public abstract class AppBaseFragment extends PreferenceFragment {
         m_translucent_compulsory = (SwitchPreference) findPreference(preference_translucent_compulsory);
         m_force_brightly_lit_mode = (SwitchPreference) findPreference(preference_force_brightly_lit_mode);
         m_reverse_setting_action_bar = (SwitchPreference) findPreference(preference_reverse_setting_action_bar);
-        m_brightly_lit_smart_bar = (SwitchPreference) findPreference(preference_brightly_lit_smart_bar);
+        m_brightly_lit_status_bar = (SwitchPreference) findPreference(preference_brightly_lit_status_bar);
         m_has_ActionBar = (SwitchPreference) findPreference(preference_has_ActionBar);
         m_force_black_color = (SwitchPreference) findPreference(preference_force_black_color);
         m_automatic_color_open = (SwitchPreference) findPreference(preference_automatic_color_open);

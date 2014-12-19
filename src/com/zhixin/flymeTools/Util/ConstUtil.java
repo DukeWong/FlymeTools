@@ -64,5 +64,9 @@ public class ConstUtil {
      * 状态栏强制模式
      */
     public static String FORCE_LIT_MODE="preference_force_brightly_lit_mode";
+    /**
+     * 触摸获取颜色值
+     */
+    public static String TOUCH_GET_COLOR="preference_touch_get_color";
 
 }

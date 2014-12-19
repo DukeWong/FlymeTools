@@ -41,10 +41,10 @@
                           android:summary="@string/force_brightly_lit_mode_summary"
                           android:key="@string/preference_force_brightly_lit_mode">
         </SwitchPreference>
-        <SwitchPreference android:title="@string/brightly_lit_smart_bar"
+        <SwitchPreference android:title="@string/brightly_lit_status_bar"
                           android:enabled="false"
-                          android:summary="@string/brightly_lit_smartbar_summary"
-                          android:key="@string/preference_brightly_lit_smart_bar">
+                          android:summary="@string/brightly_lit_status_bar_summary"
+                          android:key="@string/preference_brightly_lit_status_bar">
         </SwitchPreference>
         <SwitchPreference android:title="@string/has_ActionBar"
                           android:enabled="false"
