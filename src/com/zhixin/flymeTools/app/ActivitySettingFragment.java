@@ -34,18 +34,17 @@ public class ActivitySettingFragment extends AppBaseFragment {
             this.getPreferenceManager().setSharedPreferencesName(activityName);
         }
     }
-
     @Override
     protected void bindStatusBarDefault(SharedPreferences sharedPreferences) {
         SharedPreferences appSharedPreferences = this.getActivity().getSharedPreferences(this.getPackageName() + "_preferences", 0);
-        m_translucent_compulsory.setChecked(appSharedPreferences.getBoolean(preference_translucent_compulsory, appSharedPreferences.getBoolean(preference_translucent_compulsory, false)));
-        m_force_brightly_lit_mode.setChecked(appSharedPreferences.getBoolean(preference_force_brightly_lit_mode, appSharedPreferences.getBoolean(preference_force_brightly_lit_mode, false)));
-        m_reverse_setting_action_bar.setChecked(appSharedPreferences.getBoolean(preference_reverse_setting_action_bar, appSharedPreferences.getBoolean(preference_reverse_setting_action_bar, false)));
-        m_brightly_lit_smart_bar.setChecked(appSharedPreferences.getBoolean(preference_brightly_lit_smart_bar, appSharedPreferences.getBoolean(preference_brightly_lit_smart_bar, false)));
-        m_has_ActionBar.setChecked(appSharedPreferences.getBoolean(preference_has_ActionBar, appSharedPreferences.getBoolean(preference_has_ActionBar, false)));
-        m_force_black_color.setChecked(appSharedPreferences.getBoolean(preference_force_black_color, appSharedPreferences.getBoolean(preference_force_black_color, false)));
-        m_automatic_color_open.setChecked(appSharedPreferences.getBoolean(preference_automatic_color_open, appSharedPreferences.getBoolean(preference_automatic_color_open, false)));
-        m_translucent_color.setValue(appSharedPreferences.getString(preference_translucent_color, appSharedPreferences.getString(preference_translucent_color, null)));
+        m_translucent_compulsory.setChecked(sharedPreferences.getBoolean(preference_translucent_compulsory, appSharedPreferences.getBoolean(preference_translucent_compulsory, false)));
+        m_force_brightly_lit_mode.setChecked(sharedPreferences.getBoolean(preference_force_brightly_lit_mode, appSharedPreferences.getBoolean(preference_force_brightly_lit_mode, false)));
+        m_reverse_setting_action_bar.setChecked(sharedPreferences.getBoolean(preference_reverse_setting_action_bar, appSharedPreferences.getBoolean(preference_reverse_setting_action_bar, false)));
+        m_brightly_lit_status_bar.setChecked(sharedPreferences.getBoolean(preference_brightly_lit_status_bar, appSharedPreferences.getBoolean(preference_brightly_lit_status_bar, false)));
+        m_has_ActionBar.setChecked(sharedPreferences.getBoolean(preference_has_ActionBar, appSharedPreferences.getBoolean(preference_has_ActionBar, false)));
+        m_force_black_color.setChecked(sharedPreferences.getBoolean(preference_force_black_color, appSharedPreferences.getBoolean(preference_force_black_color, false)));
+        m_automatic_color_open.setChecked(sharedPreferences.getBoolean(preference_automatic_color_open, appSharedPreferences.getBoolean(preference_automatic_color_open, false)));
+        m_translucent_color.setValue(sharedPreferences.getString(preference_translucent_color, appSharedPreferences.getString(preference_translucent_color, null)));
         String color = sharedPreferences.getString(preference_translucent_color, appSharedPreferences.getString(preference_translucent_color, null));
         m_translucent_color.setValue(color);
         if (color != null) {

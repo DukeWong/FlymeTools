@@ -28,15 +28,11 @@ public class ColorUtil {
         return sb.toString();
     }
     public static Bitmap loadBitmapFromView(View v) {
-        if (v == null) {return null; }
-        v.buildDrawingCache();
-        Bitmap bitmap = v.getDrawingCache();
-        if (bitmap == null) {
-            bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas c = new Canvas(bitmap);
-            c.translate(-v.getScrollX(), -v.getScrollY());
-            v.draw(c);
-        }
+        if (v == null) {return null;}
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bitmap);
+        c.translate(-v.getScrollX(), -v.getScrollY());
+        v.draw(c);
         return bitmap;
     }
     public static boolean TestColorOfWhite(int color, int faultTolerant) {

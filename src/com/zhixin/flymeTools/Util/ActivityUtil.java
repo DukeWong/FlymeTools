@@ -3,7 +3,6 @@ package com.zhixin.flymeTools.Util;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,13 +13,10 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.os.Environment;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import com.zhixin.flymeTools.hook.StatusBarHook;
-import de.robv.android.xposed.XposedHelpers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -187,14 +183,17 @@ public class ActivityUtil {
             e.printStackTrace();
         }
     }
-    public  static  Integer getStatusBarColor(Activity activity){
+    public  static  Integer getStatusBarColor(Activity activity,boolean savePic){
         View decorView = activity.getWindow().getDecorView();
         Bitmap bitmap = ColorUtil.loadBitmapFromView(decorView);
         if (bitmap != null) {
             //保存截图
-            //File file=new File(Environment.getExternalStorageDirectory(),"Pictures/"+activity.getClass().getName()+".png");
-            //savePic(bitmap,file);
+            if (savePic){
+                File file=new File(Environment.getExternalStorageDirectory(),"Pictures/"+activity.getClass().getName()+".png");
+                savePic(bitmap,file);
+            }
             int color = bitmap.getPixel(bitmap.getWidth() / 2, ActivityUtil.getStatusBarHeight(activity) +2);
+            bitmap.recycle();
             return color;
         }
         return null;

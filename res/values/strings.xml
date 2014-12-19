@@ -79,4 +79,7 @@
     <string name="preference_force_brightly_lit_mode">preference_force_brightly_lit_mode</string>
     <string name="force_brightly_lit_mode">force_brightly_lit_mode</string>
     <string name="force_brightly_lit_mode_summary">force_brightly_lit_mode_summary</string>
+    <string name="touch_get_color">touch_get_color</string>
+    <string name="touch_get_color_summary">touch_get_color_summary</string>
+    <string name="preference_touch_get_color">preference_touch_get_color</string>
 </resources>

@@ -86,6 +86,7 @@ public class ActivityLinkItem extends LinearLayout {
         this.mImage=typedArray.getDrawable(R.styleable.ActivityLinkItem_image);
         this.title=typedArray.getText(R.styleable.ActivityLinkItem_title);
         this.setUrl(typedArray.getString(R.styleable.ActivityLinkItem_url));
+        typedArray.recycle();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.onCreate(mContext,inflater);
         this.setOnClickListener(new OnClickListener() {
