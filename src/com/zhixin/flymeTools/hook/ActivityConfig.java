@@ -154,7 +154,7 @@ public class ActivityConfig {
             if (sharedPreferences.contains(activityName) && useCache) {
                 color = sharedPreferences.getInt(activityName, 0);
             } else {
-                color = ActivityUtil.getStatusBarColor(thisActivity, false);
+                color = ActivityUtil.getStatusBarColor(thisActivity);
                 if (color != null) {
                     this.log("自动识别颜色为" + color);
                     SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -183,20 +183,9 @@ public class ActivityUtil {
             e.printStackTrace();
         }
     }
-    public  static  Integer getStatusBarColor(Activity activity,boolean savePic){
+    public  static  Integer getStatusBarColor(Activity activity){
         View decorView = activity.getWindow().getDecorView();
-        Bitmap bitmap = ColorUtil.loadBitmapFromView(decorView);
-        if (bitmap != null) {
-            //保存截图
-            if (savePic){
-                File file=new File(Environment.getExternalStorageDirectory(),"Pictures/"+activity.getClass().getName()+".png");
-                savePic(bitmap,file);
-            }
-            int color = bitmap.getPixel(bitmap.getWidth() / 2, ActivityUtil.getStatusBarHeight(activity) +2);
-            bitmap.recycle();
-            return color;
-        }
-        return null;
+        return ColorUtil.loadBitmapColor(decorView, decorView.getWidth()/2,ActivityUtil.getStatusBarHeight(activity) +2);
     }
     /**
      * 获取ActionBar的高度

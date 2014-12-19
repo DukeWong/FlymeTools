@@ -32,39 +32,28 @@ public class ColorUtil {
         sb.append(B.toUpperCase());
         return sb.toString();
     }
-
-    public static Bitmap ScreenShots(Activity activity, boolean full) {
-        final TypedArray typedArray = activity.obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
-        int actionBarSize = (int) typedArray.getDimension(0, 0);
-        typedArray.recycle();
-        Rect rect = new Rect();
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-        int top = rect.top;
-        Bitmap bitmap1 = loadBitmapFromView(activity.getWindow().getDecorView());
-        if (bitmap1 != null && !full) {
-            Bitmap bitmap = Bitmap.createBitmap(bitmap1, 0, top, bitmap1.getWidth(), actionBarSize);
-            ByteArrayOutputStream compressedBitmap = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, compressedBitmap);
-            return bitmap;
-        }
-        return bitmap1;
-    }
-
-    public static Bitmap loadBitmapFromView(View view) {
-        Bitmap bitmap=null;
-        if (view != null) {
-            view.setDrawingCacheEnabled(true);
-            bitmap = view.getDrawingCache();
-            if (bitmap == null) {
-                if (view.getWidth() > 0 && view.getHeight() > 0) {
-                    bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-                    Canvas c = new Canvas(bitmap);
-                    c.translate(-view.getScrollX(), -view.getScrollY());
-                    view.draw(c);
+    public static Integer loadBitmapColor(View view, int x, int y) {
+        try {
+            if (view != null) {
+                view.setDrawingCacheEnabled(true);
+                Bitmap bitmap = view.getDrawingCache();
+                if (bitmap == null) {
+                    if (view.getWidth() > 0 && view.getHeight() > 0) {
+                        bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas c = new Canvas(bitmap);
+                        c.translate(-view.getScrollX(), -view.getScrollY());
+                        view.draw(c);
+                        int color = bitmap.getPixel(x, y);
+                        bitmap.recycle();
+                        return color;
+                    }
+                } else {
+                    return bitmap.getPixel(x, y);
                 }
             }
+        } catch (Exception e) {
         }
-        return bitmap;
+        return null;
     }
 
     public static boolean TestColorOfWhite(int color, int faultTolerant) {

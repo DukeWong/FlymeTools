@@ -5,9 +5,9 @@ package com.zhixin.flymeTools.Util;
  */
 public class ConstUtil {
 
-     public static  String DEF_PREFERENCES="_preferences";
+    public static String DEF_PREFERENCES = "_preferences";
     /**
-     *开启状态栏
+     * 开启状态栏
      */
     public static String PREFERENCE_TRANSLUCENT = "preference_translucent_compulsory";
     /**
@@ -45,24 +45,26 @@ public class ConstUtil {
     /**
      * 反向颜色到ActionBar
      */
-    public static String REVERSE_SETTING="preference_reverse_setting_action_bar";
+    public static String REVERSE_SETTING = "preference_reverse_setting_action_bar";
     /**
      * 通明状态栏
      */
-    public static String BRIGHTLY_TATUS_BAR="preference_brightly_lit_status_bar";
+    public static String BRIGHTLY_TATUS_BAR = "preference_brightly_lit_status_bar";
     /**
      * 通明导航栏
      */
-    public static String BRIGHTLY_SMART_BAR="preference_brightly_lit_smart_bar";
+    public static String BRIGHTLY_SMART_BAR = "preference_brightly_lit_smart_bar";
     /**
      * 状态栏强制模式
      */
-    public static String FORCE_LIT_MODE="preference_force_brightly_lit_mode";
+    public static String FORCE_LIT_MODE = "preference_force_brightly_lit_mode";
     /**
      * 触摸获取颜色值
      */
-    public static String TOUCH_GET_COLOR="preference_touch_get_color";
-
-    public static String SHOW_NOTIFICATION="preference_touch_get_color";
+    public static String TOUCH_GET_COLOR = "preference_touch_get_color";
+    /**
+     * 显示消息设置
+     */
+    public static String SHOW_NOTIFICATION = "preference_show_notification";
 
 }
