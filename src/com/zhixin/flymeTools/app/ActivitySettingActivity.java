@@ -45,6 +45,9 @@ public class ActivitySettingActivity extends BaseSettingActivity {
         settingFragment = new ActivitySettingFragment();
         settingFragment.setActivityName(activityName);
         settingFragment.setPackageName(packageName);
+        if(this.getIntent().hasExtra("color")){
+            settingFragment.setInitColor(this.getIntent().getIntExtra("color",0));
+        }
         return settingFragment;
     }
     @Override

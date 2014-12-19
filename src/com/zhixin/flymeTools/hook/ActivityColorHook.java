@@ -259,13 +259,17 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         ComponentName cnApp = new ComponentName(FileUtil.THIS_PACKAGE_NAME, FileUtil.THIS_PACKAGE_NAME + ".app.AppSettingActivity");
         Intent activityIntent = new Intent().setComponent(cnActivity);
         Intent appIntent = new Intent().setComponent(cnApp);
+
+        int color=ActivityUtil.getStatusBarColor(activity,false);
         ///页面设置
         activityIntent.putExtra("packageName", packageName);
         activityIntent.putExtra("activityName", activityName);
+        activityIntent.putExtra("color",color);
         //应用设置
 
         appIntent.putExtra("packageName", packageName);
         appIntent.putExtra("appName",AppUtil.getApplicationName(activity));
+        appIntent.putExtra("color",color);
         //
         PendingIntent activityPendingIntent = PendingIntent.getActivity(activity, 0,
                 activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);

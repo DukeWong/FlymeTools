@@ -50,6 +50,9 @@ public class AppSettingActivity extends BaseSettingActivity {
         AppSettingFragment appSettingFragment = new AppSettingFragment();
         appSettingFragment.setPackageName(packageName);
         appSettingFragment.setAppName(appName);
+        if(this.getIntent().hasExtra("color")){
+            appSettingFragment.setInitColor(this.getIntent().getIntExtra("color",0));
+        }
         appSettingFragment.setDefaultType("1");
         return appSettingFragment;
     }

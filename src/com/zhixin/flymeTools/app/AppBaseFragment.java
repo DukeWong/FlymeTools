@@ -1,30 +1,27 @@
 package com.zhixin.flymeTools.app;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import com.zhixin.flymeTools.R;
+import com.zhixin.flymeTools.Util.ColorUtil;
 import com.zhixin.flymeTools.controls.ColorPickerPreference;
 
 /**
  * Created by ZXW on 2014/12/18.
  */
 public abstract class AppBaseFragment extends PreferenceFragment {
-    public String getActivityName() {
-        return activityName;
+
+
+    public void setInitColor(Integer initColor) {
+        this.initColor = initColor;
     }
 
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
+    private   Integer initColor;
     public String getPackageName() {
         return packageName;
     }
@@ -123,6 +120,10 @@ public abstract class AppBaseFragment extends PreferenceFragment {
         m_smartbar_type = (ListPreference) findPreference(preference_smartbar_type);
         m_smartbar_color = (ColorPickerPreference) findPreference(preference_smartbar_color);
         this.bindSmartBarDefault(sharedPreferences);
+        if (initColor!=null){
+            m_smartbar_color.setColor(initColor);
+            m_smartbar_color.setTitle(ColorUtil.toHexEncoding(initColor));
+        }
         onReplace_smartbarChange(m_replace_smartbar.isChecked());
         if (m_replace_smartbar != null) {
             m_replace_smartbar.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -209,6 +210,10 @@ public abstract class AppBaseFragment extends PreferenceFragment {
                 return true;
             }
         });
+        if (initColor!=null){
+            m_translucent_color.setColor(initColor);
+            m_translucent_color.setTitle(ColorUtil.toHexEncoding(initColor));
+        }
         if (m_translucent_color != null) {
             m_translucent_color.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
