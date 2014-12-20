@@ -1,19 +1,13 @@
 package com.zhixin.flymeTools.base;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import com.zhixin.flymeTools.Util.ActivityUtil;
 import com.zhixin.flymeTools.Util.FileUtil;
-import com.zhixin.flymeTools.Util.ReflectionUtil;
 
 import java.io.File;
 import java.lang.reflect.Field;

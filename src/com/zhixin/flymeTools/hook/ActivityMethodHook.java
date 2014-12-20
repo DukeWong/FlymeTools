@@ -3,7 +3,9 @@ package com.zhixin.flymeTools.hook;
 import android.app.Activity;
 import android.content.res.Resources;
 import com.zhixin.flymeTools.Util.AppUtil;
+import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.Util.LogUtil;
+import com.zhixin.flymeTools.Util.StringUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -16,17 +18,18 @@ public class ActivityMethodHook {
     }
 
     public static void doMethodHookCallBack(Activity activity, Resources resources, XC_MethodHook.MethodHookParam param, IDoMethodHook callBack) {
-        if (!AppUtil.isSystemApp(activity)) {
-            ObjectHook hook = ObjectHook.getObjectHook(activity);
-            if (hook == null) {
-                hook = new ActivityColorHook(activity, resources);
-            }
-            if (hook instanceof ActivityColorHook) {
-                callBack.doMethodHook(param, (Activity) param.thisObject, (ActivityColorHook) hook);
+        if (!StringUtil.equals(activity.getPackageName(),FileUtil.THIS_PACKAGE_NAME)){
+            if (!AppUtil.isSystemApp(activity)) {
+                ObjectHook hook = ObjectHook.getObjectHook(activity);
+                if (hook == null) {
+                    hook = new ActivityColorHook(activity, resources);
+                }
+                if (hook instanceof ActivityColorHook) {
+                    callBack.doMethodHook(param, (Activity) param.thisObject, (ActivityColorHook) hook);
+                }
             }
         }
     }
-
     public static class TouchEventMethod extends XC_MethodHook implements IDoMethodHook {
         private Resources mResources;
 

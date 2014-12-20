@@ -46,7 +46,7 @@ public class AppUtil {
         String applicationName = packageManager.getApplicationLabel(applicationInfo).toString();
         return applicationName;
     }
-    public static AppItemAdapter getAppItemAdapter(Context context, boolean includeSys) {
+    public static AppItemAdapter getAppItemAdapter(Context context, boolean includeSys,boolean includeSelf) {
         final PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
         AppItemAdapter mAdapter = new AppItemAdapter(context);
@@ -61,7 +61,9 @@ public class AppUtil {
                             , info.applicationInfo.loadLabel(packageManager).toString()
                             , isSysApp, info.applicationInfo.loadIcon(packageManager)
                     );
-                    mAdapter.addItem(item);
+                    if (includeSelf || !item.getPackgeName().equals(FileUtil.THIS_PACKAGE_NAME)){
+                        mAdapter.addItem(item);
+                    }
                 }
             }
         }

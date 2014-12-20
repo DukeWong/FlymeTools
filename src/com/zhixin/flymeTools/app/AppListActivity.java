@@ -35,7 +35,7 @@ public class AppListActivity extends ListActivity {
         list.setFitsSystemWindows(true);
     }
     public void loadData() {
-        mAdapter = AppUtil.getAppItemAdapter(this, !isDeleteSystemApp);
+        mAdapter = AppUtil.getAppItemAdapter(this, !isDeleteSystemApp,false);
         setListAdapter(mAdapter);
     }
     @Override

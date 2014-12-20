@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -172,7 +171,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     protected void setStatusBarDrawable(ColorDrawable statusBarDrawable) {
         //强制黑色字体状态栏
         isChangeColor = true;
-        boolean forceBlack = config.isForeBlackCorlor();
+        boolean forceBlack = config.isForeBlackColor();
         ActivityUtil.setDarkBar(thisObject, forceBlack);
         if (statusBarDrawable != null) {
             View rootLayer = config.getRootView();
@@ -215,9 +214,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         }
     }
 
-    protected void showNotification() {
+    public void showNotification() {
         if (config.isAppChangeStatusBar()) {
-            if (config.isshowNotification() && mResources != null) {
+            if (config.isShowNotification() && mResources != null) {
+                this.log("发送消息通知");
                 showNotification(thisObject, mResources);
             }
         }

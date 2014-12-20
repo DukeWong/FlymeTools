@@ -134,20 +134,6 @@ public class ActivityUtil {
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         return attrs.flags == ((attrs.flags & ~flags) | (flags & flags));
     }
-    public static int getNavigationBarHeight(Activity activity) {
-        return NAVIGATION_BAR_HEIGHT;
-    }
-
-    /**
-     * 获取状态栏高度+ActionBar高度
-     *
-     * @param activity
-     * @return
-     */
-    public static int getStatusBarAndActionBarHeight(Activity activity) {
-        return getStatusBarHeight(activity) + getActionBarHeight(activity);
-    }
-
     /**
      * 获取手机状态栏高度
      *

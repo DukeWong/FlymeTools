@@ -6,10 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import com.zhixin.flymeTools.Util.ActivityUtil;
-import com.zhixin.flymeTools.Util.ConstUtil;
-import com.zhixin.flymeTools.Util.FileUtil;
-import com.zhixin.flymeTools.Util.LogUtil;
+import com.zhixin.flymeTools.Util.*;
 import com.zhixin.flymeTools.controls.StatusBarDrawable;
 import de.robv.android.xposed.XSharedPreferences;
 
@@ -65,11 +62,13 @@ public class ActivityConfig {
         if (appSharedPreferences != null) {
             appSharedPreferences.reload();
         }
-        if (globalSharedPreferences != null) {
-            globalSharedPreferences.reload();
-        }
-        if (activitySharedPreferences != null) {
-            activitySharedPreferences.reload();
+        synchronized (ActivityConfig.class) {
+            if (globalSharedPreferences != null) {
+                globalSharedPreferences.reload();
+            }
+            if (activitySharedPreferences != null) {
+                activitySharedPreferences.reload();
+            }
         }
     }
 
@@ -81,18 +80,20 @@ public class ActivityConfig {
     }
 
     /**
-     *是否显示通知栏消息
+     * 是否显示通知栏消息
+     *
      * @return
      */
-    public  boolean isshowNotification(){
+    public boolean isShowNotification() {
         return globalSharedPreferences.getBoolean(ConstUtil.SHOW_NOTIFICATION, true);
     }
+
     /**
      * 是否强制状态栏字体
      *
      * @return
      */
-    public boolean isForeBlackCorlor() {
+    public boolean isForeBlackColor() {
         return this.getConfigBoolean(ConstUtil.FORCE_BLACK_COLOR, false);
     }
 
@@ -107,8 +108,9 @@ public class ActivityConfig {
 
 
     public boolean isAppChangeStatusBar() {
-        return  globalSharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, true);
+        return globalSharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, true);
     }
+
     /**
      * 是否需要更新状态栏
      *
@@ -228,7 +230,7 @@ public class ActivityConfig {
      */
     public Drawable getSmartBarDrawable() {
         String defaultType = globalSharedPreferences.getString(ConstUtil.SMARTBAR_DEFAULT_TYPE, null);
-        boolean change = this.getConfigBoolean(ConstUtil.SMARTBAR_CHANGE, defaultType != "-100");
+        boolean change = this.getConfigBoolean(ConstUtil.SMARTBAR_CHANGE, !StringUtil.equals(defaultType,"-1"));
         Drawable smartBarDrawable = null;
         if (change) {
             String smartBarType = this.getConfigString(ConstUtil.SMARTBAR_TYPE, defaultType);
