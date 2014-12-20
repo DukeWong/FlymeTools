@@ -40,16 +40,18 @@ public class ActivityConfig {
         }
         return rootView;
     }
-
-    public ActivityConfig(Activity activity) {
+    public ActivityConfig(final Activity activity) {
         thisActivity = activity;
         packageName = activity.getPackageName();
         activityName = activity.getClass().getName();
         activitySharedPreferences = FileUtil.getSharedPreferences(packageName, activityName);
-        backgroundDrawable = this.getRootView().getBackground();
+        backgroundDrawable=this.getRootView().findViewById(android.R.id.content).getBackground();
+        if (backgroundDrawable==null){
+            backgroundDrawable = this.getRootView().getBackground();
+        }
         synchronized (ActivityConfig.class) {
             if (globalSharedPreferences == null) {
-                globalSharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
+                globalSharedPreferences = FileUtil.getSharedPreferences();
             }
             if (appSharedPreferences == null) {
                 appSharedPreferences = FileUtil.getSharedPreferences(packageName);
@@ -80,12 +82,19 @@ public class ActivityConfig {
     }
 
     /**
+     * 是否采用变色龙方案
+     * @return
+     */
+    public  boolean isChangeColorMode(){
+        return  this.getConfigBoolean(ConstUtil.CHANGE_COLOR_MODE,false);
+    }
+    /**
      * 是否显示通知栏消息
      *
      * @return
      */
     public boolean isShowNotification() {
-        return globalSharedPreferences.getBoolean(ConstUtil.SHOW_NOTIFICATION, true);
+        return globalSharedPreferences.getBoolean(ConstUtil.SHOW_NOTIFICATION, false);
     }
 
     /**
@@ -158,14 +167,13 @@ public class ActivityConfig {
             } else {
                 color = ActivityUtil.getStatusBarColor(thisActivity);
                 if (color != null) {
-                    this.log("自动识别颜色为" + color);
+                    this.log("自动识别颜色为" + ColorUtil.toHexEncoding(color));
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt(activityName, color);
                     editor.commit();
                 }
             }
             if (color != null) {
-                this.log("更新颜色值" + color);
                 automaticColor = new StatusBarDrawable(color.intValue(), backgroundDrawable, barHeight);
             } else {
                 Drawable drawable = getActionBarDrawable();
@@ -178,7 +186,7 @@ public class ActivityConfig {
     }
 
     public boolean isTouchGetColor() {
-        return globalSharedPreferences.getBoolean(ConstUtil.TOUCH_GET_COLOR, true);
+        return globalSharedPreferences.getBoolean(ConstUtil.TOUCH_GET_COLOR, false);
     }
 
     /**
@@ -186,7 +194,7 @@ public class ActivityConfig {
      *
      * @return
      */
-    protected ColorDrawable getStatusBarDrawable(boolean useCache) {
+    protected StatusBarDrawable getStatusBarDrawable(boolean useCache) {
         boolean useAutomaticColor = this.getConfigBoolean(ConstUtil.AUTOMATIC_COLOR_OPEN, true);
         StatusBarDrawable statusBarDrawable = null;
         int barHeight = ActivityUtil.getStatusBarHeight(thisActivity);
@@ -230,7 +238,7 @@ public class ActivityConfig {
      */
     public Drawable getSmartBarDrawable() {
         String defaultType = globalSharedPreferences.getString(ConstUtil.SMARTBAR_DEFAULT_TYPE, null);
-        boolean change = this.getConfigBoolean(ConstUtil.SMARTBAR_CHANGE, !StringUtil.equals(defaultType,"-1"));
+        boolean change = this.getConfigBoolean(ConstUtil.SMARTBAR_CHANGE, !StringUtil.equals(defaultType, "-1"));
         Drawable smartBarDrawable = null;
         if (change) {
             String smartBarType = this.getConfigString(ConstUtil.SMARTBAR_TYPE, defaultType);

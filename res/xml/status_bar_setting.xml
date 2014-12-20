@@ -8,12 +8,12 @@
                           android:key="@string/preference_translucent_compulsory">
         </SwitchPreference>
         <SwitchPreference android:title="@string/touch_get_color"
-                          android:defaultValue="true"
+                          android:defaultValue="false"
                           android:summary="@string/touch_get_color_summary"
                           android:key="@string/preference_touch_get_color">
         </SwitchPreference>
         <SwitchPreference android:title="@string/show_notification"
-                          android:defaultValue="true"
+                          android:defaultValue="false"
                           android:summary="@string/show_notification_summary"
                           android:key="@string/preference_show_notification">
         </SwitchPreference>

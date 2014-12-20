@@ -1,11 +1,12 @@
 package com.zhixin.flymeTools.Util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class SmartBarUtils {
 

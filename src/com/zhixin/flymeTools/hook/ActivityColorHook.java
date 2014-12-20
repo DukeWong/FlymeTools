@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.*;
+import com.zhixin.flymeTools.controls.StatusBarDrawable;
 
 /**
  * Created by ZXW on 2014/12/17.
@@ -29,10 +30,12 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     private boolean isChangeColor = false;
     private boolean isUpdateColor = false;
     private boolean mustChange = false;
+    private View mStatusBarWindow;
 
-    public ActivityColorHook(Activity thisObject, Resources resources) {
+    public ActivityColorHook(final Activity thisObject, final Resources resources, final View statusBarWindow) {
         super(thisObject);
         mResources = resources;
+        mStatusBarWindow = statusBarWindow;
         packageName = thisObject.getPackageName();
         activityName = thisObject.getClass().getName();
         config = new ActivityConfig(thisObject);
@@ -41,7 +44,11 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     public void log(String text) {
         LogUtil.log(activityName + " 消息:" + text);
     }
-
+    public void DebugLog(String text) {
+        if (activityName.indexOf(DEBUG_PACKAGE_NAME)!=-1){
+            LogUtil.log(activityName + " 消息:" + text);
+        }
+    }
     public void reloadConfig() {
         config.reload();
     }
@@ -77,6 +84,13 @@ public class ActivityColorHook extends ObjectHook<Activity> {
             }
         }
         return mActionView;
+    }
+
+    protected void updateStatusBarWindowColor(Drawable drawable) {
+        if (mStatusBarWindow != null) {
+            this.log("变色龙单独重新更新颜色");
+            mStatusBarWindow.setBackground(drawable);
+        }
     }
 
     /**
@@ -162,20 +176,26 @@ public class ActivityColorHook extends ObjectHook<Activity> {
             this.isFitsSystemWindows(contentView, true);
         }
     }
-
+    protected  void  updateWindowBackground(StatusBarDrawable statusBarDrawable)
+    {
+        View rootLayer = config.getRootView();
+        rootLayer.setBackground(statusBarDrawable);
+        View context=rootLayer.findViewById(android.R.id.content);
+        context.setBackground(statusBarDrawable);
+    }
     /**
      * 设置状态栏颜色
      *
      * @param statusBarDrawable
      */
-    protected void setStatusBarDrawable(ColorDrawable statusBarDrawable) {
+    protected void setStatusBarDrawable(StatusBarDrawable statusBarDrawable) {
         //强制黑色字体状态栏
         isChangeColor = true;
         boolean forceBlack = config.isForeBlackColor();
         ActivityUtil.setDarkBar(thisObject, forceBlack);
         if (statusBarDrawable != null) {
-            View rootLayer = config.getRootView();
-            rootLayer.setBackground(statusBarDrawable);
+            this.log("更新颜色值" + ColorUtil.toHexEncoding(statusBarDrawable.getColor()));
+            updateWindowBackground(statusBarDrawable);
             /**
              * 反向设置ActionBar颜色
              */
@@ -196,51 +216,69 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         return config.isTouchGetColor();
     }
 
+    public void showNotification() {
+        if (config.isAppChangeStatusBar()) {
+            if (config.isShowNotification() && mResources != null) {
+                showNotification(thisObject, mResources);
+            }
+        }
+    }
+    protected  String DEBUG_PACKAGE_NAME="com.tencent";
+    /*
+     * 根据配置更新顶栏颜色
+     */
+    public void updateStatusBarLit() {
+        this.reloadConfig();
+        isUpdateColor = false;
+        boolean flag = ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        flag = flag || ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        this.DebugLog("1");
+        if (!flag) {
+            this.DebugLog("2");
+            boolean change = config.isChangeStatusBar();
+            if (change) {
+                this.DebugLog("3");
+                StatusBarDrawable statusBarDrawable = config.getStatusBarDrawable(true);
+                if (statusBarDrawable != null) {
+                    this.DebugLog("4");
+                    isChangeColor = true;
+                    if (config.isChangeColorMode()) {
+                        //变色龙模式
+                        this.DebugLog("5");
+                        updateStatusBarWindowColor(statusBarDrawable);
+                    } else {
+                        //沉浸模式
+                        this.DebugLog("6");
+                        changeContextViewPadding();
+                        ActivityUtil.setStatusBarLit(thisObject);
+                        this.setStatusBarDrawable(statusBarDrawable);
+                    }
+                } else {
+                    mustChange = true;
+                }
+            }
+        }
+    }
+
     /**
      * 更新顶栏颜色
      */
     public void updateStatusBarColor() {
         if (mustChange) {
             mustChange = false;
-            this.log("必须重新更新颜色");
             this.updateStatusBarLit();
         } else {
             if (isChangeColor && !isUpdateColor) {
                 isUpdateColor = true;
-                this.log("单独重新更新颜色");
                 config.setAutomaticColor(null);
-                this.setStatusBarDrawable(config.getStatusBarDrawable(false));
-            }
-        }
-    }
-
-    public void showNotification() {
-        if (config.isAppChangeStatusBar()) {
-            if (config.isShowNotification() && mResources != null) {
-                this.log("发送消息通知");
-                showNotification(thisObject, mResources);
-            }
-        }
-    }
-
-    /**
-     * 根据配置更新顶栏颜色
-     */
-    public void updateStatusBarLit() {
-        this.reloadConfig();
-        boolean flag = ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        flag = flag || ActivityUtil.existFlag(thisObject, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        if (!flag) {
-            boolean change = config.isChangeStatusBar();
-            if (change) {
-                ColorDrawable statusBarDrawable = config.getStatusBarDrawable(true);
-                if (statusBarDrawable != null) {
-                    changeContextViewPadding();
-                    ActivityUtil.setStatusBarLit(thisObject);
-                    this.setStatusBarDrawable(statusBarDrawable);
-                    isChangeColor = true;
+                StatusBarDrawable drawable = config.getStatusBarDrawable(false);
+                if (config.isChangeColorMode()) {
+                    //变色龙模式
+                    this.updateStatusBarWindowColor(drawable);
                 } else {
-                    mustChange = true;
+                    //沉浸模式
+                    this.log("沉浸模式单独重新更新颜色");
+                    this.setStatusBarDrawable(drawable);
                 }
             }
         }
@@ -260,16 +298,16 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         Intent activityIntent = new Intent().setComponent(cnActivity);
         Intent appIntent = new Intent().setComponent(cnApp);
 
-        int color=ActivityUtil.getStatusBarColor(activity);
+        int color = ActivityUtil.getStatusBarColor(activity);
         ///页面设置
         activityIntent.putExtra("packageName", packageName);
         activityIntent.putExtra("activityName", activityName);
-        activityIntent.putExtra("color",color);
+        activityIntent.putExtra("color", color);
         //应用设置
 
         appIntent.putExtra("packageName", packageName);
-        appIntent.putExtra("appName",AppUtil.getApplicationName(activity));
-        appIntent.putExtra("color",color);
+        appIntent.putExtra("appName", AppUtil.getApplicationName(activity));
+        appIntent.putExtra("color", color);
         //
         PendingIntent activityPendingIntent = PendingIntent.getActivity(activity, 0,
                 activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);

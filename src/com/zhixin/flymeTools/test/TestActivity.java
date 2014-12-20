@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ActivityUtil;
-import com.zhixin.flymeTools.hook.ActivityColorHook;
 
 
 /**
@@ -21,7 +20,7 @@ public class TestActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus) {
-            ActivityColorHook.showNotification(this,this.getResources());
+           //getWindow().setBackgroundDrawable(new ColorDrawable(-12433322));
         }
     }
 }

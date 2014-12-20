@@ -2,13 +2,11 @@ package com.zhixin.flymeTools.app;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
+import android.preference.SwitchPreference;
 import com.zhixin.flymeTools.R;
-import com.zhixin.flymeTools.Util.ColorUtil;
 import com.zhixin.flymeTools.Util.ConstUtil;
-import com.zhixin.flymeTools.Util.ConvertUtil;
-import com.zhixin.flymeTools.Util.FileUtil;
-import com.zhixin.flymeTools.controls.ColorPickerPreference;
 
 /**
  * Created by ZXW on 2014/12/12.
@@ -86,6 +84,7 @@ public class AppSettingFragment extends AppBaseFragment {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.app_settting);
+
         SharedPreferences sharedPreferences = this.getPreferenceManager().getSharedPreferences();
         this.bindAppTile(sharedPreferences);
     }

@@ -71,4 +71,6 @@
     <string name="show_notification_summary">发送消息栏通知设置页面</string>
     <string name="notification_add_activity">设置页面</string>
     <string name="notification_add_app">设置应用</string>
+    <string name="change_status_bar_mode">变色龙方案</string>
+    <string name="change_status_bar_mode_summary">改变状态栏颜色来模拟沉浸</string>
 </resources>

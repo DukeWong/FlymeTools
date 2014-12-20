@@ -1,10 +1,6 @@
 package com.zhixin.flymeTools;
-import android.app.Activity;
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import com.zhixin.flymeTools.Util.ActivityUtil;
 import com.zhixin.flymeTools.base.BaseActivity;
 

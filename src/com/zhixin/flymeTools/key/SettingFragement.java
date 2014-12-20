@@ -1,15 +1,13 @@
 package com.zhixin.flymeTools.key;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import com.zhixin.flymeTools.R;
+import com.zhixin.flymeTools.base.BaseFragment;
 
 /**
  * Created by ZXW on 2014/12/12.
  */
-public class SettingFragement extends PreferenceFragment {
+public class SettingFragement extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub

@@ -1,14 +1,9 @@
 package com.zhixin.flymeTools.Util;
 
-import android.app.Activity;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.view.View;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * Created by ZXW on 2014/12/12.
@@ -32,23 +27,18 @@ public class ColorUtil {
         sb.append(B.toUpperCase());
         return sb.toString();
     }
+
     public static Integer loadBitmapColor(View view, int x, int y) {
         try {
             if (view != null) {
-                view.setDrawingCacheEnabled(true);
-                Bitmap bitmap = view.getDrawingCache();
-                if (bitmap == null) {
-                    if (view.getWidth() > 0 && view.getHeight() > 0) {
-                        bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-                        Canvas c = new Canvas(bitmap);
-                        c.translate(-view.getScrollX(), -view.getScrollY());
-                        view.draw(c);
-                        int color = bitmap.getPixel(x, y);
-                        bitmap.recycle();
-                        return color;
-                    }
-                } else {
-                    return bitmap.getPixel(x, y);
+                if (view.getWidth() > 0 && view.getHeight() > 0) {
+                    Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas c = new Canvas(bitmap);
+                    c.translate(-view.getScrollX(), -view.getScrollY());
+                    view.draw(c);
+                    int color = bitmap.getPixel(x, y);
+                    bitmap.recycle();
+                    return color;
                 }
             }
         } catch (Exception e) {

@@ -1,9 +1,10 @@
 package com.zhixin.flymeTools.hook;
+
+import android.content.SharedPreferences;
 import android.content.pm.PackageItemInfo;
 import android.os.Environment;
 import com.zhixin.flymeTools.Util.FileUtil;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
 
 /**
@@ -15,7 +16,7 @@ public class PackageNameHook extends XC_MethodHook {
         PackageItemInfo packageItemInfo=(PackageItemInfo)param.thisObject;
         boolean sUserRequired= XposedHelpers.getStaticBooleanField(Environment.class,"sUserRequired");
         if (!sUserRequired){
-            XSharedPreferences sharedPreferences = FileUtil.getSharedPreferences(packageItemInfo.packageName);
+            SharedPreferences sharedPreferences = FileUtil.getSharedPreferences( packageItemInfo.packageName);
             boolean change= sharedPreferences.getBoolean("preference_replace_app_name", false);
             if (change){
                 String app_name= sharedPreferences.getString("preference_app_name", null);

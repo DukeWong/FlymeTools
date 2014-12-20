@@ -1,22 +1,19 @@
 package com.zhixin.flymeTools.app;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ColorUtil;
+import com.zhixin.flymeTools.base.BaseFragment;
 import com.zhixin.flymeTools.controls.ColorPickerPreference;
 
 /**
  * Created by ZXW on 2014/12/18.
  */
-public abstract class AppBaseFragment extends PreferenceFragment {
-
-
+public abstract class AppBaseFragment extends BaseFragment {
     public void setInitColor(Integer initColor) {
         this.initColor = initColor;
     }
@@ -51,6 +48,7 @@ public abstract class AppBaseFragment extends PreferenceFragment {
     protected String preference_force_black_color;
     protected String preference_automatic_color_open;
     protected String preference_translucent_color;
+    protected String preference_change_status_bar_mode;
     //状态栏控件
     protected SwitchPreference m_translucent_compulsory = null;
     protected SwitchPreference m_force_brightly_lit_mode = null;
@@ -59,6 +57,7 @@ public abstract class AppBaseFragment extends PreferenceFragment {
     protected SwitchPreference m_has_ActionBar = null;
     protected SwitchPreference m_force_black_color = null;
     protected SwitchPreference m_automatic_color_open = null;
+    protected SwitchPreference m_change_status_bar_mode = null;
     protected ColorPickerPreference m_translucent_color = null;
 
     public void setActivityName(String activityName) {
@@ -77,6 +76,7 @@ public abstract class AppBaseFragment extends PreferenceFragment {
         preference_force_black_color = this.getResources().getString(R.string.preference_force_black_color);
         preference_automatic_color_open = this.getResources().getString(R.string.preference_automatic_color_open);
         preference_translucent_color = this.getResources().getString(R.string.preference_translucent_color);
+        preference_change_status_bar_mode=this.getResources().getString(R.string.preference_change_status_bar_mode);
     }
 
     @Override
@@ -186,7 +186,9 @@ public abstract class AppBaseFragment extends PreferenceFragment {
         m_has_ActionBar = (SwitchPreference) findPreference(preference_has_ActionBar);
         m_force_black_color = (SwitchPreference) findPreference(preference_force_black_color);
         m_automatic_color_open = (SwitchPreference) findPreference(preference_automatic_color_open);
+        m_change_status_bar_mode=(SwitchPreference) findPreference(preference_change_status_bar_mode);
         m_translucent_color = (ColorPickerPreference) findPreference(preference_translucent_color);
+
         this.bindStatusBarDefault(sharedPreferences);
         this.onTranslucent_compulsoryChange(m_translucent_compulsory.isChecked());
         m_translucent_compulsory.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

@@ -2,7 +2,6 @@ package com.zhixin.flymeTools.app;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.TextView;
 
 /**
  * Created by zhixin on 2014/12/11.

@@ -66,5 +66,9 @@ public class ConstUtil {
      * 显示消息设置
      */
     public static String SHOW_NOTIFICATION = "preference_show_notification";
+    /**
+     * 变色龙方案
+     */
+    public static String  CHANGE_COLOR_MODE="preference_change_status_bar_mode";
 
 }

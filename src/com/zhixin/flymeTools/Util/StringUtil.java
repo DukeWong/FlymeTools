@@ -1,7 +1,5 @@
 package com.zhixin.flymeTools.Util;
 
-import android.content.res.Resources;
-
 /**
  * Created by ZXW on 2014/12/19.
  */

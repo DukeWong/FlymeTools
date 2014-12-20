@@ -92,4 +92,7 @@
     <string name="show_notification_summary">show_notification_summary</string>
     <string name="notification_add_activity">notification_add_activity</string>
     <string name="notification_add_app">notification_add_app</string>
+    <string name="preference_change_status_bar_mode">preference_change_status_bar_mode</string>
+    <string name="change_status_bar_mode">preference_change_status_bar_mode</string>
+    <string name="change_status_bar_mode_summary">change_status_bar_mode_summary</string>
 </resources>

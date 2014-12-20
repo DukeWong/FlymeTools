@@ -51,6 +51,10 @@
                           android:summary="@string/has_ActionBar_summary"
                           android:key="@string/preference_has_ActionBar">
         </SwitchPreference>
+        <SwitchPreference android:title="@string/change_status_bar_mode"
+                          android:summary="@string/change_status_bar_mode_summary"
+                          android:key="@string/preference_change_status_bar_mode">
+        </SwitchPreference>
         <SwitchPreference
                 android:defaultValue="true"
                 android:enabled="false"
