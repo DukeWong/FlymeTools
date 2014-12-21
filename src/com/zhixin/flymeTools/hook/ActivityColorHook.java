@@ -304,10 +304,6 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                         this.updateContextViewPadding(0, false);
                         ActivityUtil.setStatusBarLit(thisObject);
                         this.setStatusBarDrawable(statusBarDrawable);
-                        View decorView = thisObject.getWindow().getDecorView();
-                        View contentView = decorView.findViewById(android.R.id.content);
-                        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
-                        this.log(layoutParams.getClass().getName());
                     } else {
                         mState.IS_MUST_CHANGE = true;
                     }
