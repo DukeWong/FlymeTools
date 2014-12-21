@@ -61,7 +61,7 @@ public class ActivitySettingActivity extends BaseSettingActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         AlertDialog.Builder builder  = new AlertDialog.Builder(this);
         builder.setTitle(R.string.confirm) ;
-        builder.setMessage(R.string.delConfigFile) ;
+        builder.setMessage(R.string.del_config_file) ;
         builder.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {

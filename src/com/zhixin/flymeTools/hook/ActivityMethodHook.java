@@ -97,11 +97,10 @@ public class ActivityMethodHook {
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
             doMethodHookCallBack((Activity) param.thisObject, statusBarWindow, mResources, param, this);
         }
-
         @Override
         public void doMethodHook(MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook) {
-            activityColorHook.log("窗口模式被改变");
             activityColorHook.updateStatusBarLit(false);
+            activityColorHook.updateContextViewPadding();
         }
     }
 }

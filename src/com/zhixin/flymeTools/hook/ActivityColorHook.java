@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -158,6 +159,17 @@ public class ActivityColorHook extends ObjectHook<Activity> {
      * @return 是否需要修改颜色
      */
     public void updateContextViewPadding() {
+        /**
+         * 延时500ms执行
+         */
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                updateContextViewPadding();
+            }
+        }, 1000);
+        /**
+         * 延时500ms执行
+         */
         if (mState.IS_CHANGE_COLOR) {
             boolean hasStatusBar = config.hasStatusBar();
             boolean forceMode = config.isStatusBarForceMode();
@@ -182,6 +194,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                     if (actionView != null) {
                         actionHeight = actionView.getHeight();
                         top += actionHeight;
+                    } else {
+                        if (actionBar.isShowing()) {
+                            top += ActivityUtil.getActionBarHeight(thisObject);
+                        }
                     }
                     if (splitView != null) {
                         bottom += splitView.getHeight();
@@ -207,6 +223,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
             }
         }
     }
+
     protected void updateWindowBackground(StatusBarDrawable statusBarDrawable) {
         View rootLayer = config.getRootView();
         rootLayer.setBackground(statusBarDrawable);
