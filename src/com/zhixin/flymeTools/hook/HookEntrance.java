@@ -8,6 +8,7 @@ import android.content.res.XModuleResources;
 import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
+import com.zhixin.flymeTools.test.AppHooKTest;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XposedHelpers;
@@ -29,6 +30,7 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
     public void initZygote(StartupParam startupParam) throws Throwable {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mResources = XModuleResources.createInstance(startupParam.modulePath, null);
+            XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new AppHooKTest("com.tencent"));
             XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new ActivityMethodHook.WindowFocusMethod(mResources, mStatusBarWindow));
             XposedHelpers.findAndHookMethod(Activity.class, "dispatchTouchEvent", MotionEvent.class, new ActivityMethodHook.TouchEventMethod(mResources, mStatusBarWindow));
             XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());

@@ -70,5 +70,9 @@ public class ConstUtil {
      * 变色龙方案
      */
     public static String  CHANGE_COLOR_MODE="preference_change_status_bar_mode";
+    /**
+     * 调试应用调试日志
+     */
+    public  static String SHOW_APP_LOG="preference_show_app_log";
 
 }

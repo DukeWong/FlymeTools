@@ -2,6 +2,8 @@ package com.zhixin.flymeTools.test;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ActivityUtil;
 
@@ -16,11 +18,16 @@ public class TestActivity extends Activity {
         setContentView(R.layout.test);
         ActivityUtil.setStatusBarLit(this);
         ActivityUtil.setDarkBar(this, true);
+        int length=ActivityUtil.getActionBarHeight(this);
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus) {
-           //getWindow().setBackgroundDrawable(new ColorDrawable(-12433322));
+            View rootView=this.getWindow().getDecorView();
+            View view=this.getWindow().getDecorView().findViewById(android.R.id.content);
+            view.setTop(100);
+            rootView.layout(rootView.getLeft(),rootView.getTop()+1,rootView.getRight(),rootView.getBottom());
+            rootView.layout(rootView.getLeft(),rootView.getTop()-1,rootView.getRight(),rootView.getBottom());
         }
     }
 }

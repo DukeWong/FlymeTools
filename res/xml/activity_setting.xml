@@ -38,6 +38,7 @@
                           android:key="@string/preference_reverse_setting_action_bar">
         </SwitchPreference>
         <SwitchPreference android:title="@string/force_brightly_lit_mode"
+                          android:defaultValue="true"
                           android:summary="@string/force_brightly_lit_mode_summary"
                           android:key="@string/preference_force_brightly_lit_mode">
         </SwitchPreference>

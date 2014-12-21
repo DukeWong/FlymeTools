@@ -72,8 +72,6 @@ public class ActivityMethodHook {
                 activityColorHook.updateSmartbarColor();
                 activityColorHook.updateStatusBarLit();
                 activityColorHook.showNotification();
-            }else {
-                activityColorHook.updateStatusBarColor();
             }
         }
     }

@@ -31,7 +31,9 @@ public class ActivityConfig {
     private View rootView = null;
 
     public void log(String text) {
-        LogUtil.log(activityName + " 消息:" + text);
+        if (this.isShowApplog()){
+            LogUtil.log(activityName + " 消息:" + text);
+        }
     }
 
     public View getRootView() {
@@ -81,6 +83,13 @@ public class ActivityConfig {
         return actionBarDrawable;
     }
 
+    /**
+     * 是否显示程序调试日志
+     * @return
+     */
+    public  boolean isShowApplog(){
+          return  appSharedPreferences.getBoolean(ConstUtil.SHOW_APP_LOG,false);
+    }
     /**
      * 是否采用变色龙方案
      * @return
@@ -151,8 +160,12 @@ public class ActivityConfig {
         return this.getConfigBoolean(ConstUtil.HAS_ACTIONBAR, false);
     }
 
+    /**
+     * 是否强制模式
+     * @return
+     */
     public boolean isStatusBarForceMode() {
-        return this.getConfigBoolean(ConstUtil.FORCE_LIT_MODE, false);
+        return this.getConfigBoolean(ConstUtil.FORCE_LIT_MODE, true);
     }
 
     protected StatusBarDrawable getAutomaticColor(boolean useCache, int barHeight) {
@@ -185,6 +198,10 @@ public class ActivityConfig {
         return automaticColor;
     }
 
+    /**
+     * 屏幕取值
+     * @return
+     */
     public boolean isTouchGetColor() {
         return globalSharedPreferences.getBoolean(ConstUtil.TOUCH_GET_COLOR, false);
     }
