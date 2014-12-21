@@ -10,6 +10,8 @@ import com.zhixin.flymeTools.Util.*;
 import com.zhixin.flymeTools.controls.StatusBarDrawable;
 import de.robv.android.xposed.XSharedPreferences;
 
+import javax.xml.transform.dom.DOMResult;
+
 /**
  * Created by ZXW on 2014/12/18.
  */
@@ -42,15 +44,26 @@ public class ActivityConfig {
         }
         return rootView;
     }
+    public View getContextView(){
+        return   this.getRootView().findViewById(android.R.id.content);
+    }
+    public  Drawable getBackgroundDrawable(){
+        if (backgroundDrawable==null){
+            View context=getContextView();
+            if (context!=null){
+                backgroundDrawable=context.getBackground();
+            }
+            if (backgroundDrawable==null){
+                backgroundDrawable = this.getRootView().getBackground();
+            }
+        }
+        return  backgroundDrawable;
+    }
     public ActivityConfig(final Activity activity) {
         thisActivity = activity;
         packageName = activity.getPackageName();
         activityName = activity.getClass().getName();
         activitySharedPreferences = FileUtil.getSharedPreferences(packageName, activityName);
-        backgroundDrawable=this.getRootView().findViewById(android.R.id.content).getBackground();
-        if (backgroundDrawable==null){
-            backgroundDrawable = this.getRootView().getBackground();
-        }
         synchronized (ActivityConfig.class) {
             if (globalSharedPreferences == null) {
                 globalSharedPreferences = FileUtil.getSharedPreferences();
@@ -187,11 +200,11 @@ public class ActivityConfig {
                 }
             }
             if (color != null) {
-                automaticColor = new StatusBarDrawable(color.intValue(), backgroundDrawable, barHeight);
+                automaticColor = new StatusBarDrawable(color.intValue(), this.getBackgroundDrawable(), barHeight);
             } else {
                 Drawable drawable = getActionBarDrawable();
                 if (drawable instanceof ColorDrawable) {
-                    automaticColor = new StatusBarDrawable(((ColorDrawable) drawable).getColor(), backgroundDrawable, barHeight);
+                    automaticColor = new StatusBarDrawable(((ColorDrawable) drawable).getColor(), this.getBackgroundDrawable(), barHeight);
                 }
             }
         }
@@ -220,7 +233,7 @@ public class ActivityConfig {
         } else {
             if (appSharedPreferences.contains(ConstUtil.TRANSLUCENT_COLOR)) {
                 String color = this.getConfigString(ConstUtil.TRANSLUCENT_COLOR, null);
-                statusBarDrawable = new StatusBarDrawable(Color.parseColor(color), backgroundDrawable, barHeight);
+                statusBarDrawable = new StatusBarDrawable(Color.parseColor(color), this.getBackgroundDrawable(), barHeight);
             }
         }
         return statusBarDrawable;

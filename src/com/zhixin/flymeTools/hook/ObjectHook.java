@@ -17,13 +17,31 @@ public class ObjectHook<T> {
         this.thisObject=thisObject;
         XposedHelpers.setAdditionalInstanceField(thisObject, ACTIVITY_HOOK_NAME, this);
     }
-    public  static ObjectHook getObjectHook(Object thisObject){
-        Object hook= XposedHelpers.getAdditionalInstanceField(thisObject, ACTIVITY_HOOK_NAME);
-        if (hook!=null){
-            if (hook instanceof ObjectHook ){
-                return  (ObjectHook)hook;
-            }
+
+    /**
+     * 删除对象
+     * @param thisObject
+     */
+    public  static  void removeObjectHook(Object thisObject){
+        synchronized (ObjectHook.class){
+            XposedHelpers.removeAdditionalInstanceField(thisObject,ACTIVITY_HOOK_NAME);
         }
-        return  null;
+    }
+
+    /**
+     * 获取对象
+     * @param thisObject
+     * @return
+     */
+    public  static ObjectHook getObjectHook(Object thisObject){
+        synchronized (ObjectHook.class){
+            Object hook= XposedHelpers.getAdditionalInstanceField(thisObject, ACTIVITY_HOOK_NAME);
+            if (hook!=null){
+                if (hook instanceof ObjectHook ){
+                    return  (ObjectHook)hook;
+                }
+            }
+            return  null;
+        }
     }
 }

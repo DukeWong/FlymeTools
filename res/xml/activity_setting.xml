@@ -54,6 +54,7 @@
         </SwitchPreference>
         <SwitchPreference android:title="@string/change_status_bar_mode"
                           android:summary="@string/change_status_bar_mode_summary"
+                          android:visibility="gone"
                           android:key="@string/preference_change_status_bar_mode">
         </SwitchPreference>
         <SwitchPreference
