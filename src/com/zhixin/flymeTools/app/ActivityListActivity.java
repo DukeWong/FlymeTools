@@ -1,6 +1,7 @@
 package com.zhixin.flymeTools.app;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -19,6 +20,7 @@ import com.zhixin.flymeTools.Util.FileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 /**
  * Created by ZXW on 2014/12/18.
@@ -30,6 +32,7 @@ public class ActivityListActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.activity_list_view);
         this.getListView().setFitsSystemWindows(true);
         ActivityUtil.setStatusBarLit(this);
         ActivityUtil.setDarkBar(this, true);
@@ -46,6 +49,7 @@ public class ActivityListActivity extends ListActivity {
                     items.add(infos[i].name);
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, items);
+                adapter.sort(new sortString());
                 setListAdapter(adapter);
                 this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -64,6 +68,14 @@ public class ActivityListActivity extends ListActivity {
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+    private  class  sortString  implements   Comparator<String>
+    {
+
+        @Override
+        public int compare(String lhs, String rhs) {
+            return lhs.compareTo(rhs);
         }
     }
     @Override

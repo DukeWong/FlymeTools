@@ -1,9 +1,7 @@
 package com.zhixin.flymeTools.hook;
 
-import android.app.*;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -11,7 +9,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import com.zhixin.flymeTools.R;
+import android.widget.LinearLayout;
 import com.zhixin.flymeTools.Util.*;
 import com.zhixin.flymeTools.controls.StatusBarDrawable;
 
@@ -154,72 +152,82 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     }
 
     /**
+     * 更新布局
+     *
+     * @param decorView
+     * @param contentView
+     * @param hasStatusBar
+     * @param forceMode
+     * @param hasActionBar
+     * @return
+     */
+    protected boolean forceChangeStatusBarlit(View decorView, View contentView, boolean hasStatusBar, boolean forceMode, boolean hasActionBar) {
+        this.log("模式:" + hasStatusBar + forceMode + hasActionBar);
+        int statusBarHeight = ActivityUtil.getStatusBarHeight(thisObject);
+        boolean isFitsSystemWindows = this.isFitsSystemWindows(contentView, false);
+        if (!isFitsSystemWindows || forceMode) {
+            int top = 0, actionHeight = 0, bottom = 0;
+            if (hasStatusBar) {
+                top += statusBarHeight;
+            }
+            ActionBar actionBar = thisObject.getActionBar();
+            if (actionBar != null) {
+                View actionView = this.getActionView();
+                View splitView = this.getSplitView();
+                if (actionView != null) {
+                    actionHeight = actionView.getHeight();
+                    top += actionHeight;
+                } else {
+                    if (actionBar.isShowing()) {
+                        top += ActivityUtil.getActionBarHeight(thisObject);
+                    }
+                }
+                if (splitView != null && splitView.getVisibility() != View.GONE) {
+                    bottom += splitView.getHeight();
+                }
+            }
+            if (hasActionBar && actionHeight == 0) {
+                top += ActivityUtil.getActionBarHeight(thisObject);
+            }
+            if (!isFitsSystemWindows || forceMode) {
+                this.log("top:" + top + " bottom:" + bottom);
+                this.log("Y:" +contentView.getY());
+                this.log("TOP:" +contentView.getPaddingTop());
+                contentView.setPadding(0, top, 0, bottom);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 修改内容视图的边距
      *
      * @return 是否需要修改颜色
      */
-    public void updateContextViewPadding() {
-        /**
-         * 延时500ms执行
-         */
-        new Handler().postDelayed(new Runnable(){
-            public void run() {
-                updateContextViewPadding();
-            }
-        }, 1000);
-        /**
-         * 延时500ms执行
-         */
-        if (mState.IS_CHANGE_COLOR) {
-            boolean hasStatusBar = config.hasStatusBar();
-            boolean forceMode = config.isStatusBarForceMode();
-            boolean hasActionBar = config.hasActionBar();
-            View decorView = thisObject.getWindow().getDecorView();
-            View contentView = decorView.findViewById(android.R.id.content);
-            this.log("模式:" + hasStatusBar + forceMode + hasActionBar);
-            int statusBarHeight = ActivityUtil.getStatusBarHeight(thisObject);
-            //自动模式
-            boolean isFitsSystemWindows = this.isFitsSystemWindows(contentView, false);
-            //boolean isMigration=MigrationTest((ViewGroup) decorView, statusBarHeight);
-            //只有不是自动调整模式下才调整边距
-            if (!isFitsSystemWindows || forceMode) {
-                int top = 0, actionHeight = 0, bottom = 0;
-                if (hasStatusBar) {
-                    top += statusBarHeight;
-                }
-                ActionBar actionBar = thisObject.getActionBar();
-                if (actionBar != null) {
-                    View actionView = this.getActionView();
-                    View splitView = this.getSplitView();
-                    if (actionView != null) {
-                        actionHeight = actionView.getHeight();
-                        top += actionHeight;
-                    } else {
-                        if (actionBar.isShowing()) {
-                            top += ActivityUtil.getActionBarHeight(thisObject);
-                        }
+    public void updateContextViewPadding(int delay, boolean actionBarchange) {
+        actionBarchange = actionBarchange || !mState.IS_DELAY_UPDATE_PADDING;
+        if (actionBarchange) {
+            if (delay > 0) {
+                //延时执行
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        updateContextViewPadding(0, false);
+                        mState.IS_DELAY_UPDATE_PADDING = true;
                     }
-                    if (splitView != null) {
-                        bottom += splitView.getHeight();
-                    } else {
-                        isFitsSystemWindows = true;
-                    }
-                } else {
-                    isFitsSystemWindows = true;
-                }
-                if (hasActionBar && actionHeight == 0) {
-                    top += ActivityUtil.getActionBarHeight(thisObject);
-                }
-                if (!isFitsSystemWindows || forceMode) {
-                    if (top > 0 || bottom > 0) {
-                        this.log("top:" + top + " bottom:" + bottom);
-                        contentView.setPadding(0, top, 0, bottom);
-                    }
-                } else {
-                    this.isFitsSystemWindows(contentView, true);
-                }
+                }, delay);
             } else {
-                this.isFitsSystemWindows(contentView, true);
+                if (mState.IS_CHANGE_COLOR) {
+                    boolean hasStatusBar = config.hasStatusBar();
+                    boolean forceMode = config.isStatusBarForceMode();
+                    boolean hasActionBar = config.hasActionBar();
+                    View decorView = thisObject.getWindow().getDecorView();
+                    View contentView = decorView.findViewById(android.R.id.content);
+                    //自动模式
+                    if (!forceChangeStatusBarlit(decorView, contentView, hasStatusBar, forceMode, hasActionBar)) {
+                        this.isFitsSystemWindows(contentView, true);
+                    }
+                }
             }
         }
     }
@@ -244,9 +252,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         if (statusBarDrawable != null) {
             this.log("更新颜色值" + ColorUtil.toHexEncoding(statusBarDrawable.getColor()));
             updateWindowBackground(statusBarDrawable);
-            /**
-             * 反向设置ActionBar颜色
-             */
+            //反向设置ActionBar颜色
             int color = statusBarDrawable.getColor();
             boolean changeColor = ColorUtil.TestColorOfWhite(color, 55);
             boolean reverseSetting = config.isReverseActionBarColor();
@@ -264,16 +270,21 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         return config.isTouchGetColor();
     }
 
+    /**
+     * 显示通知消息
+     */
     public void showNotification() {
         if (config.isAppChangeStatusBar()) {
             if (config.isShowNotification() && mResources != null) {
-                showNotification(thisObject, mResources);
+                ActivityUtil.showNotification(thisObject, mResources);
             }
         }
     }
 
-    /*
-     * 根据配置更新顶栏颜色
+    /**
+     * 更新状态栏
+     *
+     * @param hasFocus
      */
     public void updateStatusBarLit(boolean hasFocus) {
         hasFocus = hasFocus || mState.IS_WINDOW_FOCUS;
@@ -290,9 +301,13 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                     if (statusBarDrawable != null) {
                         mState.IS_CHANGE_COLOR = true;
                         //沉浸模式
-                        this.updateContextViewPadding();
+                        this.updateContextViewPadding(0, false);
                         ActivityUtil.setStatusBarLit(thisObject);
                         this.setStatusBarDrawable(statusBarDrawable);
+                        View decorView = thisObject.getWindow().getDecorView();
+                        View contentView = decorView.findViewById(android.R.id.content);
+                        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+                        this.log(layoutParams.getClass().getName());
                     } else {
                         mState.IS_MUST_CHANGE = true;
                     }
@@ -325,51 +340,5 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         }
     }
 
-    /**
-     * 显示通知栏消息
-     *
-     * @param activity
-     * @param resources
-     */
-    public static void showNotification(Activity activity, Resources resources) {
-        String packageName = activity.getPackageName();
-        String activityName = activity.getClass().getName();
-        ComponentName cnActivity = new ComponentName(FileUtil.THIS_PACKAGE_NAME, FileUtil.THIS_PACKAGE_NAME + ".app.ActivitySettingActivity");
-        ComponentName cnApp = new ComponentName(FileUtil.THIS_PACKAGE_NAME, FileUtil.THIS_PACKAGE_NAME + ".app.AppSettingActivity");
-        Intent activityIntent = new Intent().setComponent(cnActivity);
-        Intent appIntent = new Intent().setComponent(cnApp);
 
-        int color = ActivityUtil.getStatusBarColor(activity);
-        ///页面设置
-        activityIntent.putExtra("packageName", packageName);
-        activityIntent.putExtra("activityName", activityName);
-        activityIntent.putExtra("color", color);
-        //应用设置
-
-        appIntent.putExtra("packageName", packageName);
-        appIntent.putExtra("appName", AppUtil.getApplicationName(activity));
-        appIntent.putExtra("color", color);
-        //
-        PendingIntent activityPendingIntent = PendingIntent.getActivity(activity, 0,
-                activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent appPendingIntent = PendingIntent.getActivity(activity, 1,
-                appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationManager nm = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification.Builder builder = new Notification.Builder(activity);
-        builder.setContentText(activityName);
-        builder.setContentTitle(packageName);
-        /*
-        Bitmap bitmap=ColorUtil.ScreenShots(activity,false);
-        builder.setLargeIcon(bitmap);
-        */
-        builder.setSmallIcon(android.R.drawable.sym_def_app_icon);
-        builder.setAutoCancel(true);//点击消失
-        builder.addAction(android.R.drawable.ic_menu_add,
-                resources.getString(R.string.notification_add_activity), activityPendingIntent);
-        builder.addAction(android.R.drawable.ic_menu_add,
-                resources.getString(R.string.notification_add_app), appPendingIntent);
-        Notification notification = builder.build();
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        nm.notify(1240, notification);
-    }
 }

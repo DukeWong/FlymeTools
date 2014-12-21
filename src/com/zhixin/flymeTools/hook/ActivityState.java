@@ -24,4 +24,6 @@ public class ActivityState {
      * 必须重新执行
      */
     public boolean IS_MUST_CHANGE=false;
+
+    public  boolean IS_DELAY_UPDATE_PADDING=false;
 }

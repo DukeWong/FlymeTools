@@ -20,7 +20,7 @@ public class ActionBarHooks implements IClassPatch {
             ActivityColorHook hook= (ActivityColorHook)ObjectHook.getObjectHook(actionBar.getCustomView().getContext());
             if (hook!=null){
                 hook.log("ActionBar is change");
-                hook.updateContextViewPadding();
+                hook.updateContextViewPadding(0,true);
             }
         }
     }

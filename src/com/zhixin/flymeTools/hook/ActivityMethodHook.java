@@ -3,6 +3,8 @@ package com.zhixin.flymeTools.hook;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.view.View;
+import android.view.WindowManager;
+import com.zhixin.flymeTools.Util.ActivityUtil;
 import com.zhixin.flymeTools.Util.AppUtil;
 import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.Util.StringUtil;
@@ -99,8 +101,12 @@ public class ActivityMethodHook {
         }
         @Override
         public void doMethodHook(MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook) {
-            activityColorHook.updateStatusBarLit(false);
-            activityColorHook.updateContextViewPadding();
+            boolean flag = ActivityUtil.existFlag((WindowManager.LayoutParams)param.args[0], WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            flag = flag || ActivityUtil.existFlag((WindowManager.LayoutParams)param.args[0], WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            if (flag){
+                activityColorHook.updateStatusBarLit(false);
+                activityColorHook.updateContextViewPadding(0,false);
+            }
         }
     }
 }

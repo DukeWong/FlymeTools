@@ -1,8 +1,10 @@
 package com.zhixin.flymeTools.Util;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import android.app.*;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -16,6 +18,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import com.zhixin.flymeTools.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,6 +44,7 @@ public class ActivityUtil {
         }
         return false;
     }
+
     /**
      * 获取ActionBar的背景
      *
@@ -82,6 +86,7 @@ public class ActivityUtil {
             return null;
         }
     }
+
     public static Drawable getSmartBarDrawable(Activity activity) {
         Drawable bg = getActionBarBackground(activity);
         if (bg instanceof NinePatchDrawable) {
@@ -92,47 +97,15 @@ public class ActivityUtil {
         }
         return bg;
     }
-
-    /**
-     * 设置内容视图高度问题
-     *
-     * @param activity
-     */
-    public static int changeContextViewPadding(Activity activity, boolean hasStatusBar,boolean hasSmartBar,boolean hasActionBar) {
-        int top = 0,actionHeight=0, bottom = 0;
-        if (hasStatusBar) {
-            top += ActivityUtil.getStatusBarHeight(activity);
-        }
-        ActionBar actionBar = activity.getActionBar();
-        if (actionBar != null) {
-            Object mActionView = ReflectionUtil.getObjectField(actionBar, "mActionView");
-            Object mSplitView = ReflectionUtil.getObjectField(actionBar, "mSplitView");
-            if (mActionView != null) {
-                actionHeight= ((View) mActionView).getHeight();
-                top+=actionHeight;
-            }
-            if (mSplitView != null) {
-                bottom += ((View) mSplitView).getHeight();
-            }
-        }
-        if (hasActionBar && actionHeight==0){
-            top+=ActivityUtil.getActionBarHeight(activity);
-        }
-        boolean isKikit = ActivityUtil.setStatusBarLit(activity);
-        if (isKikit) {
-            View decorView=activity.getWindow().getDecorView();
-            View contentView=decorView.findViewById(android.R.id.content);
-            top=contentView.getTop()==0?top:contentView.getPaddingTop();
-            contentView.setPadding(0, top, 0, hasSmartBar?bottom:0);
-            LogUtil.log(activity.getClass().getName() + " 顶部:" + top);
-            LogUtil.log(activity.getClass().getName() + " 底部:" + (hasSmartBar?bottom:0));
-        }
-        return top;
-    }
     public static boolean existFlag(Activity activity, int flags) {
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         return attrs.flags == ((attrs.flags & ~flags) | (flags & flags));
     }
+
+    public static boolean existFlag(WindowManager.LayoutParams attrs, int flags) {
+        return attrs.flags == ((attrs.flags & ~flags) | (flags & flags));
+    }
+
     /**
      * 获取手机状态栏高度
      *
@@ -153,6 +126,7 @@ public class ActivityUtil {
         }
         return STATUS_BAR_HEIGHT;
     }
+
     public static void savePic(Bitmap b, File file) {
         FileOutputStream fos = null;
         try {
@@ -168,10 +142,12 @@ public class ActivityUtil {
             e.printStackTrace();
         }
     }
-    public  static  Integer getStatusBarColor(Activity activity){
+
+    public static Integer getStatusBarColor(Activity activity) {
         View decorView = activity.getWindow().getDecorView();
-        return ColorUtil.loadBitmapColor(decorView, decorView.getWidth()/2,ActivityUtil.getStatusBarHeight(activity) +2);
+        return ColorUtil.loadBitmapColor(decorView, decorView.getWidth() / 2, ActivityUtil.getStatusBarHeight(activity) + 2);
     }
+
     /**
      * 获取ActionBar的高度
      *
@@ -197,6 +173,57 @@ public class ActivityUtil {
         final ActionBar bar = activity.getActionBar();
         SmartBarUtils.setActionBarViewCollapsable(bar, true);
         bar.setDisplayOptions(0);
+    }
+
+    /**
+     * 显示通知栏消息
+     *
+     * @param activity
+     * @param resources
+     */
+    public static void showNotification(Activity activity, Resources resources) {
+        String packageName = activity.getPackageName();
+        String activityName = activity.getClass().getName();
+        ComponentName cnActivity = new ComponentName(FileUtil.THIS_PACKAGE_NAME, FileUtil.THIS_PACKAGE_NAME + ".app.ActivitySettingActivity");
+        ComponentName cnApp = new ComponentName(FileUtil.THIS_PACKAGE_NAME, FileUtil.THIS_PACKAGE_NAME + ".app.AppSettingActivity");
+        Intent activityIntent = new Intent().setComponent(cnActivity);
+        Intent appIntent = new Intent().setComponent(cnApp);
+        try {
+            int color = ActivityUtil.getStatusBarColor(activity);
+            ///页面设置
+            activityIntent.putExtra("packageName", packageName);
+            activityIntent.putExtra("activityName", activityName);
+            activityIntent.putExtra("color", color);
+            //应用设置
+            appIntent.putExtra("packageName", packageName);
+            appIntent.putExtra("appName", AppUtil.getApplicationName(activity));
+            appIntent.putExtra("color", color);
+            //
+            PendingIntent activityPendingIntent = PendingIntent.getActivity(activity,activityName.hashCode(),
+                    activityIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent appPendingIntent = PendingIntent.getActivity(activity, packageName.hashCode(),
+                    appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationManager nm = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification.Builder builder = new Notification.Builder(activity);
+            builder.setContentText(activityName);
+            builder.setContentTitle(packageName);
+        /*
+        Bitmap bitmap=ColorUtil.ScreenShots(activity,false);
+        builder.setLargeIcon(bitmap);
+        */
+            builder.setSmallIcon(android.R.drawable.sym_def_app_icon);
+            builder.setAutoCancel(true);//点击消失
+            builder.addAction(android.R.drawable.ic_menu_add,
+                    resources.getString(R.string.notification_add_activity), activityPendingIntent);
+            builder.addAction(android.R.drawable.ic_menu_add,
+                    resources.getString(R.string.notification_add_app), appPendingIntent);
+            Notification notification = builder.build();
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            nm.notify(1024,notification);
+        } catch (Exception e) {
+            return;
+        }
+
     }
 
     /**

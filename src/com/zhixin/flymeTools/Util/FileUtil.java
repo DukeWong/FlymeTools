@@ -96,7 +96,6 @@ public class FileUtil {
     public static XSharedPreferences getSharedPreferences() {
         File file = new File(getSharedPreferencesRoot(), MainActivity.THIS_PACKAGE_NAME + ConstUtil.DEF_PREFERENCES + ".xml");
         XSharedPreferences xSharedPreferences = new XSharedPreferences(file);
-        xSharedPreferences.makeWorldReadable();
         return xSharedPreferences;
     }
 
