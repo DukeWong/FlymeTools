@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.base.BaseSettingActivity;
@@ -69,6 +70,7 @@ public class ActivitySettingActivity extends BaseSettingActivity {
                 File file= new File( FileUtil.getSharedPreferencesRoot(packageName),activityName+".xml");
                 if (file.exists()){ file.delete(); }
                 settingFragment.reload(true);
+                Toast.makeText(ActivitySettingActivity.this, R.string.successfully_del, Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton(R.string.No, null);

@@ -97,4 +97,14 @@
     <string name="change_status_bar_mode_summary">change_status_bar_mode_summary</string>
     <string name="show_app_log_summary">show_app_log_summary</string>
     <string name="preference_show_app_log">preference_show_app_log</string>
+    <string name="data_restore">Data Restore</string>
+    <string name="restore_config">Find the backup file,Restore The recovery?</string>
+    <string name="data_backup">Data Backup</string>
+    <string name="backup_config">Backup application configuration?</string>
+    <string name="are_backup_file">Are backup file</string>
+    <string name="get_backup_list">Getting the backup file list</string>
+    <string name="are_restore_file">Are Restore file</string>
+    <string name="get_restore_list">Getting the Restore file list</string>
+    <string name="backup_successfully">Backup Successfully</string>
+    <string name="restore_successfully">Restore Successfully</string>
 </resources>

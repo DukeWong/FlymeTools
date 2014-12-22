@@ -74,4 +74,14 @@
     <string name="change_status_bar_mode">变色龙方案</string>
     <string name="change_status_bar_mode_summary">改变状态栏颜色来模拟沉浸</string>
     <string name="show_app_log_summary">显示程序调试日志</string>
+    <string name="data_restore">数据还原</string>
+    <string name="restore_config">检测到数据备份，是否还原应用的配置数据?</string>
+    <string name="data_backup">数据备份</string>
+    <string name="backup_config">是否备份应用配置到外置储存?</string>
+    <string name="are_backup_file">备份数据</string>
+    <string name="get_backup_list">正在获取备份数据的文件列表</string>
+    <string name="are_restore_file">恢复数据</string>
+    <string name="get_restore_list">正在获取恢复数据的文件列表</string>
+    <string name="backup_successfully">备份成功</string>
+    <string name="restore_successfully">还原成功</string>
 </resources>
