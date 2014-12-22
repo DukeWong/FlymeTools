@@ -14,11 +14,12 @@ import com.zhixin.flymeTools.R;
 public class ImageMenuBtn extends ActivityLinkItem {
     private ImageView imageView;
     private TextView textView;
-    protected  void startActivity(Intent intent){
+
+    protected void startActivity(Intent intent) {
         intent.putExtra("title", textView.getText().toString());
         super.startActivity(intent);
     }
-    protected void  onCreate(Context context,LayoutInflater inflater){
+    protected void onCreate(Context context, LayoutInflater inflater) {
         inflater.inflate(R.layout.image_btn, this);
         imageView = (ImageView) findViewById(R.id.imageView);
         textView = (TextView) findViewById(R.id.textView);
