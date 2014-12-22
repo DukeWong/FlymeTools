@@ -110,4 +110,5 @@
     <string name="get_restore_list">Getting the Restore file list</string>
     <string name="backup_successfully">Backup Successfully</string>
     <string name="restore_successfully">Restore Successfully</string>
+    <string name="about">想了解最新进展,请加交流群：206648823</string>
 </resources>

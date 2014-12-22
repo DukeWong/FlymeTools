@@ -44,7 +44,7 @@ public class ActivitySettingFragment extends AppBaseFragment {
         m_has_ActionBar.setChecked(sharedPreferences.getBoolean(preference_has_ActionBar, appSharedPreferences.getBoolean(preference_has_ActionBar, false)));
         m_force_black_color.setChecked(sharedPreferences.getBoolean(preference_force_black_color, appSharedPreferences.getBoolean(preference_force_black_color, false)));
         m_automatic_color_open.setChecked(sharedPreferences.getBoolean(preference_automatic_color_open, appSharedPreferences.getBoolean(preference_automatic_color_open, false)));
-        m_app_automatic_adaptation.setChecked(sharedPreferences.getBoolean(preference_app_automatic_adaptation, appSharedPreferences.getBoolean(preference_app_automatic_adaptation, false)));
+        //m_app_automatic_adaptation.setChecked(sharedPreferences.getBoolean(preference_app_automatic_adaptation, appSharedPreferences.getBoolean(preference_app_automatic_adaptation, false)));
         m_translucent_color.setValue(sharedPreferences.getString(preference_translucent_color, appSharedPreferences.getString(preference_translucent_color, null)));
         String color = sharedPreferences.getString(preference_translucent_color, appSharedPreferences.getString(preference_translucent_color, null));
         m_translucent_color.setValue(color);

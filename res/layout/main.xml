@@ -44,7 +44,7 @@
             <com.zhixin.flymeTools.controls.ImageMenuBtn android:layout_width="fill_parent"
                                                          zx:image="@drawable/icon_about"
                                                          zx:title="@string/about_module" android:layout_weight="1"
-                                                         zx:url=".test.TestActivity"
+                                                         zx:url=".AboutActivity"
                                                          android:layout_height="wrap_content"/>
         </TableRow>
     </TableLayout>

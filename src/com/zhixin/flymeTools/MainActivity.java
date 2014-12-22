@@ -73,6 +73,9 @@ public class MainActivity extends BaseActivity {
         MenuItem item = menu.add(0, 0, 0, "backup");
         item.setIcon(R.drawable.ic_backup);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        item = menu.add(0,1, 1, "restore");
+        item.setIcon(R.drawable.ic_restore);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -168,7 +171,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        RunBackupOrRestore(false);
+        RunBackupOrRestore(item.getItemId()==1);
         return false;
     }
 

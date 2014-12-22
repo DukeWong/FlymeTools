@@ -37,13 +37,13 @@
                           android:summary="@string/reverse_setting_action_bar_summary"
                           android:key="@string/preference_reverse_setting_action_bar">
         </SwitchPreference>
-        <SwitchPreference android:title="@string/app_automatic_adaptation"
-                          android:summary="@string/app_automatic_adaptation_summary"
-                          android:visibility="gone"
-                          android:key="@string/preference_app_automatic_adaptation">
-        </SwitchPreference>
+        <!--<SwitchPreference android:title="@string/app_automatic_adaptation"-->
+                          <!--android:summary="@string/app_automatic_adaptation_summary"-->
+                          <!--android:visibility="gone"-->
+                          <!--android:key="@string/preference_app_automatic_adaptation">-->
+        <!--</SwitchPreference>-->
         <SwitchPreference android:title="@string/force_brightly_lit_mode"
-                          android:defaultValue="true"
+                          android:defaultValue="false"
                           android:summary="@string/force_brightly_lit_mode_summary"
                           android:key="@string/preference_force_brightly_lit_mode">
         </SwitchPreference>

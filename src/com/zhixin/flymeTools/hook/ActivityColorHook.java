@@ -187,6 +187,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                 //不是isActionBar 或者TOP！=Y修改
                 if (!isActionBarFrameout || contentView.getPaddingTop() != contentView.getY()) {
                     contentView.setPadding(0, top, 0, bottom);
+                    contentView.requestLayout();
                 }
                 return true;
             }
@@ -213,7 +214,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
             } else {
                 if (mState.IS_CHANGE_COLOR) {
                     //应用程序自动调整模式直接返回
-                    if (config.isAppAutomaticMode()){
+                    if (config.isAppAutomaticMode()) {
                         this.log("应用程序自动调整模式");
                         return;
                     }
@@ -302,15 +303,19 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                         //沉浸模式
                         this.updateContextViewPadding(0, false);
                         ActivityUtil.setStatusBarLit(thisObject);
+                        this.updateContextViewPadding(500, false);
                         this.setStatusBarDrawable(statusBarDrawable);
                     } else {
                         mState.IS_MUST_CHANGE = true;
                     }
                 }
+            } else {
+                if (mState.IS_CHANGE_COLOR) {
+                    this.updateContextViewPadding(0, false);
+                }
             }
         }
     }
-
     /**
      * 更新顶栏颜色
      */

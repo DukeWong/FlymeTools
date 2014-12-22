@@ -28,6 +28,8 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".statusbar.SettingActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".AboutActivity"
+                  android:screenOrientation="portrait"/>
         <activity android:theme="@android:style/Theme.Light" android:name=".test.TestActivity"
                   android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"
                   android:windowSoftInputMode="stateHidden|adjustResize"/>

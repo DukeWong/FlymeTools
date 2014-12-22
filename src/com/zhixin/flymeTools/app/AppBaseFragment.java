@@ -48,7 +48,7 @@ public abstract class AppBaseFragment extends BaseFragment {
     protected String preference_force_black_color;
     protected String preference_automatic_color_open;
     protected String preference_translucent_color;
-    protected String preference_app_automatic_adaptation;
+    //protected String preference_app_automatic_adaptation;
     //状态栏控件
     protected SwitchPreference m_translucent_compulsory = null;
     protected SwitchPreference m_force_brightly_lit_mode = null;
@@ -57,7 +57,7 @@ public abstract class AppBaseFragment extends BaseFragment {
     protected SwitchPreference m_has_ActionBar = null;
     protected SwitchPreference m_force_black_color = null;
     protected SwitchPreference m_automatic_color_open = null;
-    protected SwitchPreference m_app_automatic_adaptation = null;
+    //protected SwitchPreference m_app_automatic_adaptation = null;
     protected ColorPickerPreference m_translucent_color = null;
 
     public void setActivityName(String activityName) {
@@ -76,7 +76,7 @@ public abstract class AppBaseFragment extends BaseFragment {
         preference_force_black_color = this.getResources().getString(R.string.preference_force_black_color);
         preference_automatic_color_open = this.getResources().getString(R.string.preference_automatic_color_open);
         preference_translucent_color = this.getResources().getString(R.string.preference_translucent_color);
-        preference_app_automatic_adaptation=this.getResources().getString(R.string.preference_app_automatic_adaptation);
+        //preference_app_automatic_adaptation=this.getResources().getString(R.string.preference_app_automatic_adaptation);
     }
 
     @Override
@@ -186,7 +186,7 @@ public abstract class AppBaseFragment extends BaseFragment {
         m_has_ActionBar = (SwitchPreference) findPreference(preference_has_ActionBar);
         m_force_black_color = (SwitchPreference) findPreference(preference_force_black_color);
         m_automatic_color_open = (SwitchPreference) findPreference(preference_automatic_color_open);
-        m_app_automatic_adaptation=(SwitchPreference) findPreference(preference_app_automatic_adaptation);
+        //m_app_automatic_adaptation=(SwitchPreference) findPreference(preference_app_automatic_adaptation);
         m_translucent_color = (ColorPickerPreference) findPreference(preference_translucent_color);
 
         this.bindStatusBarDefault(sharedPreferences);
