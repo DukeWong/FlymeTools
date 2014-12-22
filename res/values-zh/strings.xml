@@ -64,8 +64,8 @@
     <string name="brightly_lit_smartbar_summary">让导航栏保持通明</string>
     <string name="force_brightly_lit_mode">强制模式</string>
     <string name="force_brightly_lit_mode_summary">强制调整沉浸状态栏</string>
-    <string name="touch_get_color">触摸取色</string>
-    <string name="touch_get_color_summary">触摸屏幕后取颜色用于状态栏调整</string>
+    <string name="touch_get_color">触摸HOME键识别颜色</string>
+    <string name="touch_get_color_summary">触摸HOME键返回桌面调整颜色</string>
     <string name="show_notification">消息栏通知</string>
     <string name="show_notification_summary">发送消息栏通知设置页面</string>
     <string name="notification_add_activity">设置页面</string>
@@ -74,4 +74,6 @@
     <string name="change_status_bar_mode">变色龙方案</string>
     <string name="change_status_bar_mode_summary">改变状态栏颜色来模拟沉浸</string>
     <string name="show_app_log_summary">显示程序调试日志</string>
+    <string name="app_automatic_adaptation">应用程序本身自动调整</string>
+    <string name="app_automatic_adaptation_summary">应用程序本身自动调整,界面被压缩的请开启</string>
 </resources>

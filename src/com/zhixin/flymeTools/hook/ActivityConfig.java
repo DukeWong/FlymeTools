@@ -107,8 +107,8 @@ public class ActivityConfig {
      * 是否采用变色龙方案
      * @return
      */
-    public  boolean isChangeColorMode(){
-        return  this.getConfigBoolean(ConstUtil.CHANGE_COLOR_MODE,false);
+    public  boolean isAppAutomaticMode(){
+        return  this.getConfigBoolean(ConstUtil.APP_AUTOMATIC_MODE,false);
     }
     /**
      * 是否显示通知栏消息
@@ -137,7 +137,10 @@ public class ActivityConfig {
         return this.getConfigBoolean(ConstUtil.REVERSE_SETTING, false);
     }
 
-
+    /**
+     * 是否启用程序状态栏沉浸
+     * @return
+     */
     public boolean isAppChangeStatusBar() {
         return globalSharedPreferences.getBoolean(ConstUtil.PREFERENCE_TRANSLUCENT, true);
     }
@@ -178,7 +181,7 @@ public class ActivityConfig {
      * @return
      */
     public boolean isStatusBarForceMode() {
-        return this.getConfigBoolean(ConstUtil.FORCE_LIT_MODE, true);
+        return this.getConfigBoolean(ConstUtil.FORCE_LIT_MODE, false);
     }
 
     protected StatusBarDrawable getAutomaticColor(boolean useCache, int barHeight) {

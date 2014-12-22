@@ -24,6 +24,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     private ActivityConfig config;
     private Resources mResources;
     private ActivityState mState = new ActivityState();
+    private Class<?> actionBarOverlayLayout;
     /**
      * 已经修改够颜色标识
      */
@@ -37,11 +38,11 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         packageName = thisObject.getPackageName();
         activityName = thisObject.getClass().getName();
         config = new ActivityConfig(thisObject);
-      /*try {
+        try {
             actionBarOverlayLayout = Class.forName("com.android.internal.widget.ActionBarOverlayLayout");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-       }*/
+        }
     }
 
     public void log(String text) {
@@ -58,13 +59,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
      * 根据配置更新Smartbar颜色
      */
     public void updateSmartbarColor() {
-        synchronized (this) {
-            if (config != null) {
-                this.reloadConfig();
-                Drawable smartBarDrawable = config.getSmartBarDrawable();
-                if (smartBarDrawable != null) {
-                    SmartBarUtils.changeSmartBarColor(thisObject, smartBarDrawable);
-                }
+        if (config != null) {
+            Drawable smartBarDrawable = config.getSmartBarDrawable();
+            if (smartBarDrawable != null) {
+                SmartBarUtils.changeSmartBarColor(thisObject, smartBarDrawable);
             }
         }
     }
@@ -128,24 +126,15 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         return false;
     }
 
-    /**
-     * 检查是否只有一个页面布局
-     *
-     * @param decorView
-     * @param paddingTop
-     * @return
-     */
-    protected boolean MigrationTest(ViewGroup decorView, int paddingTop) {
-        int length = decorView.getChildCount();
-        if (length == 1) {
-            View child = decorView.getChildAt(0);
-            if (child.getClass().getName().indexOf(thisObject.getPackageName()) == 0) {
-                child.layout(child.getLeft(), child.getTop() + paddingTop, child.getRight(), child.getBottom());
-                this.log(child.getClass().getName());
-                //刷新下布局
-                decorView.layout(decorView.getLeft(), decorView.getTop() + 1, decorView.getRight(), decorView.getBottom());
-                decorView.layout(decorView.getLeft(), decorView.getTop() - 1, decorView.getRight(), decorView.getBottom());
-                return true;
+    protected boolean getDecorViewFrameLayout(View decorView) {
+        if (decorView instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) decorView;
+            int count = viewGroup.getChildCount();
+            if (count > 0) {
+                View view = viewGroup.getChildAt(0);
+                if (actionBarOverlayLayout != null || actionBarOverlayLayout.isAssignableFrom(view.getClass())) {
+                    return true;
+                }
             }
         }
         return false;
@@ -165,6 +154,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         this.log("模式:" + hasStatusBar + forceMode + hasActionBar);
         int statusBarHeight = ActivityUtil.getStatusBarHeight(thisObject);
         boolean isFitsSystemWindows = this.isFitsSystemWindows(contentView, false);
+        boolean isActionBarFrameout = this.getDecorViewFrameLayout(decorView);
         if (!isFitsSystemWindows || forceMode) {
             int top = 0, actionHeight = 0, bottom = 0;
             if (hasStatusBar) {
@@ -191,9 +181,13 @@ public class ActivityColorHook extends ObjectHook<Activity> {
             }
             if (!isFitsSystemWindows || forceMode) {
                 this.log("top:" + top + " bottom:" + bottom);
-                this.log("Y:" +contentView.getY());
-                this.log("TOP:" +contentView.getPaddingTop());
-                contentView.setPadding(0, top, 0, bottom);
+                this.log("ActionBar:" + isActionBarFrameout);
+                this.log("TOP:" + contentView.getPaddingTop());
+                this.log("Y:" + contentView.getY());
+                //不是isActionBar 或者TOP！=Y修改
+                if (!isActionBarFrameout || contentView.getPaddingTop() != contentView.getY()) {
+                    contentView.setPadding(0, top, 0, bottom);
+                }
                 return true;
             }
         }
@@ -205,9 +199,9 @@ public class ActivityColorHook extends ObjectHook<Activity> {
      *
      * @return 是否需要修改颜色
      */
-    public void updateContextViewPadding(int delay, boolean actionBarchange) {
-        actionBarchange = actionBarchange || !mState.IS_DELAY_UPDATE_PADDING;
-        if (actionBarchange) {
+    public void updateContextViewPadding(int delay, boolean actionBarChange) {
+        actionBarChange = actionBarChange || !mState.IS_DELAY_UPDATE_PADDING;
+        if (actionBarChange) {
             if (delay > 0) {
                 //延时执行
                 new Handler().postDelayed(new Runnable() {
@@ -218,6 +212,11 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                 }, delay);
             } else {
                 if (mState.IS_CHANGE_COLOR) {
+                    //应用程序自动调整模式直接返回
+                    if (config.isAppAutomaticMode()){
+                        this.log("应用程序自动调整模式");
+                        return;
+                    }
                     boolean hasStatusBar = config.hasStatusBar();
                     boolean forceMode = config.isStatusBarForceMode();
                     boolean hasActionBar = config.hasActionBar();
@@ -324,17 +323,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                 mState.IS_UPDATE_COLOR = true;
                 config.setAutomaticColor(null);
                 StatusBarDrawable drawable = config.getStatusBarDrawable(false);
-                if (config.isChangeColorMode()) {
-                    //变色龙模式
-                    this.updateStatusBarWindowColor(drawable);
-                } else {
-                    //沉浸模式
-                    this.log("沉浸模式单独重新更新颜色");
-                    this.setStatusBarDrawable(drawable);
-                }
+                //沉浸模式
+                this.log("沉浸模式单独重新更新颜色");
+                this.setStatusBarDrawable(drawable);
             }
         }
     }
-
-
 }

@@ -16,6 +16,7 @@ public class TestActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
+        ActivityUtil.setSmartBarEnable(this);
         ActivityUtil.setStatusBarLit(this);
         ActivityUtil.setDarkBar(this, true);
         int length=ActivityUtil.getActionBarHeight(this);

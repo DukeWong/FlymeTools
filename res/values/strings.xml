@@ -97,4 +97,7 @@
     <string name="change_status_bar_mode_summary">change_status_bar_mode_summary</string>
     <string name="show_app_log_summary">show_app_log_summary</string>
     <string name="preference_show_app_log">preference_show_app_log</string>
+    <string name="preference_app_automatic_adaptation">preference_app_automatic_adaptation</string>
+    <string name="app_automatic_adaptation">Application of automatic adaptation</string>
+    <string name="app_automatic_adaptation_summary">Application of automatic adaptation</string>
 </resources>

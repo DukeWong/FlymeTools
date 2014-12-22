@@ -37,6 +37,11 @@
                           android:summary="@string/reverse_setting_action_bar_summary"
                           android:key="@string/preference_reverse_setting_action_bar">
         </SwitchPreference>
+        <SwitchPreference android:title="@string/app_automatic_adaptation"
+                          android:summary="@string/app_automatic_adaptation_summary"
+                          android:visibility="gone"
+                          android:key="@string/preference_app_automatic_adaptation">
+        </SwitchPreference>
         <SwitchPreference android:title="@string/force_brightly_lit_mode"
                           android:defaultValue="true"
                           android:summary="@string/force_brightly_lit_mode_summary"
@@ -52,11 +57,7 @@
                           android:summary="@string/has_ActionBar_summary"
                           android:key="@string/preference_has_ActionBar">
         </SwitchPreference>
-        <SwitchPreference android:title="@string/change_status_bar_mode"
-                          android:summary="@string/change_status_bar_mode_summary"
-                          android:visibility="gone"
-                          android:key="@string/preference_change_status_bar_mode">
-        </SwitchPreference>
+
         <SwitchPreference
                 android:defaultValue="true"
                 android:enabled="false"

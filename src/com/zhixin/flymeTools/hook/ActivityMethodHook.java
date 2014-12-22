@@ -74,14 +74,18 @@ public class ActivityMethodHook {
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
             doMethodHookCallBack((Activity) param.thisObject, statusBarWindow, mResources, param, this);
         }
-
         @Override
         public void doMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook) {
             boolean hasFocus = (Boolean) param.args[0];
             if (hasFocus) {
-                activityColorHook.updateSmartbarColor();
                 activityColorHook.updateStatusBarLit(true);
                 activityColorHook.showNotification();
+                activityColorHook.updateSmartbarColor();
+            }else
+            {
+                if (activityColorHook.isTouchGetColor()) {
+                    activityColorHook.updateStatusBarColor();
+                }
             }
         }
     }
@@ -105,7 +109,7 @@ public class ActivityMethodHook {
             flag = flag || ActivityUtil.existFlag((WindowManager.LayoutParams)param.args[0], WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             if (flag){
                 activityColorHook.updateStatusBarLit(false);
-                activityColorHook.updateContextViewPadding(0,false);
+                activityColorHook.updateContextViewPadding(500,false);
             }
         }
     }

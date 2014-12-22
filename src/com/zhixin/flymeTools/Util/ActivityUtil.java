@@ -171,8 +171,10 @@ public class ActivityUtil {
      */
     public static void setSmartBarEnable(Activity activity) {
         final ActionBar bar = activity.getActionBar();
-        SmartBarUtils.setActionBarViewCollapsable(bar, true);
-        bar.setDisplayOptions(0);
+        if (bar!=null){
+            SmartBarUtils.setActionBarViewCollapsable(bar, true);
+            bar.setDisplayOptions(0);
+        }
     }
 
     /**
