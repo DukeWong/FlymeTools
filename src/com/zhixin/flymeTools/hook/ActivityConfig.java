@@ -10,8 +10,6 @@ import com.zhixin.flymeTools.Util.*;
 import com.zhixin.flymeTools.controls.StatusBarDrawable;
 import de.robv.android.xposed.XSharedPreferences;
 
-import javax.xml.transform.dom.DOMResult;
-
 /**
  * Created by ZXW on 2014/12/18.
  */

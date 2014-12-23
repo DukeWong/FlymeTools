@@ -2,9 +2,6 @@ package com.zhixin.flymeTools.hook;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.view.View;
-import android.view.WindowManager;
-import com.zhixin.flymeTools.Util.ActivityUtil;
 import com.zhixin.flymeTools.Util.AppUtil;
 import com.zhixin.flymeTools.Util.FileUtil;
 import com.zhixin.flymeTools.Util.StringUtil;

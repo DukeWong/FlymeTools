@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.*;
 import com.zhixin.flymeTools.controls.StatusBarDrawable;
@@ -216,7 +215,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                 this.log("Y:" + contentView.getY());
                 //不是isActionBar 或者TOP！=Y修改
                 if (!isActionBarFrameout || contentView.getPaddingTop() != contentView.getY()) {
-                    contentView.setPadding(0, top, 0, 0);
+                    contentView.setPadding(0, top, 0, bottom);
                     contentView.requestLayout();
                 }
                 return true;

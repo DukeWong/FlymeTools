@@ -1,7 +1,6 @@
 package com.zhixin.flymeTools.app;
 
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

@@ -1,13 +1,10 @@
 package com.zhixin.flymeTools.test;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import de.robv.android.xposed.XC_MethodHook;
 
 import java.io.File;

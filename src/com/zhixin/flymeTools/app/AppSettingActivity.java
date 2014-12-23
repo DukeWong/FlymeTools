@@ -1,5 +1,5 @@
 package com.zhixin.flymeTools.app;
-import android.app.NotificationManager;
+
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
