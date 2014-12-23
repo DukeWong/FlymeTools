@@ -38,8 +38,8 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
             mResources = XModuleResources.createInstance(startupParam.modulePath, null);
             //XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new AppHooKTest("com.tencent"));
             //XposedHelpers.findAndHookMethod(Activity.class, "dispatchTouchEvent", MotionEvent.class, new ActivityMethodHook.TouchEventMethod(mResources, mStatusBarWindow));
-            XposedHelpers.findAndHookMethod(Activity.class,"onDestroy",new ActivityMethodHook.DestroyMethod());
             XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new ActivityMethodHook.WindowFocusMethod(mResources, mStatusBarWindow));
+            XposedHelpers.findAndHookMethod(Activity.class,"onDestroy",new ActivityMethodHook.DestroyMethod());
             //XposedHelpers.findAndHookMethod(Activity.class, "onWindowAttributesChanged", WindowManager.LayoutParams.class, new ActivityMethodHook.WindowAttributes(mResources, mStatusBarWindow));
         }
     }
