@@ -57,7 +57,11 @@
                           android:summary="@string/has_ActionBar_summary"
                           android:key="@string/preference_has_ActionBar">
         </SwitchPreference>
-
+        <SwitchPreference android:title="@string/has_NavigationBar"
+                          android:enabled="false"
+                          android:summary="@string/has_NavigationBar_summary"
+                          android:key="@string/preference_has_NavigationBar">
+        </SwitchPreference>
         <SwitchPreference
                 android:defaultValue="true"
                 android:enabled="false"

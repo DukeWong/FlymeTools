@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -25,6 +26,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     private Resources mResources;
     private ActivityState mState = new ActivityState();
     private Class<?> actionBarOverlayLayout;
+    private int windowHeight = 0;
     /**
      * 已经修改够颜色标识
      */
@@ -38,6 +40,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         packageName = thisObject.getPackageName();
         activityName = thisObject.getClass().getName();
         config = new ActivityConfig(thisObject);
+        DisplayMetrics mDisplayMetrics = new DisplayMetrics();
+        thisObject.getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+        windowHeight = mDisplayMetrics.heightPixels;
+
         try {
             actionBarOverlayLayout = Class.forName("com.android.internal.widget.ActionBarOverlayLayout");
         } catch (ClassNotFoundException e) {
@@ -46,7 +52,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     }
 
     public void log(String text) {
-        if (config.isShowApplog()) {
+        if (config.isShowAppLog()) {
             LogUtil.log(activityName + " 消息:" + text);
         }
     }
@@ -172,8 +178,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                         top += ActivityUtil.getActionBarHeight(thisObject);
                     }
                 }
-                if (splitView != null && splitView.getVisibility() != View.GONE) {
-                    bottom += splitView.getHeight();
+                if (config.hasNavigationBar()){
+                    if (splitView != null) {
+                        bottom += splitView.getHeight();
+                    }
                 }
             }
             if (hasActionBar && actionHeight == 0) {
@@ -316,6 +324,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
             }
         }
     }
+
     /**
      * 更新顶栏颜色
      */

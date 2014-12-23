@@ -33,7 +33,7 @@ public class ActivityConfig {
     private View rootView = null;
 
     public void log(String text) {
-        if (this.isShowApplog()){
+        if (this.isShowAppLog()){
             LogUtil.log(activityName + " 消息:" + text);
         }
     }
@@ -100,7 +100,7 @@ public class ActivityConfig {
      * 是否显示程序调试日志
      * @return
      */
-    public  boolean isShowApplog(){
+    public  boolean isShowAppLog(){
           return  appSharedPreferences.getBoolean(ConstUtil.SHOW_APP_LOG,false);
     }
     /**
@@ -158,6 +158,13 @@ public class ActivityConfig {
         return false;
     }
 
+    /**
+     * 是否强制包含地底栏
+     * @return
+     */
+     public boolean hasNavigationBar(){
+         return !this.getConfigBoolean(ConstUtil.HAS_NavigationBar, false);
+     }
     /**
      * 强制模式下是否预留状态栏
      *
