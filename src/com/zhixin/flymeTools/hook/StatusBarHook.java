@@ -24,7 +24,7 @@ public class StatusBarHook implements IClassPatch {
                 protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     final View mStatusBarWindow = (View) ReflectionUtil.getObjectField(param.thisObject, "mStatusBarWindow");
                     if (mStatusBarWindow!=null && singleton!=null){
-                        singleton.setStatusBarWindow(mStatusBarWindow);
+                        //singleton.setStatusBarWindow(mStatusBarWindow);
                     }
                 }
             });

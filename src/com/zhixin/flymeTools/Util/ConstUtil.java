@@ -18,6 +18,11 @@ public class ConstUtil {
      * 是否含有ActionBar
      */
     public static String HAS_ACTIONBAR = "preference_has_ActionBar";
+
+    /**
+     * 强制偏移一个底栏位置
+     */
+    public static String HAS_NavigationBar = "preference_has_NavigationBar";
     /**
      * 强制开启黑色图标状态栏
      */

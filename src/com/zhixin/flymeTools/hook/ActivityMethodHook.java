@@ -15,101 +15,56 @@ import de.robv.android.xposed.XC_MethodHook;
  */
 public class ActivityMethodHook {
     public interface IDoMethodHook {
-        void doMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook);
+        void doMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook, Object args);
     }
 
-    public static void doMethodHookCallBack(Activity activity, View statusBarWindow, Resources resources, XC_MethodHook.MethodHookParam param, IDoMethodHook callBack) {
+    public static void doMethodHookCallBack(Activity activity, Resources resources, XC_MethodHook.MethodHookParam param, IDoMethodHook callBack, Object args) {
         if (!StringUtil.equals(activity.getPackageName(), FileUtil.THIS_PACKAGE_NAME)) {
             if (!AppUtil.isSystemApp(activity)) {
                 ObjectHook hook = ObjectHook.getObjectHook(activity);
                 if (hook == null) {
-                    hook = new ActivityColorHook(activity, resources, statusBarWindow);
+                    hook = new ActivityColorHook(activity, resources);
                 }
                 if (hook instanceof ActivityColorHook) {
-                    callBack.doMethodHook(param, (Activity) param.thisObject, (ActivityColorHook) hook);
+                    callBack.doMethodHook(param, activity, (ActivityColorHook) hook, args);
                 }
             }
         }
     }
+
+    /**
+     * 销毁hook函数
+     */
     public static class DestroyMethod extends XC_MethodHook {
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
             ObjectHook.removeObjectHook(param.thisObject);
         }
     }
-    public static class TouchEventMethod extends XC_MethodHook implements IDoMethodHook {
-        private Resources mResources;
-        private View statusBarWindow;
-
-        public TouchEventMethod(final Resources mResources, final View statusBarWindow) {
-            this.mResources = mResources;
-            this.statusBarWindow = statusBarWindow;
-        }
-
-        @Override
-        protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-            doMethodHookCallBack((Activity) param.thisObject, statusBarWindow, mResources, param, this);
-        }
-
-        @Override
-        public void doMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook) {
-            if (activityColorHook.isTouchGetColor()) {
-                activityColorHook.updateStatusBarColor();
-            }
-        }
-    }
 
     public static class WindowFocusMethod extends XC_MethodHook implements IDoMethodHook {
-        private Resources mResources;
+        protected Resources mResources;
 
-
-        private View statusBarWindow;
-
-        public WindowFocusMethod(final Resources mResources, View statusBarWindow) {
+        public WindowFocusMethod(final Resources mResources) {
             this.mResources = mResources;
-            this.statusBarWindow = statusBarWindow;
         }
 
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-            doMethodHookCallBack((Activity) param.thisObject, statusBarWindow, mResources, param, this);
+            doMethodHookCallBack((Activity) param.thisObject, mResources, param, this, null);
         }
+
         @Override
-        public void doMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook) {
+        public void doMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook, Object args) {
             boolean hasFocus = (Boolean) param.args[0];
             if (hasFocus) {
                 activityColorHook.updateStatusBarLit(true);
                 activityColorHook.showNotification();
                 activityColorHook.updateSmartbarColor();
-            }else
-            {
+            } else {
                 if (activityColorHook.isTouchGetColor()) {
                     activityColorHook.updateStatusBarColor();
                 }
-            }
-        }
-    }
-
-    public static class WindowAttributes extends XC_MethodHook implements IDoMethodHook {
-        private Resources mResources;
-        private View statusBarWindow;
-
-        public WindowAttributes(final Resources mResources, final View statusBarWindow) {
-            this.mResources = mResources;
-            this.statusBarWindow = statusBarWindow;
-        }
-
-        @Override
-        protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-            doMethodHookCallBack((Activity) param.thisObject, statusBarWindow, mResources, param, this);
-        }
-        @Override
-        public void doMethodHook(MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook) {
-            boolean flag = ActivityUtil.existFlag((WindowManager.LayoutParams)param.args[0], WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            flag = flag || ActivityUtil.existFlag((WindowManager.LayoutParams)param.args[0], WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            if (flag){
-                activityColorHook.updateStatusBarLit(false);
-                activityColorHook.updateContextViewPadding(500,false);
             }
         }
     }
