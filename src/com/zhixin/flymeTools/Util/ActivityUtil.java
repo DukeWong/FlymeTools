@@ -112,7 +112,7 @@ public class ActivityUtil {
      * @param activity
      * @return
      */
-    public static int getStatusBarHeight(Activity activity) {
+    public static int getStatusBarHeight(Context activity) {
         if (STATUS_BAR_HEIGHT == 0) {
             try {
                 Class<?> c = Class.forName("com.android.internal.R$dimen");
