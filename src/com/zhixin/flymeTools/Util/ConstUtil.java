@@ -74,10 +74,21 @@ public class ConstUtil {
     /**
      * 变色龙方案
      */
-    public static String  APP_AUTOMATIC_MODE="preference_app_automatic_adaptation";
+    public static String APP_AUTOMATIC_MODE = "preference_app_automatic_adaptation";
     /**
      * 调试应用调试日志
      */
-    public  static String SHOW_APP_LOG="preference_show_app_log";
-
+    public static String SHOW_APP_LOG = "preference_show_app_log";
+    /**
+     * 替换应用图标
+     */
+    public static String IS_REPLACE_APP_ICON = "preference_replace_app_icon";
+    /**
+     * 替换应用名称
+     */
+    public static String IS_REPLACE_APP_NAME = "preference_replace_app_name";
+    /**
+     * 替换应用名称KEY值
+     */
+    public static String REPLACE_APP_NAME_KEY = "preference_app_name";
 }

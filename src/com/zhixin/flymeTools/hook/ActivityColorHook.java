@@ -342,7 +342,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                         //沉浸模式
                         this.updateContextViewPadding(0, false);
                         ActivityUtil.setStatusBarLit(thisObject);
-                        this.updateContextViewPadding(500, false);
+                        this.updateContextViewPadding(1000, false);
                         this.setStatusBarDrawable(statusBarDrawable);
                     } else {
                         mState.IS_MUST_CHANGE = true;

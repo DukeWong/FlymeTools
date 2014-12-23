@@ -23,8 +23,10 @@
     <string name="showSystemApp">显示系统应用</string>
     <string name="noShowSystemApp">去除系统应用</string>
     <string name="open_settings">开启设置</string>
+    <string name="debug_setting">调试设置</string>
     <string name="edit_app_title">编辑应用名称</string>
     <string name="edit_app_summary">编辑当前应用名称</string>
+    <string name="app_setting">应用设置</string>
     <string name="replace_app_name">替换应用名称</string>
     <string name="replace_app_name_summary">替换应用名称为期望的应用名称</string>
     <string name="app_icon_setting">应用图标设置</string>

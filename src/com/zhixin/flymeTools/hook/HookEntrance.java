@@ -20,11 +20,14 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        /**
-         * 程序名称修改
-         */
-        XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
-        XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadLabel", PackageManager.class, new PackageNameHook());
+        //程序名称修改
+        AppNameHook appNameHook = new AppNameHook();
+        XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadLabel", PackageManager.class, appNameHook);
+        XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadLabel", PackageManager.class, appNameHook);
+        //图标修改
+        AppIconHook appIconHook = new AppIconHook();
+        XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadIcon", PackageManager.class, appIconHook);
+        XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadIcon", PackageManager.class, appIconHook);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mResources = XModuleResources.createInstance(startupParam.modulePath, null);
             XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new ActivityMethodHook.WindowFocusMethod(mResources));

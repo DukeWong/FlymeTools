@@ -26,11 +26,13 @@
     <string name="open_settings">Open settings</string>
     <string name="edit_app_title">App name</string>
     <string name="edit_app_summary">Edit app name</string>
+    <string name="app_setting">Applications settings</string>
+    <string name="debug_setting">Debug Setting</string>
     <string name="replace_app_name">Replace app name</string>
     <string name="replace_app_name_summary">Replace app name freely</string>
     <string name="app_icon_setting">Applications icon setting</string>
     <string name="replace_icon_summary">Replace app icon freely</string>
-    <string name="replace_icon">Replace icon</string>
+    <string name="preference_replace_app_icon">preference_replace_app_icon</string>
     <string name="app_smartbar">Smartbar</string>
     <string name="custom_color">Custom Color</string>
     <string name="app_smartbar_setting">Smartbar setting</string>

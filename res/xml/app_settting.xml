@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   android:title="Settings" android:layout_height="fill_parent" android:layout_width="fill_parent">
-    <PreferenceCategory android:title="@string/app_name_setting"
-                        android:summary="@string/app_name_setting">
-    <SwitchPreference
-            android:key="@string/preference_replace_app_name"
-            android:summary="@string/replace_app_name_summary"
-            android:title="@string/open_settings"/>
-    <EditTextPreference android:key="@string/preference_app_name" android:id="@+id/app_name_edit"
-                        android:defaultValue="@null"
-                        android:title="@string/edit_app_title"
-                        android:summary="@string/edit_app_summary"/>
-   </PreferenceCategory>
-    <SwitchPreference
-            android:key="@string/preference_show_app_log"
-            android:summary="@string/show_app_log_summary"
-            android:title="@string/open_settings"/>
+    <PreferenceCategory android:title="@string/app_setting"
+                        android:summary="@string/app_setting">
+        <SwitchPreference
+                android:key="@string/preference_replace_app_name"
+                android:summary="@string/replace_app_name_summary"
+                android:title="@string/open_settings"/>
+        <EditTextPreference android:key="@string/preference_app_name" android:id="@+id/app_name_edit"
+                            android:defaultValue="@null"
+                            android:title="@string/edit_app_title"
+                            android:summary="@string/edit_app_summary"/>
+        <SwitchPreference
+                android:key="@string/preference_replace_app_icon"
+                android:summary="@string/replace_icon_summary"
+                android:title="@string/open_settings"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/debug_setting"
+                        android:summary="@string/debug_setting">
+        <SwitchPreference
+                android:key="@string/preference_show_app_log"
+                android:summary="@string/show_app_log_summary"
+                android:title="@string/open_settings"/>
+    </PreferenceCategory>
 </PreferenceScreen>
