@@ -81,9 +81,9 @@
     <string name="data_backup">数据备份</string>
     <string name="backup_config">是否备份应用配置到外置储存?</string>
     <string name="are_backup_file">备份数据</string>
-    <string name="get_backup_list">正在获取备份数据的文件列表</string>
+    <string name="get_backup_list">正在备份应用的的配置数据....</string>
     <string name="are_restore_file">恢复数据</string>
-    <string name="get_restore_list">正在获取恢复数据的文件列表</string>
+    <string name="get_restore_list">正在恢复应用的的配置数据....</string>
     <string name="backup_successfully">备份成功</string>
     <string name="restore_successfully">还原成功</string>
 </resources>

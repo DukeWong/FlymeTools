@@ -186,7 +186,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                 this.log("Y:" + contentView.getY());
                 //不是isActionBar 或者TOP！=Y修改
                 if (!isActionBarFrameout || contentView.getPaddingTop() != contentView.getY()) {
-                    contentView.setPadding(0, top, 0, bottom);
+                    contentView.setPadding(0, top, 0, 0);
                     contentView.requestLayout();
                 }
                 return true;
