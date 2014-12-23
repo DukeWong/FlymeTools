@@ -163,7 +163,7 @@ public class ActivityConfig {
      * @return
      */
      public boolean hasNavigationBar(){
-         return !this.getConfigBoolean(ConstUtil.HAS_NavigationBar, false);
+         return this.getConfigBoolean(ConstUtil.HAS_NavigationBar, false);
      }
     /**
      * 强制模式下是否预留状态栏
