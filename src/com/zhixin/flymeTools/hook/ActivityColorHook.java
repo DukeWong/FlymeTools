@@ -10,7 +10,9 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.*;
 import com.zhixin.flymeTools.controls.StatusBarDrawable;
 
@@ -26,17 +28,17 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     private Resources mResources;
     private ActivityState mState = new ActivityState();
     private Class<?> actionBarOverlayLayout;
-    private int windowHeight = 0;
+    private int windowHeight;
+    private ImageView mOverflowButton;
+    private Drawable mOverflowButtonIcon;
+
     /**
      * 已经修改够颜色标识
      */
-    private View mStatusBarWindow;
 //    private static Class<?> actionBarOverlayLayout;
-
-    public ActivityColorHook(final Activity thisObject, final Resources resources, final View statusBarWindow) {
+    public ActivityColorHook(final Activity thisObject, final Resources resources) {
         super(thisObject);
         mResources = resources;
-        mStatusBarWindow = statusBarWindow;
         packageName = thisObject.getPackageName();
         activityName = thisObject.getClass().getName();
         config = new ActivityConfig(thisObject);
@@ -51,12 +53,19 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         }
     }
 
+    /**
+     * 写日志
+     * @param text
+     */
     public void log(String text) {
         if (config.isShowAppLog()) {
             LogUtil.log(activityName + " 消息:" + text);
         }
     }
 
+    /**
+     * 重新读取配置
+     */
     public void reloadConfig() {
         config.reload();
     }
@@ -68,6 +77,18 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         if (config != null) {
             Drawable smartBarDrawable = config.getSmartBarDrawable();
             if (smartBarDrawable != null) {
+                if (smartBarDrawable instanceof ColorDrawable) {
+                    ColorDrawable colorDrawable = (ColorDrawable) smartBarDrawable;
+                    int color = colorDrawable.getColor();
+                    if (ColorUtil.TestColorOfWhite(color, 55)) {
+                        SmartBarUtils.changeSmartBarColor(thisObject, mResources.getDrawable(R.drawable.mz_smartbar_background));
+                        mOverflowButtonIcon = mResources.getDrawable(R.drawable.mz_ic_sb_more);
+                        this.updateOverflowButton(null);
+                        return;
+                    } else {
+                        mOverflowButtonIcon = null;
+                    }
+                }
                 SmartBarUtils.changeSmartBarColor(thisObject, smartBarDrawable);
             }
         }
@@ -90,13 +111,14 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         }
         return mActionView;
     }
-
+    /*
     protected void updateStatusBarWindowColor(Drawable drawable) {
         if (mStatusBarWindow != null) {
             this.log("变色龙单独重新更新颜色");
             mStatusBarWindow.setBackground(drawable);
         }
     }
+    */
 
     /**
      * 获取mSplitView
@@ -178,7 +200,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                         top += ActivityUtil.getActionBarHeight(thisObject);
                     }
                 }
-                if (config.hasNavigationBar()){
+                if (config.hasNavigationBar()) {
                     if (splitView != null) {
                         bottom += splitView.getHeight();
                     }
@@ -221,11 +243,6 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                 }, delay);
             } else {
                 if (mState.IS_CHANGE_COLOR) {
-                    //应用程序自动调整模式直接返回
-                    if (config.isAppAutomaticMode()) {
-                        this.log("应用程序自动调整模式");
-                        return;
-                    }
                     boolean hasStatusBar = config.hasStatusBar();
                     boolean forceMode = config.isStatusBarForceMode();
                     boolean hasActionBar = config.hasActionBar();
@@ -245,6 +262,21 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         rootLayer.setBackground(statusBarDrawable);
         View context = rootLayer.findViewById(android.R.id.content);
         context.setBackground(statusBarDrawable);
+    }
+
+    /**
+     * 更新菜单点击按钮
+     *
+     * @param button
+     */
+    public void updateOverflowButton(ImageView button) {
+        if (button != null) {
+            this.mOverflowButton = button;
+        }
+        if (mOverflowButtonIcon != null && mOverflowButton != null) {
+            this.log("更新右侧图标");
+            mOverflowButton.setImageDrawable(mOverflowButtonIcon);
+        }
     }
 
     /**

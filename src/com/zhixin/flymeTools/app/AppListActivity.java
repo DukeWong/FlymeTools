@@ -1,6 +1,8 @@
 package com.zhixin.flymeTools.app;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ActivityUtil;
 import com.zhixin.flymeTools.Util.AppUtil;
+import com.zhixin.flymeTools.Util.SmartBarUtils;
 
 /**
  * Created by ZXW on 2014/12/5.
@@ -36,10 +39,18 @@ public class AppListActivity extends ListActivity {
         ActivityUtil.setDarkBar(this, true);
         list.setFitsSystemWindows(true);
     }
+
     public void loadData() {
-        mAdapter = AppUtil.getAppItemAdapter(this, !isDeleteSystemApp,false);
+        mAdapter = AppUtil.getAppItemAdapter(this, !isDeleteSystemApp, false);
         setListAdapter(mAdapter);
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        ActionBar actionBar=this.getActionBar();
+       SmartBarUtils.changeSmartBarMoreIcon(this, getResources().getDrawable(R.drawable.ic_backup));
+    }
+
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         isDeleteSystemApp = !isDeleteSystemApp;
@@ -47,11 +58,13 @@ public class AppListActivity extends ListActivity {
         this.loadData();
         return true;
     }
+
     @Override
     public boolean onCreatePanelMenu(int featureId, Menu menu) {
         menu.add(1, 1, 1, isDeleteSystemApp ? R.string.showSystemApp : R.string.noShowSystemApp);
         return super.onCreatePanelMenu(featureId, menu);
     }
+
     public void onListItemClick(View view, int position, long id) {
         mModifyingItem = mAdapter.getAppItem(position);
         String packgeName = mModifyingItem.getPackgeName();
