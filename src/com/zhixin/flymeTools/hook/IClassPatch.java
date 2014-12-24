@@ -7,5 +7,5 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * Created by zhixin on 2014/12/14.
  */
 public interface IClassPatch {
-    void initPatch(XC_LoadPackage.LoadPackageParam loadPackageParam,Resources resources);
+    void initPatch(XC_LoadPackage.LoadPackageParam loadPackageParam, Resources resources);
 }

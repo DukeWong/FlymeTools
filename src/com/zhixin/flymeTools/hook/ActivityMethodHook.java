@@ -39,6 +39,31 @@ public class ActivityMethodHook {
         }
     }
 
+    /**
+     * SetContentView函数Hook
+     */
+    public static class SetContentViewMethod extends WindowFocusMethod {
+
+        public SetContentViewMethod(Resources mResources) {
+            super(mResources);
+        }
+
+        @Override
+        protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+        }
+
+        @Override
+        protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+            doMethodHookCallBack((Activity) param.thisObject, mResources, param, this, null);
+        }
+
+        @Override
+        public void doMethodHook(XC_MethodHook.MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook, Object args) {
+            int layoutResID = (Integer) param.args[0];
+            activityColorHook.updateLayoutResID(layoutResID);
+        }
+    }
+
     public static class WindowFocusMethod extends XC_MethodHook implements IDoMethodHook {
         protected Resources mResources;
 

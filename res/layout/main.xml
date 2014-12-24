@@ -11,7 +11,8 @@
         <ImageView android:layout_width="195dp" android:layout_height="30dp"
                    android:src="@drawable/logo"/>
     </LinearLayout>
-    <TableLayout android:id="@+id/mainTable" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_marginBottom="48dp">
+    <TableLayout android:id="@+id/mainTable" android:layout_width="fill_parent" android:layout_height="wrap_content"
+                 android:layout_marginBottom="48dp">
         <TableRow>
             <com.zhixin.flymeTools.controls.ImageMenuBtn android:layout_width="fill_parent"
                                                          zx:image="@drawable/icon_applications"

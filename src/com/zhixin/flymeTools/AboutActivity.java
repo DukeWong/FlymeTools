@@ -13,6 +13,6 @@ public class AboutActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_app);
         ActivityUtil.setStatusBarLit(this);
-        ActivityUtil.setDarkBar(this,true);
+        ActivityUtil.setDarkBar(this, true);
     }
 }

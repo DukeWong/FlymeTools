@@ -33,6 +33,7 @@ public class StatusBarDrawable extends ColorDrawable {
         this.height = height;
         this.baseDrawable = drawable;
     }
+
     @Override
     public void draw(Canvas canvas) {
         if (baseDrawable != null) {

@@ -32,6 +32,7 @@ public class ActionMenuViewHook extends ActivityMethodHook.WindowFocusMethod {
             }
         }
     }
+
     @Override
     public void doMethodHook(MethodHookParam param, Activity thisObject, ActivityColorHook activityColorHook, Object args) {
         if (args != null) {

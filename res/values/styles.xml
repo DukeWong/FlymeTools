@@ -6,7 +6,8 @@
     </style>
 
     <!-- overflow图标 -->
-    <style name="CustomActionButtonOverflowStyle" parent="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow">
+    <style name="CustomActionButtonOverflowStyle"
+           parent="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow">
         <item name="android:src">@drawable/mz_ic_sb_more</item>
     </style>
 

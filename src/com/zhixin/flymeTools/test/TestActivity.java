@@ -18,16 +18,17 @@ public class TestActivity extends Activity {
         ActivityUtil.setSmartBarEnable(this);
         ActivityUtil.setStatusBarLit(this);
         ActivityUtil.setDarkBar(this, true);
-        int length=ActivityUtil.getActionBarHeight(this);
+        int length = ActivityUtil.getActionBarHeight(this);
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus) {
-            View rootView=this.getWindow().getDecorView();
-            View view=this.getWindow().getDecorView().findViewById(android.R.id.content);
+            View rootView = this.getWindow().getDecorView();
+            View view = this.getWindow().getDecorView().findViewById(android.R.id.content);
             view.setTop(100);
-            rootView.layout(rootView.getLeft(),rootView.getTop()+1,rootView.getRight(),rootView.getBottom());
-            rootView.layout(rootView.getLeft(),rootView.getTop()-1,rootView.getRight(),rootView.getBottom());
+            rootView.layout(rootView.getLeft(), rootView.getTop() + 1, rootView.getRight(), rootView.getBottom());
+            rootView.layout(rootView.getLeft(), rootView.getTop() - 1, rootView.getRight(), rootView.getBottom());
         }
     }
 }

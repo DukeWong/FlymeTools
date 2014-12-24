@@ -17,17 +17,19 @@ public class BaseSettingActivity extends Activity {
     protected File getPreferencesDir() {
         return FileUtil.getSharedPreferencesRoot();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityUtil.setDarkBar(this, true);
         File folder = getPreferencesDir();
-        FileUtil.changePreferencesDir(this,folder);
+        FileUtil.changePreferencesDir(this, folder);
         PreferenceFragment preferenceFragment = onCreateFragment(savedInstanceState);
         if (preferenceFragment != null) {
             getFragmentManager().beginTransaction().replace(android.R.id.content, preferenceFragment).commit();
         }
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         View decorView = this.getWindow().getDecorView();
@@ -41,6 +43,7 @@ public class BaseSettingActivity extends Activity {
         }
         ActivityUtil.setStatusBarLit(this);
     }
+
     protected PreferenceFragment onCreateFragment(Bundle savedInstanceState) {
         return null;
     }

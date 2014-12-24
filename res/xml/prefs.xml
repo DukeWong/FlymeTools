@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceScreen android:icon="@drawable/icon_framework" android:title="@string/framework" android:key="prefs_framework" android:summary="@string/framework_summary">
+    <PreferenceScreen android:icon="@drawable/icon_framework" android:title="@string/framework"
+                      android:key="prefs_framework" android:summary="@string/framework_summary">
         <PreferenceCategory android:title="@string/common">
         </PreferenceCategory>
     </PreferenceScreen>
-    <PreferenceScreen android:icon="@drawable/icon_statusbar" android:title="@string/statusbar" android:key="prefs_statusbar" android:summary="@string/statusbar_summary">
+    <PreferenceScreen android:icon="@drawable/icon_statusbar" android:title="@string/statusbar"
+                      android:key="prefs_statusbar" android:summary="@string/statusbar_summary">
         <PreferenceCategory android:title="@string/common">
         </PreferenceCategory>
     </PreferenceScreen>
-    <PreferenceScreen android:icon="@drawable/icon_applications" android:title="@string/applications" android:key="prefs_applications" android:summary="@string/applications_summary">
+    <PreferenceScreen android:icon="@drawable/icon_applications" android:title="@string/applications"
+                      android:key="prefs_applications" android:summary="@string/applications_summary">
         <PreferenceCategory android:title="@string/common">
         </PreferenceCategory>
     </PreferenceScreen>
-    <PreferenceScreen android:icon="@drawable/icon_sound" android:title="@string/sound" android:summary="@string/sound_summary">
+    <PreferenceScreen android:icon="@drawable/icon_sound" android:title="@string/sound"
+                      android:summary="@string/sound_summary">
     </PreferenceScreen>
-    <PreferenceScreen android:icon="@drawable/icon_keys" android:title="@string/buttons" android:summary="@string/buttons_summary">
+    <PreferenceScreen android:icon="@drawable/icon_keys" android:title="@string/buttons"
+                      android:summary="@string/buttons_summary">
     </PreferenceScreen>
-    <Preference android:icon="@drawable/icon_about" android:title="@string/about_module" android:key="prefs_about_module" />
+    <Preference android:icon="@drawable/icon_about" android:title="@string/about_module"
+                android:key="prefs_about_module"/>
 </PreferenceScreen>

@@ -13,7 +13,7 @@
         <item>自定义</item>
         <item>白色</item>
         <item>灰色</item>
-    </string-array >
+    </string-array>
     <string-array name="smartbar_default_type">
         <item>-100</item>
         <item>0</item>
@@ -25,5 +25,5 @@
         <item>自动</item>
         <item>白色</item>
         <item>灰色</item>
-    </string-array >
+    </string-array>
 </resources>

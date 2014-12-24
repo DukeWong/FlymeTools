@@ -18,7 +18,8 @@ public abstract class AppBaseFragment extends BaseFragment {
         this.initColor = initColor;
     }
 
-    private   Integer initColor;
+    private Integer initColor;
+
     public String getPackageName() {
         return packageName;
     }
@@ -76,7 +77,7 @@ public abstract class AppBaseFragment extends BaseFragment {
         preference_force_black_color = this.getResources().getString(R.string.preference_force_black_color);
         preference_automatic_color_open = this.getResources().getString(R.string.preference_automatic_color_open);
         preference_translucent_color = this.getResources().getString(R.string.preference_translucent_color);
-        preference_has_NavigationBar=this.getResources().getString(R.string.preference_has_NavigationBar);
+        preference_has_NavigationBar = this.getResources().getString(R.string.preference_has_NavigationBar);
     }
 
     @Override
@@ -87,16 +88,18 @@ public abstract class AppBaseFragment extends BaseFragment {
         addPreferencesFromResource(R.xml.activity_setting);
         this.reload(false);
     }
-    public  void reload(boolean clear){
+
+    public void reload(boolean clear) {
         SharedPreferences sharedPreferences = this.getPreferenceManager().getSharedPreferences();
-        if (clear){
-            SharedPreferences.Editor editor=sharedPreferences.edit();
+        if (clear) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();
             editor.commit();
         }
         this.bindSmartBar(sharedPreferences);
         this.bindStatusBar(sharedPreferences);
     }
+
     protected abstract void bindSmartBarDefault(SharedPreferences sharedPreferences);
 
     protected abstract void bindStatusBarDefault(SharedPreferences sharedPreferences);
@@ -120,7 +123,7 @@ public abstract class AppBaseFragment extends BaseFragment {
         m_smartbar_type = (ListPreference) findPreference(preference_smartbar_type);
         m_smartbar_color = (ColorPickerPreference) findPreference(preference_smartbar_color);
         this.bindSmartBarDefault(sharedPreferences);
-        if (initColor!=null){
+        if (initColor != null) {
             m_smartbar_color.setColor(initColor);
             m_smartbar_color.setTitle(ColorUtil.toHexEncoding(initColor));
         }
@@ -165,11 +168,13 @@ public abstract class AppBaseFragment extends BaseFragment {
         onTranslucent_colorChange(isSelect);
         onForce_brightly_lit_modeChange(m_force_brightly_lit_mode.isChecked());
     }
+
     protected void onForce_brightly_lit_modeChange(boolean isSelect) {
         m_brightly_lit_status_bar.setEnabled(isSelect);
         m_has_ActionBar.setEnabled(isSelect);
         m_has_NavigationBar.setEnabled(isSelect);
     }
+
     protected void onTranslucent_colorChange(boolean isSelect) {
         m_translucent_color.setEnabled(!isSelect && m_automatic_color_open.isEnabled());
     }
@@ -187,7 +192,7 @@ public abstract class AppBaseFragment extends BaseFragment {
         m_has_ActionBar = (SwitchPreference) findPreference(preference_has_ActionBar);
         m_force_black_color = (SwitchPreference) findPreference(preference_force_black_color);
         m_automatic_color_open = (SwitchPreference) findPreference(preference_automatic_color_open);
-        m_has_NavigationBar=(SwitchPreference) findPreference(preference_has_NavigationBar);
+        m_has_NavigationBar = (SwitchPreference) findPreference(preference_has_NavigationBar);
         m_translucent_color = (ColorPickerPreference) findPreference(preference_translucent_color);
 
         this.bindStatusBarDefault(sharedPreferences);
@@ -213,7 +218,7 @@ public abstract class AppBaseFragment extends BaseFragment {
                 return true;
             }
         });
-        if (initColor!=null){
+        if (initColor != null) {
             m_translucent_color.setColor(initColor);
             m_translucent_color.setTitle(ColorUtil.toHexEncoding(initColor));
         }

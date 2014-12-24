@@ -13,6 +13,7 @@ public class SysSettingFragment extends BaseFragment {
     public void setAppName(String appName) {
         this.appName = appName;
     }
+
     private String appName;
 
     public void setPackageName(String packageName) {
@@ -20,6 +21,7 @@ public class SysSettingFragment extends BaseFragment {
     }
 
     private String packageName;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub

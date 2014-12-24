@@ -31,7 +31,7 @@ public class ActivityConfig {
     private View rootView = null;
 
     public void log(String text) {
-        if (this.isShowAppLog()){
+        if (this.isShowAppLog()) {
             LogUtil.log(activityName + " 消息:" + text);
         }
     }
@@ -42,21 +42,24 @@ public class ActivityConfig {
         }
         return rootView;
     }
-    public View getContextView(){
-        return   this.getRootView().findViewById(android.R.id.content);
+
+    public View getContextView() {
+        return this.getRootView().findViewById(android.R.id.content);
     }
-    public  Drawable getBackgroundDrawable(){
-        if (backgroundDrawable==null){
-            View context=getContextView();
-            if (context!=null){
-                backgroundDrawable=context.getBackground();
+
+    public Drawable getBackgroundDrawable() {
+        if (backgroundDrawable == null) {
+            View context = getContextView();
+            if (context != null) {
+                backgroundDrawable = context.getBackground();
             }
-            if (backgroundDrawable==null){
+            if (backgroundDrawable == null) {
                 backgroundDrawable = this.getRootView().getBackground();
             }
         }
-        return  backgroundDrawable;
+        return backgroundDrawable;
     }
+
     public ActivityConfig(final Activity activity) {
         thisActivity = activity;
         packageName = activity.getPackageName();
@@ -96,18 +99,22 @@ public class ActivityConfig {
 
     /**
      * 是否显示程序调试日志
+     *
      * @return
      */
-    public  boolean isShowAppLog(){
-          return  appSharedPreferences.getBoolean(ConstUtil.SHOW_APP_LOG,false);
+    public boolean isShowAppLog() {
+        return appSharedPreferences.getBoolean(ConstUtil.SHOW_APP_LOG, false);
     }
+
     /**
      * 是否采用变色龙方案
+     *
      * @return
      */
-    public  boolean isAppAutomaticMode(){
-        return  this.getConfigBoolean(ConstUtil.APP_AUTOMATIC_MODE,false);
+    public boolean isAppAutomaticMode() {
+        return this.getConfigBoolean(ConstUtil.APP_AUTOMATIC_MODE, false);
     }
+
     /**
      * 是否显示通知栏消息
      *
@@ -137,6 +144,7 @@ public class ActivityConfig {
 
     /**
      * 是否启用程序状态栏沉浸
+     *
      * @return
      */
     public boolean isAppChangeStatusBar() {
@@ -158,11 +166,13 @@ public class ActivityConfig {
 
     /**
      * 是否强制包含地底栏
+     *
      * @return
      */
-     public boolean hasNavigationBar(){
-         return this.getConfigBoolean(ConstUtil.HAS_NavigationBar, false);
-     }
+    public boolean hasNavigationBar() {
+        return this.getConfigBoolean(ConstUtil.HAS_NavigationBar, false);
+    }
+
     /**
      * 强制模式下是否预留状态栏
      *
@@ -183,6 +193,7 @@ public class ActivityConfig {
 
     /**
      * 是否强制模式
+     *
      * @return
      */
     public boolean isStatusBarForceMode() {
@@ -221,6 +232,7 @@ public class ActivityConfig {
 
     /**
      * 屏幕取值
+     *
      * @return
      */
     public boolean isTouchGetColor() {

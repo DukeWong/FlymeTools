@@ -97,6 +97,7 @@ public class ActivityUtil {
         }
         return bg;
     }
+
     public static boolean existFlag(Activity activity, int flags) {
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         return attrs.flags == ((attrs.flags & ~flags) | (flags & flags));
@@ -145,7 +146,7 @@ public class ActivityUtil {
 
     public static Integer getStatusBarColor(Activity activity) {
         View decorView = activity.getWindow().getDecorView();
-        return ColorUtil.loadBitmapColor(decorView, decorView.getWidth() / 2, ActivityUtil.getStatusBarHeight(activity) + 2);
+        return ColorUtil.loadBitmapColor(decorView, decorView.getWidth() / 2, ActivityUtil.getStatusBarHeight(activity) + 1);
     }
 
     /**
@@ -171,7 +172,7 @@ public class ActivityUtil {
      */
     public static void setSmartBarEnable(Activity activity) {
         final ActionBar bar = activity.getActionBar();
-        if (bar!=null){
+        if (bar != null) {
             SmartBarUtils.setActionBarViewCollapsable(bar, true);
             bar.setDisplayOptions(0);
         }
@@ -201,7 +202,7 @@ public class ActivityUtil {
             appIntent.putExtra("appName", AppUtil.getApplicationName(activity));
             appIntent.putExtra("color", color);
             //
-            PendingIntent activityPendingIntent = PendingIntent.getActivity(activity,activityName.hashCode(),
+            PendingIntent activityPendingIntent = PendingIntent.getActivity(activity, activityName.hashCode(),
                     activityIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             PendingIntent appPendingIntent = PendingIntent.getActivity(activity, packageName.hashCode(),
                     appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -221,7 +222,7 @@ public class ActivityUtil {
                     resources.getString(R.string.notification_add_app), appPendingIntent);
             Notification notification = builder.build();
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
-            nm.notify(1024,notification);
+            nm.notify(1024, notification);
         } catch (Exception e) {
             return;
         }

@@ -74,7 +74,7 @@ public class ConstUtil {
      */
     public static String SHOW_NOTIFICATION = "preference_show_notification";
     /**
-     * 变色龙方案
+     * 插入一个布局来调整布局
      */
     public static String APP_AUTOMATIC_MODE = "preference_app_automatic_adaptation";
     /**
@@ -96,5 +96,7 @@ public class ConstUtil {
     /**
      * 是否桌面锁定
      */
-    public static  String APP_LAUNCHER_LOCKED="preference_app_launcher_locked";
+    public static String APP_LAUNCHER_LOCKED = "preference_app_launcher_locked";
+
+
 }

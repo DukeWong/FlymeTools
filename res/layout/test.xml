@@ -5,6 +5,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-  <com.zhixin.flymeTools.controls.ActivityLinkItem android:layout_width="fill_parent" app:title="测试" app:url=".test.TestListActivity"
-                                                    android:layout_height="match_parent"></com.zhixin.flymeTools.controls.ActivityLinkItem>
+    <com.zhixin.flymeTools.controls.ActivityLinkItem android:layout_width="fill_parent" app:title="测试"
+                                                     app:url=".test.TestListActivity"
+                                                     android:layout_height="match_parent"></com.zhixin.flymeTools.controls.ActivityLinkItem>
 </LinearLayout>

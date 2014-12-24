@@ -1,83 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="module_flymetools" default="compile.module.flymetools">
-  <dirname property="module.flymetools.basedir" file="${ant.file.module_flymetools}"/>
-  
-  <property name="module.jdk.home.flymetools" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.flymetools" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.flymetools" value="${project.jdk.classpath}"/>
-  
-  <property name="compiler.args.flymetools" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
-  
-  <property name="flymetools.output.dir" value="${module.flymetools.basedir}/out/production/FlymeTools"/>
-  <property name="flymetools.testoutput.dir" value="${module.flymetools.basedir}/out/test/FlymeTools"/>
-  
-  <path id="flymetools.module.bootclasspath">
-    <!-- Paths to be included in compilation bootclasspath -->
-  </path>
-  
-  <path id="flymetools.module.production.classpath">
-    <path refid="${module.jdk.classpath.flymetools}"/>
-  </path>
-  
-  <path id="flymetools.runtime.production.module.classpath">
-    <pathelement location="${flymetools.output.dir}"/>
-  </path>
-  
-  <path id="flymetools.module.classpath">
-    <path refid="${module.jdk.classpath.flymetools}"/>
-    <pathelement location="${flymetools.output.dir}"/>
-  </path>
-  
-  <path id="flymetools.runtime.module.classpath">
-    <pathelement location="${flymetools.testoutput.dir}"/>
-    <pathelement location="${flymetools.output.dir}"/>
-  </path>
-  
-  
-  <patternset id="excluded.from.module.flymetools">
-    <patternset refid="ignored.files"/>
-  </patternset>
-  
-  <patternset id="excluded.from.compilation.flymetools">
-    <patternset refid="excluded.from.module.flymetools"/>
-  </patternset>
-  
-  <path id="flymetools.module.sourcepath">
-    <dirset dir="${module.flymetools.basedir}">
-      <include name="src"/>
-      <include name="gen"/>
-    </dirset>
-  </path>
-  
-  
-  <target name="compile.module.flymetools" depends="compile.module.flymetools.production,compile.module.flymetools.tests" description="Compile module FlymeTools"/>
-  
-  <target name="compile.module.flymetools.production" depends="register.custom.compilers" description="Compile module FlymeTools; production classes">
-    <mkdir dir="${flymetools.output.dir}"/>
-    <javac2 destdir="${flymetools.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.flymetools}/javac">
-      <compilerarg line="${compiler.args.flymetools}"/>
-      <bootclasspath refid="flymetools.module.bootclasspath"/>
-      <classpath refid="flymetools.module.production.classpath"/>
-      <src refid="flymetools.module.sourcepath"/>
-      <patternset refid="excluded.from.compilation.flymetools"/>
-    </javac2>
-    
-    <copy todir="${flymetools.output.dir}">
-      <fileset dir="${module.flymetools.basedir}/src">
-        <patternset refid="compiler.resources"/>
-        <type type="file"/>
-      </fileset>
-      <fileset dir="${module.flymetools.basedir}/gen">
-        <patternset refid="compiler.resources"/>
-        <type type="file"/>
-      </fileset>
-    </copy>
-  </target>
-  
-  <target name="compile.module.flymetools.tests" depends="register.custom.compilers,compile.module.flymetools.production" description="compile module FlymeTools; test classes" unless="skip.tests"/>
-  
-  <target name="clean.module.flymetools" description="cleanup module">
-    <delete dir="${flymetools.output.dir}"/>
-    <delete dir="${flymetools.testoutput.dir}"/>
-  </target>
+    <dirname property="module.flymetools.basedir" file="${ant.file.module_flymetools}"/>
+
+    <property name="module.jdk.home.flymetools" value="${project.jdk.home}"/>
+    <property name="module.jdk.bin.flymetools" value="${project.jdk.bin}"/>
+    <property name="module.jdk.classpath.flymetools" value="${project.jdk.classpath}"/>
+
+    <property name="compiler.args.flymetools" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+
+    <property name="flymetools.output.dir" value="${module.flymetools.basedir}/out/production/FlymeTools"/>
+    <property name="flymetools.testoutput.dir" value="${module.flymetools.basedir}/out/test/FlymeTools"/>
+
+    <path id="flymetools.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="flymetools.module.production.classpath">
+        <path refid="${module.jdk.classpath.flymetools}"/>
+    </path>
+
+    <path id="flymetools.runtime.production.module.classpath">
+        <pathelement location="${flymetools.output.dir}"/>
+    </path>
+
+    <path id="flymetools.module.classpath">
+        <path refid="${module.jdk.classpath.flymetools}"/>
+        <pathelement location="${flymetools.output.dir}"/>
+    </path>
+
+    <path id="flymetools.runtime.module.classpath">
+        <pathelement location="${flymetools.testoutput.dir}"/>
+        <pathelement location="${flymetools.output.dir}"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.flymetools">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.flymetools">
+        <patternset refid="excluded.from.module.flymetools"/>
+    </patternset>
+
+    <path id="flymetools.module.sourcepath">
+        <dirset dir="${module.flymetools.basedir}">
+            <include name="src"/>
+            <include name="gen"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.flymetools"
+            depends="compile.module.flymetools.production,compile.module.flymetools.tests"
+            description="Compile module FlymeTools"/>
+
+    <target name="compile.module.flymetools.production" depends="register.custom.compilers"
+            description="Compile module FlymeTools; production classes">
+        <mkdir dir="${flymetools.output.dir}"/>
+        <javac2 destdir="${flymetools.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+                memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.flymetools}/javac">
+            <compilerarg line="${compiler.args.flymetools}"/>
+            <bootclasspath refid="flymetools.module.bootclasspath"/>
+            <classpath refid="flymetools.module.production.classpath"/>
+            <src refid="flymetools.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.flymetools"/>
+        </javac2>
+
+        <copy todir="${flymetools.output.dir}">
+            <fileset dir="${module.flymetools.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+            <fileset dir="${module.flymetools.basedir}/gen">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.flymetools.tests"
+            depends="register.custom.compilers,compile.module.flymetools.production"
+            description="compile module FlymeTools; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.flymetools" description="cleanup module">
+        <delete dir="${flymetools.output.dir}"/>
+        <delete dir="${flymetools.testoutput.dir}"/>
+    </target>
 </project>

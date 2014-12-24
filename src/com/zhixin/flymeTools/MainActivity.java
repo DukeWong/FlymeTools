@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity {
                         targetFile.setReadable(true, false);
                         targetDir.setWritable(true, true);
                     }
-                    onProgressUpdate((i+1) * 100 / count);
+                    onProgressUpdate((i + 1) * 100 / count);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

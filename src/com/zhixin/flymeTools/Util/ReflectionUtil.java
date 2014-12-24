@@ -1,4 +1,5 @@
 package com.zhixin.flymeTools.Util;
+
 import java.lang.reflect.Field;
 
 /**
@@ -6,12 +7,11 @@ import java.lang.reflect.Field;
  */
 public class ReflectionUtil {
     /**
-     *
      * @param obj
      * @param fieldName
      * @return
      */
-    public static long getLongField(Object obj, String fieldName){
+    public static long getLongField(Object obj, String fieldName) {
         try {
             Field field = obj.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -21,16 +21,15 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return  0;
+        return 0;
     }
 
     /**
-     *
      * @param obj
      * @param fieldName
      * @return
      */
-    public static long getIntField(Object obj, String fieldName){
+    public static long getIntField(Object obj, String fieldName) {
         try {
             Field field = obj.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -40,16 +39,15 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return  0;
+        return 0;
     }
 
     /**
-     *
      * @param obj
      * @param fieldName
      * @return
      */
-    public static short getShortField(Object obj, String fieldName){
+    public static short getShortField(Object obj, String fieldName) {
         try {
             Field field = obj.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -59,16 +57,15 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return  0;
+        return 0;
     }
 
     /**
-     *
      * @param obj
      * @param fieldName
      * @return
      */
-    public static boolean getBooleanField(Object obj, String fieldName){
+    public static boolean getBooleanField(Object obj, String fieldName) {
         try {
             Field field = obj.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -78,16 +75,15 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return  false;
+        return false;
     }
 
     /**
-     *
      * @param obj
      * @param fieldName
      * @return
      */
-    public static double getDoubleField(Object obj, String fieldName){
+    public static double getDoubleField(Object obj, String fieldName) {
         try {
             Field field = obj.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -97,16 +93,15 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return  0;
+        return 0;
     }
 
     /**
-     *
      * @param obj
      * @param fieldName
      * @return
      */
-    public static double getFloatField(Object obj, String fieldName){
+    public static double getFloatField(Object obj, String fieldName) {
         try {
             Field field = obj.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -116,15 +111,15 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return  0;
+        return 0;
     }
+
     /**
-     *
      * @param obj
      * @param fieldName
      * @return
      */
-    public static Object getObjectField(Object obj, String fieldName){
+    public static Object getObjectField(Object obj, String fieldName) {
         try {
             Field field = obj.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -134,6 +129,6 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return  null;
+        return null;
     }
 }

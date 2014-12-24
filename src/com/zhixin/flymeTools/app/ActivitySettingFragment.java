@@ -12,7 +12,7 @@ public class ActivitySettingFragment extends AppBaseFragment {
         SharedPreferences appSharedPreferences = this.getActivity().getSharedPreferences(this.getPackageName() + ConstUtil.DEF_PREFERENCES, 0);
         m_smartbar_type.setValue(sharedPreferences.getString(preference_smartbar_type, appSharedPreferences.getString(preference_smartbar_type, null)));
         m_replace_smartbar.setChecked(sharedPreferences.getBoolean(preference_replace_smartbar, appSharedPreferences.getBoolean(preference_replace_smartbar, false)));
-        String color = sharedPreferences.getString(preference_smartbar_color, appSharedPreferences.getString(preference_smartbar_color,null));
+        String color = sharedPreferences.getString(preference_smartbar_color, appSharedPreferences.getString(preference_smartbar_color, null));
         String smart_type = sharedPreferences.getString(preference_smartbar_type, appSharedPreferences.getString(preference_smartbar_type, null));
         if (color != null) {
             m_smartbar_color.setTitle(color);
@@ -27,6 +27,7 @@ public class ActivitySettingFragment extends AppBaseFragment {
             m_smartbar_type.setTitle(entries[index]);
         }
     }
+
     @Override
     protected void init() {
         super.init();
@@ -34,6 +35,7 @@ public class ActivitySettingFragment extends AppBaseFragment {
             this.getPreferenceManager().setSharedPreferencesName(activityName);
         }
     }
+
     @Override
     protected void bindStatusBarDefault(SharedPreferences sharedPreferences) {
         SharedPreferences appSharedPreferences = this.getActivity().getSharedPreferences(this.getPackageName() + ConstUtil.DEF_PREFERENCES, 0);

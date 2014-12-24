@@ -7,6 +7,7 @@ public class StringUtil {
 
     /**
      * 判断两个字符串是否相等
+     *
      * @param str1
      * @param str2
      * @return
@@ -17,6 +18,7 @@ public class StringUtil {
 
     /**
      * 判断两个字符串是否相等
+     *
      * @param str1
      * @param str2
      * @param nullIsEquals
@@ -28,11 +30,14 @@ public class StringUtil {
         if (str2 != null) return str2.equals(str1);
         return false;
     }
+
     public static boolean isNotEmpty(String s) {
-        return  s!=null && s.length()>0;
+        return s != null && s.length() > 0;
     }
+
     /**
      * 判断字符串是否为空
+     *
      * @param s
      * @return
      */

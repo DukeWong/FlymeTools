@@ -15,13 +15,14 @@ public class ActionBarHooks implements IClassPatch {
         findAndHookMethod(ActionBarImpl, "hide", new UpdatePaddingHook());
         findAndHookMethod(ActionBarImpl, "show", new UpdatePaddingHook());
     }
-    public  static class UpdatePaddingHook extends XC_MethodHook{
+
+    public static class UpdatePaddingHook extends XC_MethodHook {
         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-            ActionBar actionBar=((ActionBar)param.thisObject);
-            ActivityColorHook hook= (ActivityColorHook)ObjectHook.getObjectHook(actionBar.getCustomView().getContext());
-            if (hook!=null){
+            ActionBar actionBar = ((ActionBar) param.thisObject);
+            ActivityColorHook hook = (ActivityColorHook) ObjectHook.getObjectHook(actionBar.getCustomView().getContext());
+            if (hook != null) {
                 hook.log("ActionBar is change");
-                hook.updateContextViewPadding(0,true);
+                hook.updateContextViewPadding(0, true);
             }
         }
     }

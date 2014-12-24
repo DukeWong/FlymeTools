@@ -19,6 +19,7 @@ public class ImageMenuBtn extends ActivityLinkItem {
         intent.putExtra("title", textView.getText().toString());
         super.startActivity(intent);
     }
+
     protected void onCreate(Context context, LayoutInflater inflater) {
         inflater.inflate(R.layout.image_btn, this);
         imageView = (ImageView) findViewById(R.id.imageView);
@@ -26,6 +27,7 @@ public class ImageMenuBtn extends ActivityLinkItem {
         imageView.setBackground(this.getImage());
         textView.setText(this.getTitle());
     }
+
     public ImageMenuBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

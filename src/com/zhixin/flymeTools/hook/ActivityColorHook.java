@@ -10,9 +10,12 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.*;
+import com.zhixin.flymeTools.controls.LitControlLayout;
 import com.zhixin.flymeTools.controls.StatusBarDrawable;
 
 /**
@@ -30,6 +33,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     private int windowHeight;
     private ImageView mOverflowButton;
     private Drawable mOverflowButtonIcon;
+    private int layoutResID = 0;
 
     /**
      * 已经修改够颜色标识
@@ -54,6 +58,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
 
     /**
      * 写日志
+     *
      * @param text
      */
     public void log(String text) {
@@ -138,28 +143,48 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         return mSplitView;
     }
 
-    protected boolean isFitsSystemWindows(View contentView, boolean setFitsSystemWindows) {
-        if (contentView instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) contentView;
+    /**
+     * 检查是否有isFitsSystemWindows布局
+     *
+     * @param decorView
+     * @return
+     */
+    protected boolean isFitsSystemWindows(View decorView) {
+        if (decorView instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) decorView;
             int count = viewGroup.getChildCount();
-            if (count > 0) {
-                View view = viewGroup.getChildAt(0);
-                if (setFitsSystemWindows) {
-                    view.setFitsSystemWindows(true);
-                }
-                return view.getFitsSystemWindows();
+            if (count == 1) {
+                View child = viewGroup.getChildAt(0);
+                return isFitsSystemWindows(child);
             }
         }
         return false;
     }
 
-    protected boolean getDecorViewFrameLayout(View decorView) {
+    /**
+     * 测试FrameLayout布局
+     *
+     * @param decorView
+     * @param statusBarHeight
+     * @return
+     */
+    protected boolean checkFrameLayout(View decorView, int statusBarHeight) {
         if (decorView instanceof ViewGroup) {
             ViewGroup viewGroup = (ViewGroup) decorView;
             int count = viewGroup.getChildCount();
             if (count > 0) {
                 View view = viewGroup.getChildAt(0);
-                if (actionBarOverlayLayout != null || actionBarOverlayLayout.isAssignableFrom(view.getClass())) {
+                String className = view.getClass().getName();
+                this.log(className);
+                if (view instanceof LitControlLayout) return true;
+                boolean isAppAutomaticMode = config.isAppAutomaticMode();
+                if (!actionBarOverlayLayout.isAssignableFrom(view.getClass()) && isAppAutomaticMode) {
+                    this.log("FrameLayout OR RelativeLayout");
+                    LitControlLayout linearLayout = new LitControlLayout(thisObject, statusBarHeight, view);
+                    viewGroup.removeView(view);
+                    linearLayout.addView(view);
+                    viewGroup.addView(linearLayout);
+                    viewGroup.invalidate();
                     return true;
                 }
             }
@@ -180,8 +205,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
     protected boolean forceChangeStatusBarlit(View decorView, View contentView, boolean hasStatusBar, boolean forceMode, boolean hasActionBar) {
         this.log("模式:" + hasStatusBar + forceMode + hasActionBar);
         int statusBarHeight = ActivityUtil.getStatusBarHeight(thisObject);
-        boolean isFitsSystemWindows = this.isFitsSystemWindows(contentView, false);
-        boolean isActionBarFrameout = this.getDecorViewFrameLayout(decorView);
+        boolean isFrameLayout = this.checkFrameLayout(decorView, statusBarHeight);
+        if (isFrameLayout) return true;
+        boolean isFitsSystemWindows = this.isFitsSystemWindows(contentView);
+        this.log("isFitsSystemWindows:" + isFitsSystemWindows);
         if (!isFitsSystemWindows || forceMode) {
             int top = 0, actionHeight = 0, bottom = 0;
             if (hasStatusBar) {
@@ -210,11 +237,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
             }
             if (!isFitsSystemWindows || forceMode) {
                 this.log("top:" + top + " bottom:" + bottom);
-                this.log("ActionBar:" + isActionBarFrameout);
                 this.log("TOP:" + contentView.getPaddingTop());
                 this.log("Y:" + contentView.getY());
                 //不是isActionBar 或者TOP！=Y修改
-                if (!isActionBarFrameout || contentView.getPaddingTop() != contentView.getY()) {
+                if (contentView.getPaddingTop() != contentView.getY()) {
                     contentView.setPadding(0, top, 0, bottom);
                     contentView.requestLayout();
                 }
@@ -249,7 +275,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                     View contentView = decorView.findViewById(android.R.id.content);
                     //自动模式
                     if (!forceChangeStatusBarlit(decorView, contentView, hasStatusBar, forceMode, hasActionBar)) {
-                        this.isFitsSystemWindows(contentView, true);
+                        contentView.setFitsSystemWindows(true);
                     }
                 }
             }
@@ -320,6 +346,18 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         }
     }
 
+    public void updateLayoutResID(int layoutResID) {
+        /**
+         * 第一次不刷新，如果后面修改内容重新刷新
+         */
+        if (this.layoutResID != layoutResID) {
+            if (this.layoutResID != 0) {
+                this.updateStatusBarLit(true);
+            }
+            this.layoutResID = layoutResID;
+        }
+    }
+
     /**
      * 更新状态栏
      *
@@ -342,15 +380,10 @@ public class ActivityColorHook extends ObjectHook<Activity> {
                         //沉浸模式
                         this.updateContextViewPadding(0, false);
                         ActivityUtil.setStatusBarLit(thisObject);
-                        this.updateContextViewPadding(1000, false);
                         this.setStatusBarDrawable(statusBarDrawable);
                     } else {
                         mState.IS_MUST_CHANGE = true;
                     }
-                }
-            } else {
-                if (mState.IS_CHANGE_COLOR) {
-                    this.updateContextViewPadding(0, false);
                 }
             }
         }

@@ -76,8 +76,8 @@
     <string name="change_status_bar_mode">变色龙方案</string>
     <string name="change_status_bar_mode_summary">改变状态栏颜色来模拟沉浸</string>
     <string name="show_app_log_summary">显示程序调试日志</string>
-    <string name="app_automatic_adaptation">应用程序本身自动调整</string>
-    <string name="app_automatic_adaptation_summary">应用程序本身自动调整,界面被压缩的请开启</string>
+    <string name="app_automatic_adaptation">调整模式</string>
+    <string name="app_automatic_adaptation_summary">插入一个调整的视图来帮助调整，QQ开启</string>
     <string name="data_restore">数据还原</string>
     <string name="restore_config">检测到数据备份，是否还原应用的配置数据?</string>
     <string name="data_backup">数据备份</string>

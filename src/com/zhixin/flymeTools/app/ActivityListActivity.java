@@ -22,13 +22,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
 /**
  * Created by ZXW on 2014/12/18.
  */
 public class ActivityListActivity extends ListActivity {
-    private  String appName;
-    private  String packageName;
+    private String appName;
+    private String packageName;
     private List<String> items;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +38,19 @@ public class ActivityListActivity extends ListActivity {
         this.getListView().setFitsSystemWindows(true);
         ActivityUtil.setStatusBarLit(this);
         ActivityUtil.setDarkBar(this, true);
-        Intent intent=this.getIntent();
-        appName=intent.getStringExtra("appName");
+        Intent intent = this.getIntent();
+        appName = intent.getStringExtra("appName");
         this.setTitle(appName);
-        packageName=intent.getStringExtra("packageName");
+        packageName = intent.getStringExtra("packageName");
         try {
-            PackageInfo packageInfo= this.getPackageManager().getPackageInfo(packageName,PackageManager.GET_UNINSTALLED_PACKAGES | PackageManager.GET_ACTIVITIES);
-            ActivityInfo[] infos= packageInfo.activities;
-            if (infos!=null && infos.length>0){
-                items=new ArrayList<String>();
-                for(int i=0;i<infos.length;i++){
+            PackageInfo packageInfo = this.getPackageManager().getPackageInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES | PackageManager.GET_ACTIVITIES);
+            ActivityInfo[] infos = packageInfo.activities;
+            if (infos != null && infos.length > 0) {
+                items = new ArrayList<String>();
+                for (int i = 0; i < infos.length; i++) {
                     items.add(infos[i].name);
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, items);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
                 adapter.sort(new sortString());
                 setListAdapter(adapter);
                 this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,39 +72,41 @@ public class ActivityListActivity extends ListActivity {
             e.printStackTrace();
         }
     }
-    private  class  sortString  implements   Comparator<String>
-    {
+
+    private class sortString implements Comparator<String> {
 
         @Override
         public int compare(String lhs, String rhs) {
             return lhs.compareTo(rhs);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (items!=null && items.size()>0){
+        if (items != null && items.size() > 0) {
             MenuItem item = menu.add(0, 0, 0, "del");
             item.setIcon(R.drawable.ic_table_delete);
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        AlertDialog.Builder builder  = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.confirm) ;
-        builder.setMessage(R.string.del_config_file) ;
-        builder.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm);
+        builder.setMessage(R.string.del_config_file);
+        builder.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String folder= FileUtil.getSharedPreferencesRoot(packageName).getPath();
-                for (int i=0;i<items.size();i++){
-                    File file=new File(folder,items.get(i)+".xml");
-                    if (file.exists()){
+                String folder = FileUtil.getSharedPreferencesRoot(packageName).getPath();
+                for (int i = 0; i < items.size(); i++) {
+                    File file = new File(folder, items.get(i) + ".xml");
+                    if (file.exists()) {
                         file.delete();
                     }
                 }
-                Toast.makeText(ActivityListActivity.this,R.string.successfully_del,Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityListActivity.this, R.string.successfully_del, Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton(R.string.No, null);

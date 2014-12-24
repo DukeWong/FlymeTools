@@ -16,7 +16,7 @@ public class SettingFragement extends BaseFragment {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.framework_setting);
-        SharedPreferences sharedPreferences=this.getPreferenceManager().getSharedPreferences();
+        SharedPreferences sharedPreferences = this.getPreferenceManager().getSharedPreferences();
         String preference_smartbar_default_type = getResources().getString(R.string.preference_smartbar_default_type);
         final ListPreference listPreference = (ListPreference) findPreference(preference_smartbar_default_type);
         //修改Smartbar类型

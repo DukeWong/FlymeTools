@@ -11,10 +11,12 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * Created by zhixin on 2014/12/20.
  */
 public class StatusBarHook implements IClassPatch {
-    private  HookEntrance singleton=null;
-    public  StatusBarHook(HookEntrance singleton){
-        this.singleton=singleton;
+    private EntranceMethodHook singleton = null;
+
+    public StatusBarHook(EntranceMethodHook singleton) {
+        this.singleton = singleton;
     }
+
     @Override
     public void initPatch(XC_LoadPackage.LoadPackageParam loadPackageParam, Resources resources) {
         Class<?> PhoneStatusBar = XposedHelpers.findClass("com.android.systemui.statusbar.phone.PhoneStatusBar", loadPackageParam.classLoader);
@@ -23,7 +25,7 @@ public class StatusBarHook implements IClassPatch {
                 @Override
                 protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     final View mStatusBarWindow = (View) ReflectionUtil.getObjectField(param.thisObject, "mStatusBarWindow");
-                    if (mStatusBarWindow!=null && singleton!=null){
+                    if (mStatusBarWindow != null && singleton != null) {
                         //singleton.setStatusBarWindow(mStatusBarWindow);
                     }
                 }

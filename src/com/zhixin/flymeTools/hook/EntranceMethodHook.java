@@ -15,7 +15,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Created by ZXW on 2014/12/12.
  */
-public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPackage {
+public class EntranceMethodHook implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private XModuleResources mResources;
 
     @Override
@@ -29,8 +29,10 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
         XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadIcon", PackageManager.class, appIconHook);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mResources = XModuleResources.createInstance(startupParam.modulePath, null);
+            //状态栏hook
             XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new ActivityMethodHook.WindowFocusMethod(mResources));
             XposedHelpers.findAndHookMethod(Activity.class, "onDestroy", new ActivityMethodHook.DestroyMethod());
+            //更多图标hook
             Class<?> menuBuilder = XposedHelpers.findClass("com.android.internal.view.menu.MenuBuilder", null);
             ActionMenuViewHook actionMenuViewHook = new ActionMenuViewHook(mResources);
             Class<?> actionMenuPresenter = XposedHelpers.findClass("com.android.internal.view.menu.ActionMenuPresenter", null);

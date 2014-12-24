@@ -13,8 +13,8 @@ public class TestListActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ListView listView=this.getListView();
-        View context=this.getWindow().findViewById(android.R.id.content);
-        Log.d("测试","是否为"+listView.equals(context));
+        ListView listView = this.getListView();
+        View context = this.getWindow().findViewById(android.R.id.content);
+        Log.d("测试", "是否为" + listView.equals(context));
     }
 }

@@ -15,9 +15,10 @@ public class SettingActivity extends BaseSettingActivity {
         Intent intent = this.getIntent();
         this.setTitle(intent.getStringExtra("title"));
     }
+
     @Override
-    protected PreferenceFragment onCreateFragment(Bundle savedInstanceState){
+    protected PreferenceFragment onCreateFragment(Bundle savedInstanceState) {
         SettingFragement settingFragement = new SettingFragement();
-        return  settingFragement;
+        return settingFragement;
     }
 }

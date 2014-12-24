@@ -6,17 +6,17 @@ package com.zhixin.flymeTools.Util;
 public class ConvertUtil {
     /**
      * 转换String到Int
+     *
      * @param value
      * @param def
      * @return
      */
-    public  static int  string2Int(String value,int def){
+    public static int string2Int(String value, int def) {
         try {
-          return  Integer.parseInt(value);
-        }
-        catch (Exception e){
+            return Integer.parseInt(value);
+        } catch (Exception e) {
 
         }
-        return  def;
+        return def;
     }
 }
