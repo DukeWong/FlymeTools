@@ -282,11 +282,11 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         }
     }
 
-    protected void updateWindowBackground(StatusBarDrawable statusBarDrawable) {
+    protected void updateWindowBackground(StatusBarDrawable statusBarDrawable, int statusBarHeight) {
         View rootLayer = config.getRootView();
-        rootLayer.setBackground(statusBarDrawable);
+        rootLayer.setBackground(new StatusBarDrawable(statusBarDrawable.getColor(), rootLayer.getBackground(), statusBarHeight));
         View context = rootLayer.findViewById(android.R.id.content);
-        context.setBackground(statusBarDrawable);
+        context.setBackground(new StatusBarDrawable(statusBarDrawable.getColor(), context.getBackground(), statusBarHeight));
     }
 
     /**
@@ -316,7 +316,7 @@ public class ActivityColorHook extends ObjectHook<Activity> {
         ActivityUtil.setDarkBar(thisObject, forceBlack);
         if (statusBarDrawable != null) {
             this.log("更新颜色值" + ColorUtil.toHexEncoding(statusBarDrawable.getColor()));
-            updateWindowBackground(statusBarDrawable);
+            updateWindowBackground(statusBarDrawable, ActivityUtil.getStatusBarHeight(thisObject));
             //反向设置ActionBar颜色
             int color = statusBarDrawable.getColor();
             boolean changeColor = ColorUtil.TestColorOfWhite(color, 55);

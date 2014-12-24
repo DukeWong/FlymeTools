@@ -1,9 +1,11 @@
 package com.zhixin.flymeTools.controls;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.Window;
 
 /**
  * Created by ZXW on 2014/12/17.
@@ -36,9 +38,10 @@ public class StatusBarDrawable extends ColorDrawable {
 
     @Override
     public void draw(Canvas canvas) {
-        if (baseDrawable != null) {
-            baseDrawable.draw(canvas);
+        if (baseDrawable == null) {
+            baseDrawable = new ColorDrawable(Color.WHITE);
         }
+        baseDrawable.draw(canvas);
         Paint paint = new Paint();
         paint.setColor(this.getColor());
         paint.setAlpha(this.getAlpha());
