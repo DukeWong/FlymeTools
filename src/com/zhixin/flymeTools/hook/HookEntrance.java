@@ -7,15 +7,17 @@ import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XModuleResources;
 import android.os.Build;
+import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /**
  * Created by ZXW on 2014/12/12.
  */
-public class EntranceMethodHook implements IXposedHookZygoteInit, IXposedHookLoadPackage {
+public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
     private XModuleResources mResources;
 
     @Override
@@ -56,6 +58,17 @@ public class EntranceMethodHook implements IXposedHookZygoteInit, IXposedHookLoa
         }
         if (classPatch != null) {
             classPatch.initPatch(loadPackageParam, mResources);
+        }
+    }
+
+    @Override
+    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam initPackageResourcesParam) throws Throwable {
+        IPackageResources packageResources = null;
+        if (initPackageResourcesParam.packageName.equals("com.android.systemui")) {
+            packageResources = new SystemUIResource();
+        }
+        if (packageResources != null) {
+            //packageResources.initReplace(initPackageResourcesParam, mResources);
         }
     }
 }

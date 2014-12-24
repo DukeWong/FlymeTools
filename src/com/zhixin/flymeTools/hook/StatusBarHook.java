@@ -11,9 +11,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * Created by zhixin on 2014/12/20.
  */
 public class StatusBarHook implements IClassPatch {
-    private EntranceMethodHook singleton = null;
+    private HookEntrance singleton = null;
 
-    public StatusBarHook(EntranceMethodHook singleton) {
+    public StatusBarHook(HookEntrance singleton) {
         this.singleton = singleton;
     }
 

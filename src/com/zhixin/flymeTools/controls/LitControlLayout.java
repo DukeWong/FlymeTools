@@ -1,7 +1,9 @@
 package com.zhixin.flymeTools.controls;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
@@ -18,6 +20,7 @@ public class LitControlLayout extends LinearLayout {
     public LitControlLayout(Context context, int statusBarHeight, View contextView) {
         super(context);
         this.statusBarHeight = statusBarHeight;
+        this.setBackground(new ContextBgDrawable(Color.WHITE,null,statusBarHeight));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LogUtil.log("LitControlLayout->top:" + contextView.getTop());
         LogUtil.log("LitControlLayout->Y:" + contextView.getY());
