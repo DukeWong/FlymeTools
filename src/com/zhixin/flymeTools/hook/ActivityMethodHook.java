@@ -59,7 +59,6 @@ public class ActivityMethodHook {
                 activityColorHook.showNotification();
                 activityColorHook.updateSmartbarColor();
             } else {
-                activityColorHook.updateContextViewPadding(0, true);
                 if (activityColorHook.isTouchGetColor()) {
                     activityColorHook.updateStatusBarColor();
                 }

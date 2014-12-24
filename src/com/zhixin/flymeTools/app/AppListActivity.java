@@ -38,9 +38,10 @@ public class AppListActivity extends ListActivity {
     }
 
     public void loadData() {
-        mAdapter = AppUtil.getAppItemAdapter(this, !isDeleteSystemApp, false);
+        mAdapter = AppUtil.getAppItemAdapter(this, !isDeleteSystemApp);
         setListAdapter(mAdapter);
     }
+
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         isDeleteSystemApp = !isDeleteSystemApp;
@@ -57,12 +58,13 @@ public class AppListActivity extends ListActivity {
 
     public void onListItemClick(View view, int position, long id) {
         mModifyingItem = mAdapter.getAppItem(position);
-        String packgeName = mModifyingItem.getPackgeName();
+        String packageName = mModifyingItem.getPackgeName();
         String appName = mModifyingItem.getAppName();
         Intent intent = new Intent();
         intent.setClass(AppListActivity.this, AppSettingActivity.class);
-        intent.putExtra("packageName", packgeName);
+        intent.putExtra("packageName", packageName);
         intent.putExtra("appName", appName);
+        intent.putExtra("isSysApp", mModifyingItem.isSysApp());
         this.startActivity(intent);
     }
 }

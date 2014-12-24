@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.SwitchPreference;
 import com.zhixin.flymeTools.R;
 import com.zhixin.flymeTools.Util.ConstUtil;
+import com.zhixin.flymeTools.base.BaseFragment;
 
 /**
  * Created by ZXW on 2014/12/12.
@@ -37,16 +38,16 @@ public class AppSettingFragment extends AppBaseFragment {
      *
      * @param sharedPreferences
      */
-    protected void bindAppTile(SharedPreferences sharedPreferences) {
-        String preference_app_name = getResources().getString(R.string.preference_app_name);
-        String preference_replace_app_name = getResources().getString(R.string.preference_replace_app_name);
-        final EditTextPreference editTextPreference = (EditTextPreference) findPreference(preference_app_name);
-        final SwitchPreference replace_app_checkBox = (SwitchPreference) findPreference(preference_replace_app_name);
+    protected static void bindAppTitle(SharedPreferences sharedPreferences, BaseFragment fragment, String defName) {
+        String preference_app_name = fragment.getResources().getString(R.string.preference_app_name);
+        String preference_replace_app_name = fragment.getResources().getString(R.string.preference_replace_app_name);
+        final EditTextPreference editTextPreference = (EditTextPreference) fragment.findPreference(preference_app_name);
+        final SwitchPreference replace_app_checkBox = (SwitchPreference) fragment.findPreference(preference_replace_app_name);
         if (!sharedPreferences.getBoolean(preference_replace_app_name, false)) {
             editTextPreference.setEnabled(false);
         }
         //设置修改的应用名称
-        String app_name = sharedPreferences.getString(preference_app_name, appName);
+        String app_name = sharedPreferences.getString(preference_app_name, defName);
         if (editTextPreference != null) {
             editTextPreference.setDefaultValue(app_name);
             editTextPreference.setTitle(app_name);
@@ -86,7 +87,7 @@ public class AppSettingFragment extends AppBaseFragment {
         addPreferencesFromResource(R.xml.app_settting);
 
         SharedPreferences sharedPreferences = this.getPreferenceManager().getSharedPreferences();
-        this.bindAppTile(sharedPreferences);
+        this.bindAppTitle(sharedPreferences, this, appName);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class AppSettingFragment extends AppBaseFragment {
         m_automatic_color_open.setChecked(sharedPreferences.getBoolean(preference_automatic_color_open, true));
         String color = sharedPreferences.getString(preference_translucent_color, null);
         m_translucent_color.setValue(color);
-        if (color!=null){
+        if (color != null) {
             m_translucent_color.setTitle(color);
         }
     }

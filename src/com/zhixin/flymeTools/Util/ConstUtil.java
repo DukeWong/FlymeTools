@@ -4,7 +4,9 @@ package com.zhixin.flymeTools.Util;
  * Created by ZXW on 2014/12/16.
  */
 public class ConstUtil {
-
+    /**
+     * 默认配置文件名
+     */
     public static String DEF_PREFERENCES = "_preferences";
     /**
      * 开启状态栏

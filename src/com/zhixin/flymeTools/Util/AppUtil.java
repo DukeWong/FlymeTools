@@ -31,6 +31,7 @@ public class AppUtil {
 
     /**
      * 获取应用名称
+     *
      * @param activity
      * @return
      */
@@ -46,7 +47,8 @@ public class AppUtil {
         String applicationName = packageManager.getApplicationLabel(applicationInfo).toString();
         return applicationName;
     }
-    public static AppItemAdapter getAppItemAdapter(Context context, boolean includeSys,boolean includeSelf) {
+
+    public static AppItemAdapter getAppItemAdapter(Context context, boolean includeSys) {
         final PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
         AppItemAdapter mAdapter = new AppItemAdapter(context);
@@ -54,16 +56,14 @@ public class AppUtil {
             Iterator<PackageInfo> iter = pinfo.iterator();
             while (iter.hasNext()) {
                 PackageInfo info = iter.next();
-                boolean isSysApp = isSystemApp(info);
+                boolean isSysApp = isSystemApp(info) || info.packageName.equals(FileUtil.THIS_PACKAGE_NAME);
                 if (!isSysApp || includeSys) {
                     AppItem item = new AppItem(
                             info.packageName
                             , info.applicationInfo.loadLabel(packageManager).toString()
                             , isSysApp, info.applicationInfo.loadIcon(packageManager)
                     );
-                    if (includeSelf || !item.getPackgeName().equals(FileUtil.THIS_PACKAGE_NAME)){
-                        mAdapter.addItem(item);
-                    }
+                    mAdapter.addItem(item);
                 }
             }
         }
