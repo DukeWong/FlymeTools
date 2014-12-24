@@ -91,4 +91,8 @@ public class ConstUtil {
      * 替换应用名称KEY值
      */
     public static String REPLACE_APP_NAME_KEY = "preference_app_name";
+    /**
+     * 是否桌面锁定
+     */
+    public static  String APP_LAUNCHER_LOCKED="preference_app_launcher_locked";
 }

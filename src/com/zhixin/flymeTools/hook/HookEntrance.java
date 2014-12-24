@@ -27,7 +27,6 @@ public class HookEntrance implements IXposedHookZygoteInit, IXposedHookLoadPacka
         //图标修改
         AppIconHook appIconHook = new AppIconHook();
         XposedHelpers.findAndHookMethod(PackageItemInfo.class, "loadIcon", PackageManager.class, appIconHook);
-        XposedHelpers.findAndHookMethod(ComponentInfo.class, "loadIcon", PackageManager.class, appIconHook);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mResources = XModuleResources.createInstance(startupParam.modulePath, null);
             XposedHelpers.findAndHookMethod(Activity.class, "onWindowFocusChanged", boolean.class, new ActivityMethodHook.WindowFocusMethod(mResources));

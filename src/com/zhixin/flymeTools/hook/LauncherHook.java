@@ -2,6 +2,7 @@ package com.zhixin.flymeTools.hook;
 
 import android.content.res.Resources;
 import android.view.View;
+import com.zhixin.flymeTools.Util.ConstUtil;
 import com.zhixin.flymeTools.Util.FileUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
@@ -21,8 +22,8 @@ public class LauncherHook implements IClassPatch {
     public class LongClickHook extends XC_MethodHook {
         @Override
         protected void beforeHookedMethod(MethodHookParam param) throws java.lang.Throwable {
-            XSharedPreferences sharedPreferences = FileUtil.getSharedPreferences(FileUtil.THIS_PACKAGE_NAME);
-            Boolean locked = sharedPreferences.getBoolean("preference_app_launcher_locked", false);
+            XSharedPreferences sharedPreferences = FileUtil.getSharedPreferences();
+            Boolean locked = sharedPreferences.getBoolean(ConstUtil.APP_LAUNCHER_LOCKED, false);
             if (locked) {
                 param.setResult(false);
             }
